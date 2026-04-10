@@ -16,8 +16,6 @@ Templates included:
 """
 
 from pathlib import Path
-from typing import List
-
 
 TEMPLATES_DIR = Path(__file__).parent / "templates"
 
@@ -63,7 +61,7 @@ TEMPLATE_DESCRIPTIONS = {
 }
 
 
-def list_templates() -> List[str]:
+def list_templates() -> list[str]:
     """
     List all available 510(k) AI/ML section templates.
 
@@ -87,10 +85,7 @@ def get_template_description(template_name: str) -> str:
         ValueError: If template_name is not a valid template.
     """
     if template_name not in TEMPLATE_DESCRIPTIONS:
-        raise ValueError(
-            f"Unknown template: {template_name}. "
-            f"Valid templates: {', '.join(TEMPLATE_FILES)}"
-        )
+        raise ValueError(f"Unknown template: {template_name}. Valid templates: {', '.join(TEMPLATE_FILES)}")
     return TEMPLATE_DESCRIPTIONS[template_name]
 
 
@@ -111,10 +106,7 @@ def copy_template(template_name: str, destination_dir: Path) -> Path:
         IOError: If copy operation fails.
     """
     if template_name not in TEMPLATE_FILES:
-        raise ValueError(
-            f"Unknown template: {template_name}. "
-            f"Valid templates: {', '.join(TEMPLATE_FILES)}"
-        )
+        raise ValueError(f"Unknown template: {template_name}. Valid templates: {', '.join(TEMPLATE_FILES)}")
 
     source_path = TEMPLATES_DIR / template_name
     if not source_path.exists():
@@ -125,17 +117,17 @@ def copy_template(template_name: str, destination_dir: Path) -> Path:
 
     destination_path = destination_dir / template_name
     try:
-        with open(source_path, "r", encoding="utf-8") as src:
+        with open(source_path, encoding="utf-8") as src:
             content = src.read()
         with open(destination_path, "w", encoding="utf-8") as dst:
             dst.write(content)
-    except (IOError, OSError) as e:
-        raise IOError(f"Failed to copy template {template_name}: {e}")
+    except OSError as e:
+        raise OSError(f"Failed to copy template {template_name}: {e}") from e
 
     return destination_path
 
 
-def copy_all_templates(destination_dir: Path) -> List[Path]:
+def copy_all_templates(destination_dir: Path) -> list[Path]:
     """
     Copy all 510(k) templates to a destination directory.
 
@@ -156,7 +148,7 @@ def copy_all_templates(destination_dir: Path) -> List[Path]:
         try:
             path = copy_template(template_name, destination_dir)
             copied_paths.append(path)
-        except (FileNotFoundError, IOError) as e:
+        except (OSError, FileNotFoundError) as e:
             # Continue with remaining templates but track error
             print(f"Warning: Failed to copy {template_name}: {e}")
 
@@ -178,16 +170,13 @@ def get_template_content(template_name: str) -> str:
         FileNotFoundError: If template file does not exist.
     """
     if template_name not in TEMPLATE_FILES:
-        raise ValueError(
-            f"Unknown template: {template_name}. "
-            f"Valid templates: {', '.join(TEMPLATE_FILES)}"
-        )
+        raise ValueError(f"Unknown template: {template_name}. Valid templates: {', '.join(TEMPLATE_FILES)}")
 
     source_path = TEMPLATES_DIR / template_name
     if not source_path.exists():
         raise FileNotFoundError(f"Template file not found: {source_path}")
 
-    with open(source_path, "r", encoding="utf-8") as f:
+    with open(source_path, encoding="utf-8") as f:
         return f.read()
 
 
@@ -226,7 +215,7 @@ if __name__ == "__main__":
         try:
             path = copy_template(template_name, Path(dest))
             print(f"Copied {template_name} to {path}")
-        except (ValueError, FileNotFoundError, IOError) as e:
+        except (OSError, ValueError, FileNotFoundError) as e:
             print(f"Error: {e}")
             sys.exit(1)
 
@@ -237,7 +226,7 @@ if __name__ == "__main__":
             print(f"Copied {len(paths)} templates to {dest}:")
             for path in paths:
                 print(f"  {path}")
-        except IOError as e:
+        except OSError as e:
             print(f"Error: {e}")
             sys.exit(1)
 

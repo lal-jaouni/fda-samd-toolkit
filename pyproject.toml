@@ -52,11 +52,19 @@ packages = ["src/fda_samd_toolkit"]
 
 [tool.ruff]
 target-version = "py311"
-line-length = 100
+line-length = 120
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP", "B", "SIM"]
-ignore = ["S101"]
+# S101: assert in tests is fine.
+# B017: pytest.raises(Exception) in tests is a deliberate broad-catch pattern.
+ignore = ["S101", "B017"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["B017", "E501"]
+# Schemas have long Field descriptions for user-facing documentation;
+# breaking them across lines hurts readability.
+"src/fda_samd_toolkit/*/schemas.py" = ["E501"]
 
 [tool.ruff.format]
 quote-style = "double"

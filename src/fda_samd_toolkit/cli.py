@@ -215,8 +215,7 @@ def init(type: str, output: str) -> None:
     if source is None or not source.exists():
         console.print(
             Panel(
-                f"No starter example available for type '{type}'. "
-                f"See examples/ in the repo.",
+                f"No starter example available for type '{type}'. See examples/ in the repo.",
                 title="Error",
                 style="red",
             )
@@ -229,9 +228,7 @@ def init(type: str, output: str) -> None:
         console.print(f"[cyan]Scaffolding PCCP config for:[/cyan] {type.upper()}")
         output_path.write_text(source.read_text())
         console.print(f"[green]✓ Template created:[/green] {output_path}")
-        console.print(
-            "[dim]Edit the config and run 'fda-samd pccp generate' to build your PCCP.[/dim]"
-        )
+        console.print("[dim]Edit the config and run 'fda-samd pccp generate' to build your PCCP.[/dim]")
 
     except ImportError:
         console.print(
@@ -345,8 +342,7 @@ def show(name: str) -> None:
                 f"[bold]{name}[/bold]\n\n"
                 f"[cyan]Type:[/cyan] {template['type']}\n"
                 f"[cyan]Description:[/cyan] {template['description']}\n\n"
-                "[cyan]Sections:[/cyan]\n"
-                + "\n".join(f"  - {section}" for section in template["sections"]),
+                "[cyan]Sections:[/cyan]\n" + "\n".join(f"  - {section}" for section in template["sections"]),
                 title="Template Details",
             )
         )
@@ -498,10 +494,7 @@ def init_card(type: str, output: str) -> None:
         console.print(f"[cyan]Scaffolding model card for:[/cyan] {type.upper()}")
         output_path.write_text(source.read_text())
         console.print(f"[green]✓ Template created:[/green] {output_path}")
-        console.print(
-            "[dim]Edit the config and run 'fda-samd model-card "
-            "generate' to build your model card.[/dim]"
-        )
+        console.print("[dim]Edit the config and run 'fda-samd model-card generate' to build your model card.[/dim]")
 
     except ImportError:
         console.print(
