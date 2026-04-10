@@ -1,9 +1,9 @@
 """FDA SaMD Toolkit CLI application."""
 
 import sys
-from pathlib import Path
-from importlib.metadata import version as get_version
 from importlib.metadata import PackageNotFoundError
+from importlib.metadata import version as get_version
+from pathlib import Path
 
 import click
 from rich.console import Console
@@ -26,11 +26,11 @@ def check_module_available(module_name: str, display_name: str) -> bool:
     try:
         __import__(module_name)
         return True
-    except ImportError as e:
+    except ImportError:
         console.print(
             Panel(
                 f"[yellow]{display_name} component not yet available[/yellow]\n\n"
-                f"This component is under development. Check back in the next release.",
+                "This component is under development. Check back in the next release.",
                 title="Coming Soon",
                 style="yellow",
             )
@@ -81,20 +81,18 @@ def generate(config: str, output: str, template: str) -> None:
     Example:
         fda-samd pccp generate --config device.yaml --output pccp.md
     """
-    if not check_module_available(
-        "fda_samd_toolkit.pccp", "PCCP generator"
-    ):
+    if not check_module_available("fda_samd_toolkit.pccp", "PCCP generator"):
         sys.exit(1)
 
     try:
-        from fda_samd_toolkit.pccp import generator  # noqa: F401
+        from fda_samd_toolkit.pccp import generator as _  # noqa: F401
 
         config_path = Path(config)
         output_path = Path(output)
 
         console.print(f"[cyan]Loading config:[/cyan] {config_path}")
         console.print(f"[cyan]Template:[/cyan] {template}")
-        console.print(f"[cyan]Generating PCCP...[/cyan]")
+        console.print("[cyan]Generating PCCP...[/cyan]")
         console.print(f"[green]✓ PCCP generated:[/green] {output_path}")
 
     except ImportError:
@@ -122,19 +120,15 @@ def validate(file: str) -> None:
     Example:
         fda-samd pccp validate --file pccp.md
     """
-    if not check_module_available(
-        "fda_samd_toolkit.validation", "PCCP validator"
-    ):
+    if not check_module_available("fda_samd_toolkit.validation", "PCCP validator"):
         sys.exit(1)
 
     try:
-        from fda_samd_toolkit.validation import validator  # noqa: F401
+        from fda_samd_toolkit.validation import validator as _  # noqa: F401
 
         file_path = Path(file)
         console.print(f"[cyan]Validating:[/cyan] {file_path}")
-        console.print(
-            "[green]✓ Validation passed[/green] (stub implementation)"
-        )
+        console.print("[green]✓ Validation passed[/green] (stub implementation)")
 
     except ImportError:
         console.print(
@@ -170,11 +164,9 @@ def init(type: str, output: str) -> None:
     output_path = Path(output or "config.yaml")
 
     try:
-        from fda_samd_toolkit.pccp.schemas import PCCPConfig  # noqa: F401
+        from fda_samd_toolkit.pccp.schemas import PCCPConfig as _  # noqa: F401
 
-        console.print(
-            f"[cyan]Scaffolding PCCP config for:[/cyan] {type.upper()}"
-        )
+        console.print(f"[cyan]Scaffolding PCCP config for:[/cyan] {type.upper()}")
         console.print(f"[green]✓ Template created:[/green] {output_path}")
         console.print(
             "[dim]Edit the config and run 'fda-samd pccp generate' to build your PCCP.[/dim]"
@@ -205,9 +197,7 @@ def list() -> None:
     Example:
         fda-samd templates list
     """
-    if not check_module_available(
-        "fda_samd_toolkit.templates_510k", "510(k) templates"
-    ):
+    if not check_module_available("fda_samd_toolkit.templates_510k", "510(k) templates"):
         sys.exit(1)
 
     try:
@@ -234,9 +224,7 @@ def list() -> None:
         )
 
         console.print(table)
-        console.print(
-            "[dim]Use 'fda-samd templates show NAME' for details.[/dim]"
-        )
+        console.print("[dim]Use 'fda-samd templates show NAME' for details.[/dim]")
 
     except ImportError:
         console.print(
@@ -258,9 +246,7 @@ def show(name: str) -> None:
     Example:
         fda-samd templates show 510k-summary-ai-ml
     """
-    if not check_module_available(
-        "fda_samd_toolkit.templates_510k", "510(k) templates"
-    ):
+    if not check_module_available("fda_samd_toolkit.templates_510k", "510(k) templates"):
         sys.exit(1)
 
     try:
@@ -298,7 +284,7 @@ def show(name: str) -> None:
                 f"[bold]{name}[/bold]\n\n"
                 f"[cyan]Type:[/cyan] {template['type']}\n"
                 f"[cyan]Description:[/cyan] {template['description']}\n\n"
-                f"[cyan]Sections:[/cyan]\n"
+                "[cyan]Sections:[/cyan]\n"
                 + "\n".join(f"  - {section}" for section in template["sections"]),
                 title="Template Details",
             )
@@ -330,9 +316,7 @@ def copy(name: str, dest: str) -> None:
     Example:
         fda-samd templates copy 510k-summary-ai-ml --dest ./submission/
     """
-    if not check_module_available(
-        "fda_samd_toolkit.templates_510k", "510(k) templates"
-    ):
+    if not check_module_available("fda_samd_toolkit.templates_510k", "510(k) templates"):
         sys.exit(1)
 
     try:
@@ -358,7 +342,7 @@ def model_card() -> None:
     pass
 
 
-@model_card.command()
+@model_card.command(name="generate")
 @click.option(
     "--config",
     type=click.Path(exists=True),
@@ -371,26 +355,24 @@ def model_card() -> None:
     required=True,
     help="Output path for generated model card",
 )
-def generate(config: str, output: str) -> None:
+def generate_card(config: str, output: str) -> None:
     """
     Generate a model card from configuration.
 
     Example:
         fda-samd model-card generate --config model.yaml --output model_card.md
     """
-    if not check_module_available(
-        "fda_samd_toolkit.model_cards", "Model card generator"
-    ):
+    if not check_module_available("fda_samd_toolkit.model_cards", "Model card generator"):
         sys.exit(1)
 
     try:
-        from fda_samd_toolkit.model_cards import generator  # noqa: F401
+        from fda_samd_toolkit.model_cards import generator as _  # noqa: F401
 
         config_path = Path(config)
         output_path = Path(output)
 
         console.print(f"[cyan]Loading model config:[/cyan] {config_path}")
-        console.print(f"[cyan]Generating model card...[/cyan]")
+        console.print("[cyan]Generating model card...[/cyan]")
         console.print(f"[green]✓ Model card generated:[/green] {output_path}")
 
     except ImportError:
@@ -404,12 +386,10 @@ def generate(config: str, output: str) -> None:
         sys.exit(1)
 
 
-@model_card.command()
+@model_card.command(name="init")
 @click.option(
     "--type",
-    type=click.Choice(
-        ["classifier", "segmentation", "detection"], case_sensitive=False
-    ),
+    type=click.Choice(["classifier", "segmentation", "detection"], case_sensitive=False),
     required=True,
     help="Model type for scaffolding",
 )
@@ -419,7 +399,7 @@ def generate(config: str, output: str) -> None:
     required=False,
     help="Output path for config template (default: model_card.yaml)",
 )
-def init(type: str, output: str) -> None:
+def init_card(type: str, output: str) -> None:
     """
     Initialize a model card configuration scaffold.
 
@@ -429,14 +409,13 @@ def init(type: str, output: str) -> None:
     output_path = Path(output or "model_card.yaml")
 
     try:
-        from fda_samd_toolkit.model_cards import schemas  # noqa: F401
+        from fda_samd_toolkit.model_cards import schemas as _  # noqa: F401
 
-        console.print(
-            f"[cyan]Scaffolding model card for:[/cyan] {type.upper()}"
-        )
+        console.print(f"[cyan]Scaffolding model card for:[/cyan] {type.upper()}")
         console.print(f"[green]✓ Template created:[/green] {output_path}")
         console.print(
-            "[dim]Edit the config and run 'fda-samd model-card generate' to build your model card.[/dim]"
+            "[dim]Edit the config and run 'fda-samd model-card "
+            "generate' to build your model card.[/dim]"
         )
 
     except ImportError:
@@ -458,9 +437,7 @@ def checklist() -> None:
     Example:
         fda-samd checklist
     """
-    if not check_module_available(
-        "fda_samd_toolkit.checklist", "Interactive checklist"
-    ):
+    if not check_module_available("fda_samd_toolkit.checklist", "Interactive checklist"):
         sys.exit(1)
 
     try:
@@ -473,12 +450,8 @@ def checklist() -> None:
         console.print("[dim]3. Algorithm performance validated: [/dim]", end="")
         click.echo("In progress")
         console.print()
-        console.print(
-            "[yellow]3 items checked, 1 in progress, 2 pending[/yellow]"
-        )
-        console.print(
-            "[dim]Run 'fda-samd checklist --help' for more options.[/dim]"
-        )
+        console.print("[yellow]3 items checked, 1 in progress, 2 pending[/yellow]")
+        console.print("[dim]Run 'fda-samd checklist --help' for more options.[/dim]")
 
     except ImportError:
         console.print(

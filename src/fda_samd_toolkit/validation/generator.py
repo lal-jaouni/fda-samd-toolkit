@@ -1,11 +1,12 @@
 """Generator for clinical validation plans from YAML configuration."""
 
 from pathlib import Path
-from jinja2 import Environment, FileSystemLoader, select_autoescape
-import yaml
 
-from fda_samd_toolkit.validation.schemas import ValidationPlan
+import yaml
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+
 from fda_samd_toolkit.validation.modality_guidance import get_modality_guidance
+from fda_samd_toolkit.validation.schemas import ValidationPlan
 
 
 def generate_validation_plan(
@@ -33,7 +34,7 @@ def generate_validation_plan(
     if not config_path.exists():
         raise FileNotFoundError(f"Config file not found: {config_path}")
 
-    with open(config_path, "r") as f:
+    with open(config_path) as f:
         config_data = yaml.safe_load(f)
 
     if not config_data:

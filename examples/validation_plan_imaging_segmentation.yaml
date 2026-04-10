@@ -33,6 +33,13 @@ data_source:
   time_period_start: "2026-06-01"
   time_period_end: "2028-05-31"
   sample_size: 800
+  sample_size_justification: >
+    Based on assumed pneumonia prevalence of 40% (320 positive, 480 negative cases),
+    target sensitivity 90% vs. null 75%, power calculation yields n>=320 positive cases.
+    For specificity 85% vs. null 70%, n>=480 negative cases provides >90% power.
+    Using binomial test formula: n = [z_alpha + z_beta]^2 * p0(1-p0) / (p1-p0)^2.
+    Sample size of 800 total provides adequate power for both primary endpoints with
+    20% buffer for potential incomplete reference standards or protocol deviations.
   inclusion_criteria:
     - "Age 18 years or older"
     - "Clinical suspicion of pneumonia (fever, respiratory symptoms, or clinical presentation)"

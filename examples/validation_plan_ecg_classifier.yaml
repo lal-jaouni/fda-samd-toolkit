@@ -33,6 +33,12 @@ data_source:
   time_period_start: "2020-01-01"
   time_period_end: "2023-12-31"
   sample_size: 1500
+  sample_size_justification: >
+    Sample size calculation assumes atrial fibrillation (AF) prevalence of 15% (225 AF subjects, 1275 non-AF).
+    Using binomial test with alpha=0.05, power=0.90, and target sensitivity=90% with null hypothesis of 80%,
+    n=225 AF subjects provides adequate power. For specificity with target 95% (null=90%), n=1275 non-AF
+    subjects provides power>0.99. Additional 20% buffer accounts for protocol deviations.
+    Formula: n = [z_alpha + z_beta]^2 * p0 * (1-p0) / (p1 - p0)^2.
   inclusion_criteria:
     - "Age 18 years or older at time of ECG"
     - "Complete 12-lead ECG recording with sampling rate 250 Hz or higher"

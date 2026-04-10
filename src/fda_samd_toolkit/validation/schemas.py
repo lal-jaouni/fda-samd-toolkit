@@ -1,7 +1,8 @@
 """Pydantic v2 schemas for clinical validation plans."""
 
 from typing import Optional
-from pydantic import BaseModel, Field, ConfigDict, field_validator
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class StudyDesign(BaseModel):
@@ -21,11 +22,11 @@ class StudyDesign(BaseModel):
         default=False,
         description="Whether this is a multi-site study",
     )
-    sites_count: Optional[int] = Field(
+    sites_count: int | None = Field(
         None,
         description="Number of participating sites (if multi-site)",
     )
-    site_locations: Optional[list[str]] = Field(
+    site_locations: list[str] | None = Field(
         None,
         description="Geographic locations or names of sites",
     )
@@ -40,9 +41,7 @@ class StudyDesign(BaseModel):
         """Ensure study type is valid."""
         valid_types = {"retrospective", "prospective", "hybrid"}
         if v.lower() not in valid_types:
-            raise ValueError(
-                f"type must be one of {valid_types}, got '{v}'"
-            )
+            raise ValueError(f"type must be one of {valid_types}, got '{v}'")
         return v.lower()
 
     @field_validator("blinding")
@@ -51,9 +50,7 @@ class StudyDesign(BaseModel):
         """Ensure blinding is valid."""
         valid_blinding = {"open", "single-blinded", "double-blinded"}
         if v.lower() not in valid_blinding:
-            raise ValueError(
-                f"blinding must be one of {valid_blinding}, got '{v}'"
-            )
+            raise ValueError(f"blinding must be one of {valid_blinding}, got '{v}'")
         return v.lower()
 
 
@@ -370,7 +367,5 @@ class ValidationPlan(BaseModel):
         """Ensure modality is valid."""
         valid_modalities = {"imaging", "signals", "nlp", "multimodal"}
         if v.lower() not in valid_modalities:
-            raise ValueError(
-                f"modality must be one of {valid_modalities}, got '{v}'"
-            )
+            raise ValueError(f"modality must be one of {valid_modalities}, got '{v}'")
         return v.lower()
