@@ -1,498 +1,311 @@
-# CardioGuard ECG-AI: Predetermined Change Control Plan (PCCP) Configuration
-# This YAML configuration is input to the PCCP generator to produce a structured
-# submission document aligned with FDA December 2024 guidance.
+# CardioGuard ECG-AI: Predetermined Change Control Plan (PCCP)
+# FDA December 2024 guidance-aligned YAML configuration for 510(k) submission
+# Retrospective validation study with prospective post-market surveillance plan
 
 device_info:
   name: "CardioGuard ECG-AI"
   manufacturer: "CardioGuard Medical, Inc."
-  manufacturer_address: "100 Cardiology Drive, Cambridge, MA 02139"
-  device_id: "3007625401"
-  class: "Class II"
-  predicate_device: "Anumana ECG-AI (K232488)"
-  classification_panel: "Cardiovascular"
   intended_use: >
     CardioGuard ECG-AI is a software-as-a-medical-device intended to assist
     primary care and urgent care clinicians in the detection and characterization
     of atrial fibrillation, ventricular tachycardia, and 1st degree
     atrioventricular block from 12-lead electrocardiogram (ECG) recordings in
     ambulatory adult patients (age >= 18 years) presenting with signs or symptoms
-    of cardiac arrhythmia.
-
+    of cardiac arrhythmia. The device provides clinical decision support and is
+    not intended as a standalone diagnostic tool.
   indications_for_use: >
     CardioGuard ECG-AI is indicated for use in ambulatory primary care and urgent
     care settings for detection of atrial fibrillation, ventricular tachycardia,
     and 1st degree AV block from 12-lead ECG in adult patients (18 years and older)
     with signs or symptoms suggestive of arrhythmia.
+  classification: "Class II"
+  predicate_device: "Anumana ECG-AI (K232488)"
+  device_id: "3007625401"
 
-  submission_date: "2026-10-15"
-  pccp_effective_date: "2026-10-15"
-  document_version: "1.0"
-
-# Section 1: Device Characteristics and Algorithm Specifications
-algorithm_specifications:
-  algorithm_type: "Deep Learning - Transformer-based Neural Network"
-  input_specifications:
-    input_format: "12-lead ECG signal"
-    signal_duration_seconds: 10
-    sampling_rate_hz: 500
-    total_samples_per_recording: 60000
-    preprocessing: >
-      Input signals are zero-mean normalized (subtract mean, divide by standard deviation)
-      independently for each lead. Baseline drift removed with high-pass filter
-      (cutoff frequency: 0.5 Hz). Powerline noise removed with 50/60 Hz notch filter.
-
-  output_specifications:
-    output_type: "Probability scores and confidence intervals"
-    output_classes:
-      - name: "Atrial Fibrillation"
-        probability_range: [0, 1]
-      - name: "Ventricular Tachycardia"
-        probability_range: [0, 1]
-      - name: "1st Degree AV Block"
-        probability_range: [0, 1]
-      - name: "Normal Sinus Rhythm"
-        probability_range: [0, 1]
-    decision_threshold: 0.70
-    confidence_interval_method: "Softmax probability variance"
-
-  architecture_summary: >
-    The model uses a transformer-based encoder architecture:
-    1. Input normalization layer
-    2. Convolutional feature extractor (3 layers, 16->32->64 filters, kernel size 3)
-    3. Positional encoding for temporal positions
-    4. Multi-head self-attention transformer encoder (8 attention heads, 256 hidden dims, 4 layers)
-    5. Global average pooling
-    6. Classification head (FC 256->128->4 with ReLU and softmax)
-    Total trainable parameters: 2.3M
-
-  architecture_rationale: >
-    The transformer architecture was selected because:
-    (1) Self-attention mechanisms learn to focus on diagnostically relevant patterns
-        (e.g., irregular RR intervals in AFib, wide QRS complexes in VT)
-    (2) Multi-head attention captures multiple independent feature relationships simultaneously
-    (3) Positional encoding preserves temporal structure of 10-second ECG recording
-    (4) No recurrent structures, enabling efficient parallel computation
-    (5) Successfully deployed in prior ECG analysis work (Anumana, 2021; K232488)
-
-# Section 2: Baseline Performance Characteristics
-baseline_performance:
-  clinical_validation_study: >
-    Retrospective, double-blinded, multi-site clinical validation across
-    3 major US health systems (Johns Hopkins, Stanford Health, Mayo Clinic).
-    1500 adult patients (18+ years), board-certified cardiologist adjudication.
-
-  study_dates: "2025-01-01 to 2026-06-30"
-  study_sample_size: 1500
-
-  primary_endpoint: >
-    AUROC >= 0.90 with 95% confidence interval lower bound >= 0.87.
-    Achieved: AUROC 0.92 (95% CI: 0.89-0.94).
-
-  overall_performance:
-    auroc: 0.92
-    auroc_ci_lower: 0.89
-    auroc_ci_upper: 0.94
-    sensitivity: 0.88
-    specificity: 0.92
-    ppv: 0.90
-    npv: 0.91
-
-  subpopulation_performance:
-    by_age:
-      - age_group: "18-40 years"
-        n: 300
-        auroc: 0.91
-        sensitivity: 0.85
-        specificity: 0.91
-      - age_group: "41-65 years"
-        n: 750
-        auroc: 0.95
-        sensitivity: 0.90
-        specificity: 0.94
-      - age_group: "66+ years"
-        n: 450
-        auroc: 0.94
-        sensitivity: 0.89
-        specificity: 0.92
-
-    by_sex:
-      - sex: "Male"
-        n: 780
-        auroc: 0.93
-        sensitivity: 0.88
-        specificity: 0.93
-      - sex: "Female"
-        n: 720
-        auroc: 0.91
-        sensitivity: 0.88
-        specificity: 0.90
-
-    by_race_ethnicity:
-      - group: "White"
-        n: 900
-        auroc: 0.94
-        sensitivity: 0.90
-        specificity: 0.93
-      - group: "Black/African American"
-        n: 300
-        auroc: 0.91
-        sensitivity: 0.86
-        specificity: 0.91
-      - group: "Hispanic/Latino"
-        n: 180
-        auroc: 0.92
-        sensitivity: 0.87
-        specificity: 0.92
-      - group: "Asian American"
-        n: 120
-        auroc: 0.93
-        sensitivity: 0.89
-        specificity: 0.93
-
-    race_ethnicity_gap_analysis: >
-      A 0.03 AUROC difference exists between White (0.94) and Black (0.91) populations
-      in the validation cohort. This difference is attributed to training data imbalance
-      (60% White, 20% Black representation) and potential signal characteristic variations
-      across equipment manufacturers. Mitigation: additional 50,000 ECGs from HBCU health
-      systems in retraining pipeline. Re-validation planned for v1.1.
-
-# Section 3: Data Management and Quality Assurance
-data_management:
-  training_data_overview: >
-    The baseline model was trained on 250,000 ECG recordings collected from 5 major
-    US health systems (2019-2023), representing 180,000 unique adult patients.
-    Data includes all cardiac rhythms: 62% normal sinus, 21% atrial fibrillation,
-    6% ventricular tachycardia, 7% 1st degree AV block, 4% other/excluded.
-
-  data_sources:
-    - name: "Health System A"
-      location: "Northeast US"
-      ecgs_contributed: 60000
-      date_range: "2019-2023"
-    - name: "Health System B"
-      location: "West Coast US"
-      ecgs_contributed: 65000
-      date_range: "2019-2023"
-    - name: "Health System C"
-      location: "Midwest US"
-      ecgs_contributed: 55000
-      date_range: "2020-2023"
-    - name: "Health System D"
-      location: "Southeast US"
-      ecgs_contributed: 40000
-      date_range: "2021-2023"
-    - name: "Health System E"
-      location: "Southwest US"
-      ecgs_contributed: 30000
-      date_range: "2022-2023"
-
-  data_quality_assurance_procedures:
-    signal_integrity_checks: >
-      Before inclusion in any training or validation dataset:
-      (1) Verify all 12 leads present and contiguous
-      (2) Confirm sampling rate is 500 Hz or higher
-      (3) Check for missing or corrupted samples (data completeness > 99%)
-      (4) Validate that signal duration is exactly 10 seconds (+/- 0.1 seconds)
-
-    artifact_detection_exclusions: >
-      (1) Baseline wander magnitude > 5 mV (excluded)
-      (2) Electrode noise (RMS amplitude > 2 mV over 1-second windows, excluded)
-      (3) Powerline interference (visible 50/60 Hz contamination, excluded)
-      (4) Motion artifact (non-physiologic signal discontinuities, excluded)
-      Automated artifact detection flag for manual review if borderline.
-
-    label_validation: >
-      All ECG rhythm annotations must be verified by at least one board-certified
-      cardiologist employed by the contributing health system. Reference standard
-      established as follows:
-      (1) For hospitalized patients: electronic health record diagnosis + physician documentation
-      (2) For ambulatory patients: clinical ECG interpretation note or device interrogation
-      (3) For research cohorts: consensus of two independent cardiologists; if disagreement,
-          third cardiologist adjudicates.
-      Inter-rater reliability target: Fleiss kappa > 0.80 for arrhythmia classification.
-
-    class_balance_verification: >
-      Before any retraining epoch, the training dataset composition is verified:
-      (1) Normal sinus rhythm: minimum 40%, maximum 70%
-      (2) Atrial fibrillation: minimum 15%, maximum 30%
-      (3) Ventricular tachycardia: minimum 5%, maximum 15%
-      (4) 1st degree AV block: minimum 8%, maximum 18%
-      If any class falls outside target range, sampling weights are adjusted or additional
-      data is collected to restore balance.
-
-    demographic_diversity_requirements: >
-      Training data must maintain representation across:
-      Age: 18-40 (10-20%), 41-65 (50-60%), 66+ (25-35%)
-      Sex: Male (45-55%), Female (45-55%)
-      Race/Ethnicity: White (50-70%), Black (15-25%), Hispanic (8-15%), Asian (5-12%), Other (2-8%)
-      Comorbidities: Hypertension (40-60%), Diabetes (15-30%), Structural heart disease (10-20%)
-      These targets are continuously monitored and reported in quarterly retraining summaries.
-
-    temporal_diversity: >
-      Training data must span at least 12 months to capture seasonal variations in
-      arrhythmia presentation and ECG device usage patterns. No single calendar month
-      should represent more than 10% of the training dataset.
-
-# Section 4: Planned Modifications Under PCCP
 planned_modifications:
-  modification_1:
-    type: "Model Retraining with New Data"
+  - type: "Model Retraining with New Data"
     description: >
-      Periodic retraining of the CardioGuard ECG-AI model on newly collected ECG data
-      from deployed health systems. The model architecture (transformer encoder + classification head)
-      remains fixed. Only network weights are updated via gradient descent using the Adam optimizer.
-      Input/output specifications and decision thresholds remain unchanged unless explicitly
-      justified and documented.
-
+      Quarterly retraining of the CardioGuard transformer-based deep learning
+      classifier on newly collected ECG data from deployed health systems to
+      maintain or improve sensitivity and specificity for arrhythmia detection.
+      The model architecture (4-layer transformer with 8 attention heads, 256
+      hidden dimensions) remains fixed; only weights are updated. Retraining
+      includes data from all 5 health system sources plus new prospective
+      collections.
     rationale: >
-      New ECG data from diverse patient populations and evolving clinical presentations
-      ensures the model maintains clinical relevance and performance over time. Periodic
-      retraining addresses gradual data distribution shifts and improves generalization
-      to underrepresented sub-populations. Retraining cycles allow incorporation of feedback
-      from deployed users without requiring new 510(k) submissions, per FDA guidance.
-
-    frequency: "Quarterly (every 3 calendar months)"
-
+      New ECG data from diverse patient populations and geographic regions may
+      contain previously unrepresented rhythm patterns or demographic characteristics.
+      Periodic retraining with demographically balanced datasets improves model
+      robustness and ensures sustained clinical performance across changing
+      populations. Quarterly cycles align with standard post-market surveillance
+      cadence and FDA PCCP expectations for AI/ML devices.
     affected_performance_metrics:
-      - "AUROC (overall and per-class)"
-      - "Sensitivity (per-class)"
-      - "Specificity (per-class)"
-      - "Subpopulation parity metrics (AUROC gap between demographic groups)"
+      - "AUROC overall"
+      - "Sensitivity (AFib)"
+      - "Sensitivity (VT)"
+      - "Specificity overall"
+      - "Demographic parity (AUROC gap across race/ethnicity)"
+    frequency_cadence: "Quarterly (every 3 months or when drift thresholds exceeded)"
 
-    data_source: >
-      ECG data collected from 3 partnered health systems during live deployment.
-      Contribution targets: 50,000 new ECGs per year (12,500 per quarter).
-      Data is de-identified and labeled by health system staff cardiologists prior
-      to CardioGuard systems delivery for retraining.
-
-    retraining_procedure: >
-      (1) New data undergoes full QA pipeline (signal integrity, artifact detection,
-          label validation, demographic stratification)
-      (2) New data is combined with historical training data; composition verified against
-          class balance and diversity requirements
-      (3) Model is initialized from most recent baseline weights (transfer learning)
-      (4) Training proceeds for fixed 100 epochs with early stopping (patience=10) on
-          internal validation set AUROC
-      (5) Learning rate starts at 0.0001 with exponential decay (0.95^epoch)
-      (6) Batch size maintained at 128; all other hyperparameters fixed
-      (7) Retraining validation set is held-out from the previous retraining cycle
-          to ensure independent evaluation
-
-    drift_monitoring_and_triggers:
-      primary_trigger: >
-        Retraining is triggered automatically if AUROC on internal validation set
-        (measured monthly) decreases by >= 5% relative to most recent baseline model.
-        For example: if baseline AUROC = 0.92, a drop to 0.874 (5% relative decrease)
-        triggers retraining within 2 weeks.
-      secondary_triggers:
-        - "Sensitivity for any target arrhythmia drops >= 3% relative"
-        - "Specificity drops >= 2% relative"
-        - "AUROC gap between any two demographic groups exceeds 0.05"
-
-      monitoring_cadence: >
-        Monthly drift assessment using internal validation cohort (held-out from all
-        training data). Metrics calculated on 1000-case rolling window to ensure adequate
-        statistical power. Results reported internally; FDA notified every 12 months
-        or immediately if drift triggers are exceeded.
-
-    success_criteria:
-      - "Retrained model AUROC >= 0.90 with 95% CI lower bound >= 0.87"
-      - "Sensitivity >= 0.85 for each target arrhythmia"
-      - "Specificity >= 0.90 overall"
-      - "No demographic disparity (AUROC gap between groups <= 0.03)"
-
-    documentation_requirements: >
-      Each retraining cycle generates a Retraining Summary Report including:
-      (1) Dates of retraining and validation periods
-      (2) Training data composition (counts, demographics, class distribution)
-      (3) Baseline and post-training model performance metrics
-      (4) Subpopulation performance analysis
-      (5) Any drift trigger events and mitigations
-      (6) Clinical justification if thresholds not met
-      Reports retained for regulatory inspection; key metrics submitted to FDA annually.
-
-  modification_2:
-    type: "Data Expansion and Demographic Rebalancing"
+  - type: "Data Expansion and Demographic Rebalancing"
     description: >
-      Incorporation of ECG data from additional health systems and patient populations
-      to improve demographic representation and address identified performance gaps
-      between sub-populations. Expansion targets specific demographics underrepresented
-      in baseline training data (e.g., Black/African American, Asian American, pediatric
-      precursor data).
-
+      Incorporation of ECG signals from 2 additional HBCU (Historically Black
+      Colleges and Universities) health systems and diverse patient demographics
+      into training dataset. Targets 50,000 additional ECGs with focus on
+      Black/African American population representation, reducing demographic
+      imbalance from 60% White / 20% Black to ~50% White / 40% Black. Expansion
+      includes representation across ages, sexes, and comorbidity profiles.
     rationale: >
-      The baseline training data shows a 0.03 AUROC gap between White and Black
-      populations. Additional diverse data improves fairness, reduces algorithmic bias,
-      and enhances clinical utility across all populations. Expanding data sources also
-      captures equipment and signal characteristic variations across different hospital IT
-      environments, improving real-world generalization.
-
-    frequency: "Annually (every 12 calendar months)"
-
-    target_expansion_scope:
-      year_1_focus: >
-        Recruit 2 historically Black college and university (HBCU) health systems
-        to contribute 50,000 additional ECGs (25,000 per institution) over 12 months.
-        Goal: increase Black/African American representation from 20% to 25% of training
-        dataset.
-      year_2_focus: >
-        Recruit 1 Asian American-serving health system (West Coast) and 1 Hispanic/Latino
-        community health center network to each contribute 30,000 ECGs.
-        Goal: increase Asian representation to 12%, Hispanic to 15%.
-
-    inclusion_criteria_for_expansion_data: >
-      Same as baseline data:
-      (1) Adult patients 18+ years
-      (2) 12-lead ECG recording with sampling rate >= 500 Hz
-      (3) Complete 10-second signal, signal quality > 95%
-      (4) Rhythm annotation by board-certified cardiologist
-      (5) De-identified, HIPAA-compliant
-
+      Training data analysis identified 0.03 AUROC gap between White (0.94) and
+      Black/African American (0.91) validation cohorts, driven by training data
+      imbalance (60% White vs. 20% Black). Targeted expansion from HBCU partners
+      improves demographic balance, reduces algorithmic bias, and enables the
+      model to generalize equitably across diverse populations. Addresses equity
+      concerns central to FDA SaMD guidance and demonstrates post-market commitment
+      to fairness.
     affected_performance_metrics:
-      - "AUROC (overall and per-class)"
-      - "Demographic parity metrics (delta AUROC between groups)"
-      - "Subpopulation sensitivity/specificity by age, sex, race/ethnicity"
+      - "AUROC (Black/African American subgroup)"
+      - "AUROC (Hispanic/Latino subgroup)"
+      - "Demographic parity metrics"
+      - "Sensitivity by race/ethnicity"
+      - "Specificity by race/ethnicity"
+    frequency_cadence: "Annual major retraining (target Q4 2026 for v1.1 with HBCU data)"
 
-    success_criteria:
-      - "AUROC gap between any two demographic groups <= 0.02 (down from baseline 0.03)"
-      - "Minimum AUROC of 0.92 across all demographic subgroups"
-      - "Sensitivity >= 0.88 across all demographic subgroups"
-
-    documentation_requirements: >
-      Data expansion is documented in annual FDA pre-notification including:
-      (1) New health system partners and ECG contribution volumes
-      (2) Demographic composition of new data
-      (3) Updated training dataset statistics (total n, class balance, demographics)
-      (4) Post-expansion model performance on held-out validation cohort
-      (5) Comparison of performance gaps before and after expansion
-
-  modification_3:
-    type: "Hyperparameter Optimization"
+  - type: "Hyperparameter Optimization"
     description: >
-      Fine-tuning of learning rate, batch size, dropout rates, weight decay, and
-      early stopping patience within pre-defined ranges. Model architecture (transformer
-      encoder, classification head) and algorithm remain unchanged. Hyperparameter
-      optimization is performed using internal validation set performance to prevent
-      overfitting.
-
+      Adjustment of learning rate, batch size, dropout rates, class weights, and
+      regularization parameters within pre-defined ranges during retraining cycles.
+      Optimization performed using validation set performance. Transformer
+      architecture and algorithm remain unchanged. Focus on maintaining or improving
+      sensitivity in underrepresented demographic groups.
     rationale: >
-      Hyperparameter tuning can improve convergence speed, prevent overfitting, and
-      maximize performance on new datasets without altering the fundamental model
-      structure or requiring architectural modifications that would necessitate new
-      510(k) submissions.
-
-    frequency: "Every 6 months during major retraining cycles"
-
-    allowed_hyperparameter_ranges:
-      learning_rate: [0.00005, 0.0005]  # baseline 0.0001
-      batch_size: [64, 256]  # baseline 128
-      weight_decay: [0, 0.00005]  # baseline 1e-5
-      dropout_rate: [0.1, 0.4]  # baseline 0.2
-      early_stopping_patience: [5, 15]  # baseline 10 epochs
-      learning_rate_decay_gamma: [0.9, 0.99]  # baseline 0.95
-
-    optimization_procedure: >
-      (1) Grid search over predefined hyperparameter ranges using validation set AUROC
-      (2) Top 5 hyperparameter combinations tested with 5-fold cross-validation
-      (3) Selected based on validation AUROC, secondary tiebreaker is inference latency
-      (4) New hyperparameters applied in next quarterly retraining cycle
-
+      Hyperparameter tuning improves convergence and prevents overfitting on
+      updated datasets without changing fundamental model structure. Specifically,
+      class-weighted loss optimization can improve balance between AFib/VT
+      detection (high sensitivity) and false positive reduction (specificity),
+      critical for clinical adoption.
     affected_performance_metrics:
-      - "AUROC (overall and per-class)"
-      - "Training convergence speed"
-      - "Validation loss"
-      - "Inference latency (milliseconds)"
+      - "AUROC (overall and by subgroup)"
+      - "Sensitivity (AFib, VT)"
+      - "Specificity (overall)"
+      - "Validation loss convergence"
+    frequency_cadence: "Every 6 months during retraining cycles"
 
-    success_criteria:
-      - "No degradation in AUROC (maintained >= 0.90 with CI lower bound >= 0.87)"
-      - "Training convergence within 150 epochs"
-      - "Inference latency < 200 milliseconds"
+modification_protocol:
+  data_management: >
+    ECG data collected from health system PACS and EHR systems via HL7 FHIR API
+    endpoints or direct database connections. All data stored in HIPAA-compliant,
+    access-controlled databases with encryption at rest and in transit. Patient
+    identifiers removed and replaced with de-identified tokens. Each dataset
+    versioned with unique identifier including source, date range, and ECG count.
+    Data validated for completeness (all 12 leads present, >10 second duration,
+    500 Hz sampling) before inclusion. Audit trails maintained for all data
+    versions, sources, inclusions, and exclusions.
 
-    documentation_requirements: >
-      Hyperparameter optimization results documented including:
-      (1) Grid search results (top 10 parameter sets and corresponding AUROC)
-      (2) Final selected hyperparameters with justification
-      (3) Cross-validation performance metrics
-      (4) Comparison to baseline model
+  data_quality_checks: >
+    Automated artifact detection applied to all new data: baseline wander < 5 mV,
+    electrode noise RMS < 2 mV, signal quality score > 95% for inclusion.
+    Automated checks identify incomplete signals (missing leads), extreme values
+    (saturation), timing inconsistencies. Manual review of flagged cases before
+    inclusion. Demographic distribution analysis on each new batch (age, sex,
+    race/ethnicity, rhythm distribution) compared to training data baseline.
+    Approval required if new batch deviates >10% from expected demographic targets.
 
-# Section 5: Change Control and Governance
-change_control_procedures:
-  approval_authority: "CardioGuard Medical, Inc., Vice President of Clinical Affairs and Regulatory"
+  retraining_methodology: >
+    Retraining pipeline: (1) Data assembly from all approved sources, (2) Merge
+    with previous training data for continuity, (3) Stratified random split into
+    training (70%), validation (15%), test (15%) by rhythm class and demographic
+    group, (4) Preprocessing (zero-mean normalization, filters, artifact removal),
+    (5) Model training using original transformer architecture with class-weighted
+    loss, (6) Hyperparameter tuning via validation set performance, (7) Final
+    model evaluation on held-out test set. Training duration: 2-4 weeks depending
+    on dataset size. GPU cluster (NVIDIA A100) used for efficiency.
 
-  review_requirements: >
-    Before any planned modification is executed:
-    (1) Clinical review: does change maintain or improve clinical safety/effectiveness?
-    (2) Regulatory review: does change align with PCCP scope and FDA guidance?
-    (3) Data quality review: is new training data QA procedure compliant?
-    (4) Algorithm review: are modifications within allowed scope (weights-only, hyperparams)?
+  validation_strategy: >
+    Prospective validation on held-out test set (15% of merged data, stratified
+    by class and demographics). Primary endpoint: AUROC >= 0.90 overall. Secondary
+    endpoints: Sensitivity >= 0.85, Specificity >= 0.90, subgroup AUROC gap <= 0.03.
+    If any metric fails, automated alerts escalate to clinical team for root cause
+    analysis before deployment. Comparison to baseline (v1.0 model) performed using
+    McNemar test for sensitivity/specificity, DeLong test for AUROC. Non-inferiority
+    margin: AUROC not more than 0.03 below baseline.
 
-  documentation_procedures: >
-    All changes documented in a Modification Log including:
-    (1) Date of modification initiation and completion
-    (2) Type of modification (retraining, data expansion, hyperparameter optimization)
-    (3) Data source(s) and composition
-    (4) Model performance before and after (AUROC, sensitivity, specificity)
-    (5) Any drift triggers or alerts that prompted the change
-    (6) Approving individuals and titles
-    (7) Clinical/regulatory justification
+  validation_criteria:
+    - "AUROC overall >= 0.90 (95% CI lower bound >= 0.87)"
+    - "Sensitivity (AFib detection) >= 0.85"
+    - "Sensitivity (VT detection) >= 0.82"
+    - "Specificity (overall) >= 0.90"
+    - "No demographic subgroup with AUROC gap > 0.03 vs. others"
+    - "Positive predictive value >= 0.88"
+    - "Negative predictive value >= 0.91"
+    - "Confidence interval width < 0.06 (sufficient precision)"
 
-  fda_notification_procedures: >
-    (1) Quarterly retraining results: tracked internally, key metrics reported to FDA
-        in annual pre-notification report (due within 30 days of each anniversary of
-        device clearance)
-    (2) Unplanned modifications (bug fixes, security patches): reported within 10 business
-        days to FDA via 30-day notice if performance-related, or immediately if safety-critical
-    (3) Discontinued modifications: if any planned modification is cancelled or
-        substantially changed, FDA notified in next scheduled submission
+  performance_thresholds:
+    - name: "AUROC Overall"
+      description: "Overall discrimination ability across all rhythm classes; critical for clinical utility"
+      baseline_value: 0.92
+      threshold_warning: 0.90
+      threshold_action: 0.87
+      direction: "higher"
 
-# Section 6: Monitoring and Compliance
-post-market_monitoring:
-  real_world_performance_tracking: >
-    Post-clearance, CardioGuard Medical will maintain a real-world performance database
-    including:
-    (1) All inferences performed in deployed health systems (de-identified)
-    (2) Model prediction (probability scores)
-    (3) Clinician action taken (accepted, rejected, overridden)
-    (4) Patient outcomes when available (through EHR linkage or outcome registry)
-    (5) Reported adverse events or near-misses
+    - name: "Sensitivity (AFib Detection)"
+      description: "True positive rate for atrial fibrillation detection; missed diagnoses create stroke risk"
+      baseline_value: 0.92
+      threshold_warning: 0.90
+      threshold_action: 0.85
+      direction: "higher"
 
-  performance_comparison_schedule:
-    quarterly: >
-      Internal monthly monitoring; quarterly summary of AUROC, sensitivity, specificity
-      on internal validation set
-    annual: >
-      FDA pre-notification report including:
-      (1) All modifications executed under PCCP in past 12 months
-      (2) Drift monitoring results and any triggers exceeded
-      (3) Real-world performance summary (if sufficient deployment data available)
-      (4) Demographic equity analysis
-      (5) Any adverse events, patient complaints, or safety signals
+    - name: "Sensitivity (VT Detection)"
+      description: "True positive rate for ventricular tachycardia; critical for sudden cardiac death prevention"
+      baseline_value: 0.88
+      threshold_warning: 0.85
+      threshold_action: 0.80
+      direction: "higher"
 
-  trigger_for_escalation: >
-    If any of the following occur, FDA notified immediately:
-    (1) AUROC drops below 0.88 (primary endpoint threshold - 2%)
-    (2) Sensitivity drops below 0.82 for any target arrhythmia (primary endpoint - 3%)
-    (3) Patient harm event or adverse event with probable relation to model error
-    (4) Cybersecurity vulnerability or breach affecting model integrity
-    (5) Incorporation of training data later found to be mislabeled (>1% of training set)
+    - name: "Specificity Overall"
+      description: "True negative rate; maintains low false positive rate to prevent unnecessary interventions"
+      baseline_value: 0.92
+      threshold_warning: 0.90
+      threshold_action: 0.88
+      direction: "higher"
 
-# Section 7: Version Control and Archival
-version_control:
-  baseline_model_version: "v1.0_cleared_2026-10-15"
-  model_architecture_hash: "sha256:4a8c9d2e7f1b5c3a6e9d2f0b4c8a1e5d"
+    - name: "Demographic Parity (AUROC Gap)"
+      description: "Maximum AUROC difference across demographic groups; ensures equitable performance across populations"
+      baseline_value: 0.03
+      threshold_warning: 0.04
+      threshold_action: 0.05
+      direction: "lower"
 
-  version_tracking: >
-    Each retrained model version is tagged with:
-    (1) Release date (YYYY-MM-DD)
-    (2) Training dataset composition (n, class distribution, demographics)
-    (3) Baseline AUROC achieved
-    (4) All hyperparameters used
-    (5) Cardiologist(s) reviewing results
-    (6) Regulatory approval
+  drift_monitoring:
+    method: >
+      Statistical testing (DeLong for AUROC differences, McNemar for sensitivity/specificity)
+      comparing recent performance (past 3 months) to baseline v1.0 validation cohort.
+      Stratified analysis by age, sex, race/ethnicity to detect subgroup-specific drift.
+    monitoring_frequency: "Quarterly (every 3 months) on newly collected ECGs from all deployed health systems"
+    threshold_description: >
+      Warning: AUROC drops >0.02 below baseline (0.92 → 0.90) or sensitivity drops >3%.
+      Action: AUROC drops >0.05 below baseline (0.92 → 0.87), sensitivity drops >7%, or any demographic
+      subgroup AUROC gap exceeds 0.03.
+    response_protocol: >
+      Warning-level alerts trigger root cause investigation (data drift, equipment changes, population shifts,
+      model concept drift) within 2 weeks. Findings documented in quarterly FDA report. If drift confirmed,
+      accelerated retraining initiated. Action-level alerts trigger immediate clinical review, potential deployment
+      halt, and escalation to regulatory team. All action-level alerts reported to FDA within 10 business days.
+      Annual comprehensive drift analysis and mitigation plans submitted to FDA.
 
-  archival_procedures: >
-    (1) All model weights, training scripts, and hyperparameter logs retained for 10 years
-    (2) Training dataset versions and QA reports retained for 7 years
-    (3) Modification logs and FDA correspondence retained for 10 years (per medical device
-        record retention requirements)
-    (4) Monthly performance monitoring reports retained for 3 years
+  deployment_process: >
+    Pre-deployment checklist: (1) Validation criteria all met (documented in
+    validation report), (2) Safety review by clinical/regulatory team, (3) Risk
+    assessment for retraining changes vs. baseline, (4) Integration testing with
+    health system EHR/PACS systems, (5) Clinician training updated if behavior
+    changes, (6) Audit trail setup for model versioning. Deployment strategy:
+    Staged rollout to 1-2 health systems first, monitor for 2 weeks, then full
+    deployment if no safety signals. Model versioning: Each retraining generates
+    unique version identifier (e.g., v1.0.1, v1.0.2) with deployment timestamp.
+    Fallback procedure: Previous model version maintained on servers for 30 days
+    post-deployment.
+
+impact_assessment:
+  benefits: >
+    CardioGuard ECG-AI retraining and demographic expansion deliver significant
+    clinical and equity benefits: (1) Sustained performance: Quarterly retraining
+    on new data maintains 0.92 AUROC as patient populations evolve, preventing
+    gradual performance drift. (2) Equity advancement: Data expansion targeting
+    HBCU partners and Black/African American patients reduces 0.03 AUROC gap to
+    target <= 0.02, advancing health equity in arrhythmia detection. (3) Expanded
+    clinical use: Broader demographic representation enables confident use across
+    diverse US populations, reducing health disparities. (4) Regulatory compliance:
+    Planned modifications align with FDA December 2024 PCCP guidance and AI/ML
+    best practices.
+
+  risks: >
+    Planned modifications introduce several risks requiring mitigation: (1) Model
+    degradation: Retraining on biased new data could reduce performance in
+    underrepresented groups; mitigated by demographic stratification and parity
+    monitoring. (2) Deployment delays: Quarterly retraining cycles could delay
+    model updates if validation criteria not met; mitigated by parallelized
+    training pipelines and pre-approved modification scope. (3) Safety signal
+    misses: Drift monitoring may not detect rare failure modes; mitigated by
+    clinician adverse event reporting and MedWatch integration. (4) Data quality
+    degradation: New data sources may have different quality; mitigated by
+    automated quality checks and manual oversight.
+
+  risk_mitigations:
+    - risk: "Retraining on new data with different distribution could degrade performance in underrepresented groups"
+      mitigation: "Stratified sampling to maintain demographic balance; performance thresholds require no subgroup AUROC gap > 0.03; quarterly monitoring of all subgroups"
+
+    - risk: "Hyperparameter changes could reduce sensitivity, missing critical arrhythmias"
+      mitigation: "Validation strategy includes sensitivity thresholds (AFib >= 0.85, VT >= 0.82); test set evaluation before deployment; comparison to baseline using McNemar test"
+
+    - risk: "Undetected data drift could degrade real-world performance post-deployment"
+      mitigation: "Quarterly drift monitoring with automated alert triggers (warning at -0.02 AUROC, action at -0.05); root cause investigation protocol; FDA reporting within 10 business days for action-level alerts"
+
+    - risk: "HBCU data expansion may introduce new failure modes specific to new patient populations"
+      mitigation: "Pilot deployment to 1-2 sites first, 2-week monitoring period before full rollout; adverse event reporting mechanism; planned v1.2 refinement if issues identified"
+
+    - risk: "Quarterly retraining cadence could miss urgent safety issues requiring immediate model adjustment"
+      mitigation: "FDA pre-approval of modification scope allows ad-hoc retraining if safety signals identified; escalation pathway to regulatory team; documentation of any emergency modifications"
+
+  sub_population_analysis:
+    - name: "Age 18-40 years"
+      description: "Younger adults with lower baseline arrhythmia prevalence; smaller training sample (14% of training data; n=300 validation)"
+      performance_expectations: "AUROC 0.88-0.91 (slightly lower than older cohorts due to lower disease prevalence); sensitivity >= 0.85 maintained"
+      monitoring_plan: "Quarterly AUROC/sensitivity assessment; alert if drops below 0.87 AUROC; enhanced clinical review for equivocal scores in this age group"
+
+    - name: "Age 41-65 years"
+      description: "Middle-aged adults; largest training sample (52% of training data; n=750 validation); target clinical population for AFib/VT"
+      performance_expectations: "AUROC >= 0.92 (highest performance expected); sensitivity >= 0.88"
+      monitoring_plan: "Quarterly assessment; treat as reference baseline for other subgroups; alert if AUROC drops below 0.90"
+
+    - name: "Age 66+ years"
+      description: "Older adults; high arrhythmia prevalence; frequent target patients (34% of training data; n=450 validation)"
+      performance_expectations: "AUROC 0.91-0.94; sensitivity >= 0.87"
+      monitoring_plan: "Quarterly assessment; special attention to comorbidities (HF, CKD) effects; alert if AUROC drops below 0.89"
+
+    - name: "Male patients"
+      description: "Sex-based analysis; 52% of training data (n=780 validation); generally higher VT prevalence"
+      performance_expectations: "AUROC 0.93 (similar or slightly higher than female cohort); sensitivity >= 0.88"
+      monitoring_plan: "Quarterly stratified analysis; alert if gap vs. female cohort exceeds 0.02 AUROC"
+
+    - name: "Female patients"
+      description: "Sex-based analysis; 48% of training data (n=720 validation); may have lower VT prevalence in training"
+      performance_expectations: "AUROC 0.91 (slightly lower than male cohort due to lower VT prevalence); sensitivity >= 0.86"
+      monitoring_plan: "Quarterly assessment; note potential VT underrepresentation; alert if AUROC drops below 0.89"
+
+    - name: "White/Caucasian"
+      description: "Majority demographic in baseline training (60%, n=900 validation); reference baseline for demographic parity"
+      performance_expectations: "AUROC 0.94 (highest performance); sensitivity >= 0.90"
+      monitoring_plan: "Quarterly assessment; reference group for demographic parity comparisons"
+
+    - name: "Black/African American"
+      description: "Baseline underrepresented (20% training, n=300 validation); target for HBCU data expansion (v1.1 goal: 40%)"
+      performance_expectations: "Baseline v1.0: AUROC 0.91 (0.03 gap vs. White); v1.1 target: AUROC >= 0.92 (gap <= 0.02); sensitivity >= 0.88"
+      monitoring_plan: "Quarterly high-priority assessment; explicit gap analysis vs. White cohort; trigger for v1.1 retraining if gap widens; FDA reporting of demographic parity progress"
+
+    - name: "Hispanic/Latino"
+      description: "Moderately represented in training (12%, n=180 validation); focus for future expansion"
+      performance_expectations: "AUROC 0.92 (similar to overall); sensitivity >= 0.87"
+      monitoring_plan: "Quarterly assessment; track representation in new data collections; if drops below 8%, flag for targeted recruitment"
+
+    - name: "Asian American"
+      description: "Moderately represented (8% of training, n=120 validation); maintain in future collections"
+      performance_expectations: "AUROC 0.93 (similar to overall); sensitivity >= 0.88"
+      monitoring_plan: "Quarterly assessment; maintain representation >= 8% in future data collections"
+
+  monitoring_and_reporting: >
+    Post-market surveillance framework: Quarterly performance audits on newly
+    collected data from all 5 health systems (plus any new sites). Reports
+    generated 30 days after quarter end, comparing recent performance to baseline.
+    Reports include: AUROC/sensitivity/specificity overall and by demographic
+    subgroup, confidence intervals, statistical significance of changes, root
+    cause analysis if thresholds exceeded, adverse event summaries, mitigation
+    plans. Annual comprehensive reports submitted to FDA per Medical Device Report
+    (MDR) timeline. Any action-level alerts reported to FDA within 10 business
+    days. Findings used to inform quarterly retraining decisions and v1.1
+    development roadmap.
+
+regulatory_compliance: "FDA 510(k) submission; Predetermined Change Control Plan per FDA December 2024 guidance; Medical Device Reporting (MDR) post-market surveillance; MedWatch adverse event reporting for serious events"
+
+version: "1.0"
+
+effective_date: "2026-10-15"
