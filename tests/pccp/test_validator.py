@@ -70,9 +70,7 @@ class TestValidatePCCP:
             # Generated document has placeholder signature blocks that users must fill in
             error_issues = [i for i in issues if i.level == "error"]
             # Only signature/date placeholders should be errors (intentional)
-            placeholder_errors = [
-                i for i in error_issues if "Placeholder" not in i.message
-            ]
+            placeholder_errors = [i for i in error_issues if "Placeholder" not in i.message]
             assert len(placeholder_errors) == 0, f"Found non-placeholder errors: {placeholder_errors}"
             # Should have some placeholder errors (signatures/dates to fill)
             assert any("Placeholder" in i.message for i in error_issues)
@@ -90,9 +88,7 @@ class TestValidatePCCP:
             issues = validate_pccp(str(output_path))
             error_issues = [i for i in issues if i.level == "error"]
             # Only signature/date placeholders should be errors (intentional)
-            placeholder_errors = [
-                i for i in error_issues if "Placeholder" not in i.message
-            ]
+            placeholder_errors = [i for i in error_issues if "Placeholder" not in i.message]
             assert len(placeholder_errors) == 0
 
     def test_validate_missing_file(self):
@@ -128,9 +124,7 @@ class TestValidatePCCP:
         try:
             issues = validate_pccp(temp_path)
             # Should detect placeholders
-            placeholder_issues = [
-                i for i in issues if i.level == "error" and "Placeholder" in i.message
-            ]
+            placeholder_issues = [i for i in issues if i.level == "error" and "Placeholder" in i.message]
             assert len(placeholder_issues) > 0
         finally:
             Path(temp_path).unlink()
@@ -146,9 +140,7 @@ class TestValidatePCCP:
 
         try:
             issues = validate_pccp(temp_path)
-            placeholder_issues = [
-                i for i in issues if i.level == "error" and "Placeholder" in i.message
-            ]
+            placeholder_issues = [i for i in issues if i.level == "error" and "Placeholder" in i.message]
             assert len(placeholder_issues) > 0
         finally:
             Path(temp_path).unlink()
@@ -164,12 +156,10 @@ class TestValidatePCCP:
 
         try:
             issues = validate_pccp(temp_path)
-            # Should detect empty table
-            warning_issues = [
-                i for i in issues if i.level == "warning" and "Table" in i.message
-            ]
-            # May or may not detect depending on implementation
-            # This is more of a nice-to-have warning
+            # Should at least run without error; surfacing the "empty table"
+            # warning is a nice-to-have, so we only assert the validator returns
+            # a list of issues.
+            assert isinstance(issues, list)
         finally:
             Path(temp_path).unlink()
 
@@ -201,11 +191,11 @@ class TestValidatePCCP:
 
         try:
             issues = validate_pccp(temp_path)
-            # May have warning about missing FDA references
-            reference_issues = [
-                i for i in issues if "FDA" in i.message or "reference" in i.message.lower()
-            ]
-            # Generated documents should have references, but this file won't
+            # Generated documents should surface a warning about missing FDA
+            # references for a file this sparse. We only assert the validator
+            # returns a list; the specific reference-check message is
+            # implementation-defined.
+            assert isinstance(issues, list)
         finally:
             Path(temp_path).unlink()
 
@@ -261,7 +251,5 @@ class TestValidatorEdgeCases:
             issues = validate_pccp(str(output_path))
             error_issues = [i for i in issues if i.level == "error"]
             # Only placeholder errors should remain
-            placeholder_errors = [
-                i for i in error_issues if "Placeholder" not in i.message
-            ]
+            placeholder_errors = [i for i in error_issues if "Placeholder" not in i.message]
             assert len(placeholder_errors) == 0

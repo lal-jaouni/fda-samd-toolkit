@@ -51,7 +51,7 @@ def generate_validation_plan(
     try:
         modality_guidance = get_modality_guidance(modality)
     except ValueError as e:
-        raise ValueError(f"Invalid modality: {e}")
+        raise ValueError(f"Invalid modality: {e}") from e
 
     template_dir = Path(__file__).parent / "templates"
     env = Environment(

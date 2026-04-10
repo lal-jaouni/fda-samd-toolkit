@@ -251,7 +251,5 @@ def get_modality_guidance(modality: str) -> dict:
     """Retrieve modality-specific guidance."""
     modality = modality.lower()
     if modality not in MODALITY_GUIDANCE:
-        raise ValueError(
-            f"Unknown modality '{modality}'. Valid options: {', '.join(MODALITY_GUIDANCE.keys())}"
-        )
+        raise ValueError(f"Unknown modality '{modality}'. Valid options: {', '.join(MODALITY_GUIDANCE.keys())}")
     return MODALITY_GUIDANCE[modality]

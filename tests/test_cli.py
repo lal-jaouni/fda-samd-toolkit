@@ -55,9 +55,7 @@ class TestPCCPCommands:
         """Test pccp generate without required --output flag."""
         # Use a sentinel that will pass --config existence check (won't, but Click reports
         # whichever required-arg error it sees first); we just need a non-zero exit.
-        result = runner.invoke(
-            cli, ["pccp", "generate", "--config", "config.yaml"]
-        )
+        result = runner.invoke(cli, ["pccp", "generate", "--config", "config.yaml"])
         assert result.exit_code != 0
 
     def test_pccp_generate_nonexistent_config(self, runner):
@@ -111,8 +109,9 @@ class TestPCCPCommands:
 
     def test_pccp_init_valid_types(self, runner):
         """Test pccp init with all valid device types scaffolds without crashing."""
-        import tempfile
         import os
+        import tempfile
+
         for device_type in ["ecg", "imaging", "signals", "nlp"]:
             with tempfile.TemporaryDirectory() as tmpdir:
                 cwd = os.getcwd()
@@ -195,17 +194,13 @@ class TestModelCardCommands:
 
     def test_model_card_generate_missing_config(self, runner):
         """Test model-card generate without required --config flag."""
-        result = runner.invoke(
-            cli, ["model-card", "generate", "--output", "card.md"]
-        )
+        result = runner.invoke(cli, ["model-card", "generate", "--output", "card.md"])
         assert result.exit_code != 0
         assert "Missing option '--config'" in result.output
 
     def test_model_card_generate_missing_output(self, runner):
         """Test model-card generate without required --output flag."""
-        result = runner.invoke(
-            cli, ["model-card", "generate", "--config", "model.yaml"]
-        )
+        result = runner.invoke(cli, ["model-card", "generate", "--config", "model.yaml"])
         assert result.exit_code != 0
 
     def test_model_card_generate_help(self, runner):

@@ -1,7 +1,5 @@
 """Pydantic v2 schemas for clinical validation plans."""
 
-from typing import Optional
-
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
@@ -30,7 +28,7 @@ class StudyDesign(BaseModel):
         None,
         description="Geographic locations or names of sites",
     )
-    study_duration_months: Optional[int] = Field(
+    study_duration_months: int | None = Field(
         None,
         description="Planned study duration in months",
     )
@@ -87,7 +85,7 @@ class DataSource(BaseModel):
         ...,
         description="Statistical justification for sample size (power analysis, precision, etc.)",
     )
-    population_diversity: Optional[str] = Field(
+    population_diversity: str | None = Field(
         None,
         description="Description of population diversity goals (e.g., sex, race, age distribution)",
     )
@@ -145,27 +143,27 @@ class Endpoints(BaseModel):
         default_factory=list,
         description="List of secondary endpoints",
     )
-    sensitivity_target: Optional[float] = Field(
+    sensitivity_target: float | None = Field(
         None,
         description="Target sensitivity (true positive rate) if applicable",
     )
-    specificity_target: Optional[float] = Field(
+    specificity_target: float | None = Field(
         None,
         description="Target specificity (true negative rate) if applicable",
     )
-    sensitivity_lower_ci: Optional[float] = Field(
+    sensitivity_lower_ci: float | None = Field(
         None,
         description="Required lower bound of confidence interval for sensitivity",
     )
-    specificity_lower_ci: Optional[float] = Field(
+    specificity_lower_ci: float | None = Field(
         None,
         description="Required lower bound of confidence interval for specificity",
     )
-    positive_predictive_value_target: Optional[float] = Field(
+    positive_predictive_value_target: float | None = Field(
         None,
         description="Target positive predictive value if applicable",
     )
-    negative_predictive_value_target: Optional[float] = Field(
+    negative_predictive_value_target: float | None = Field(
         None,
         description="Target negative predictive value if applicable",
     )
@@ -204,7 +202,7 @@ class StatisticalAnalysisPlan(BaseModel):
         ...,
         description="Strategy for handling missing data (complete case, imputation method, etc.)",
     )
-    sensitivity_analyses: Optional[list[str]] = Field(
+    sensitivity_analyses: list[str] | None = Field(
         None,
         description="Planned sensitivity analyses to assess robustness of findings",
     )
@@ -223,15 +221,15 @@ class SubgroupAnalysis(BaseModel):
         ...,
         description="Variables used for stratification in randomization if applicable",
     )
-    performance_target_by_subgroup: Optional[dict] = Field(
+    performance_target_by_subgroup: dict | None = Field(
         None,
         description="Performance targets for each subgroup (key: subgroup name, value: target metric)",
     )
-    minority_representation: Optional[str] = Field(
+    minority_representation: str | None = Field(
         None,
         description="Strategy for ensuring adequate representation of historically underrepresented groups",
     )
-    differential_performance_analysis: Optional[str] = Field(
+    differential_performance_analysis: str | None = Field(
         None,
         description="Plan for analyzing differences in model performance across subgroups",
     )
@@ -242,27 +240,27 @@ class GeneralizationTesting(BaseModel):
 
     model_config = ConfigDict(str_strip_whitespace=True)
 
-    external_validation_sites: Optional[list[str]] = Field(
+    external_validation_sites: list[str] | None = Field(
         None,
         description="External sites for holdout validation (geographically or organizationally distinct)",
     )
-    external_validation_sample_size: Optional[int] = Field(
+    external_validation_sample_size: int | None = Field(
         None,
         description="Sample size for external validation",
     )
-    external_validation_timeline: Optional[str] = Field(
+    external_validation_timeline: str | None = Field(
         None,
         description="When external validation will be performed (during pilot, pre-submission, post-approval, etc.)",
     )
-    temporal_validation_plan: Optional[str] = Field(
+    temporal_validation_plan: str | None = Field(
         None,
         description="Plan for assessing model performance on data from different time periods",
     )
-    data_drift_monitoring: Optional[str] = Field(
+    data_drift_monitoring: str | None = Field(
         None,
         description="Strategy for detecting and responding to data drift post-market",
     )
-    geographic_generalization_plan: Optional[str] = Field(
+    geographic_generalization_plan: str | None = Field(
         None,
         description="Plan for assessing generalization across geographic regions and healthcare systems",
     )
@@ -285,15 +283,15 @@ class SafetyMonitoring(BaseModel):
         ...,
         description="Plan for prospective monitoring of adverse events during study",
     )
-    safety_stopping_rules: Optional[str] = Field(
+    safety_stopping_rules: str | None = Field(
         None,
         description="Pre-specified stopping rules based on safety (e.g., if SAE rate exceeds X%)",
     )
-    false_positive_impact_assessment: Optional[str] = Field(
+    false_positive_impact_assessment: str | None = Field(
         None,
         description="Assessment of clinical impact of false positives (unnecessary follow-up, harm, cost)",
     )
-    false_negative_impact_assessment: Optional[str] = Field(
+    false_negative_impact_assessment: str | None = Field(
         None,
         description="Assessment of clinical impact of false negatives (missed diagnosis, delay in treatment)",
     )
@@ -344,19 +342,19 @@ class ValidationPlan(BaseModel):
         ...,
         description="Statistical analysis approach",
     )
-    subgroup_analysis: Optional[SubgroupAnalysis] = Field(
+    subgroup_analysis: SubgroupAnalysis | None = Field(
         None,
         description="Sub-population analysis plan",
     )
-    generalization_testing: Optional[GeneralizationTesting] = Field(
+    generalization_testing: GeneralizationTesting | None = Field(
         None,
         description="External validation and temporal generalization",
     )
-    safety_monitoring: Optional[SafetyMonitoring] = Field(
+    safety_monitoring: SafetyMonitoring | None = Field(
         None,
         description="Safety and adverse event monitoring",
     )
-    regulatory_references: Optional[list[str]] = Field(
+    regulatory_references: list[str] | None = Field(
         None,
         description="List of FDA guidance documents and regulatory references",
     )
