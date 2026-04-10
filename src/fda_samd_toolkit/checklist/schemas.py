@@ -33,7 +33,7 @@ class ChecklistItem(BaseModel):
     standard_reference: str = Field(..., description="Reference to standard or regulation (e.g., '21 CFR 820.30(b)')")
     status: ItemStatus = Field(default=ItemStatus.MISSING, description="Current completion status")
     severity: ItemSeverity = Field(..., description="Severity if missing (blocker/major/minor)")
-    notes: str | None = Field(None, description="Optional notes about this requirement")
+    notes: str | None = Field(default=None, description="Optional notes about this requirement")
 
 
 class CategoryResult(BaseModel):

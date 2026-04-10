@@ -23,7 +23,7 @@ class TestValidationSchemas:
 
     def test_study_design_valid(self):
         """Test valid study design creation."""
-        design = StudyDesign(
+        design = StudyDesign(  # type: ignore
             type="retrospective",
             blinding="double-blinded",
             multi_site=True,
@@ -37,7 +37,7 @@ class TestValidationSchemas:
     def test_study_design_invalid_type(self):
         """Test invalid study type raises error."""
         with pytest.raises(ValueError):
-            StudyDesign(
+            StudyDesign(  # type: ignore
                 type="invalid_type",
                 blinding="double-blinded",
             )
@@ -45,14 +45,14 @@ class TestValidationSchemas:
     def test_study_design_invalid_blinding(self):
         """Test invalid blinding raises error."""
         with pytest.raises(ValueError):
-            StudyDesign(
+            StudyDesign(  # type: ignore
                 type="retrospective",
                 blinding="triple-blinded",
             )
 
     def test_study_design_type_case_insensitive(self):
         """Test that study type is case-insensitive."""
-        design = StudyDesign(
+        design = StudyDesign(  # type: ignore
             type="PROSPECTIVE",
             blinding="SINGLE-BLINDED",
         )
@@ -61,7 +61,7 @@ class TestValidationSchemas:
 
     def test_data_source_valid(self):
         """Test valid data source creation."""
-        source = DataSource(
+        source = DataSource(  # type: ignore
             sites=["Hospital A", "Hospital B"],
             time_period_start="2020-01-01",
             time_period_end="2023-12-31",
@@ -76,7 +76,7 @@ class TestValidationSchemas:
 
     def test_reference_standard_valid(self):
         """Test valid reference standard creation."""
-        ref = ReferenceStandard(
+        ref = ReferenceStandard(  # type: ignore
             gold_standard="Clinical diagnosis",
             reference_source="Cardiologist assessment",
             adjudication_process="3-reader consensus",
@@ -90,7 +90,7 @@ class TestValidationSchemas:
 
     def test_endpoints_valid(self):
         """Test valid endpoints creation."""
-        endpoints = Endpoints(
+        endpoints = Endpoints(  # type: ignore
             primary_endpoint="Sensitivity for AF detection",
             primary_endpoint_target="Sensitivity >= 90%",
             sensitivity_target=0.90,
@@ -103,16 +103,16 @@ class TestValidationSchemas:
 
     def test_validation_plan_valid(self):
         """Test creating a complete valid validation plan."""
-        plan = ValidationPlan(
+        plan = ValidationPlan(  # type: ignore
             device_name="Test Device",
             intended_use="Test intended use",
             modality="signals",
             document_date="2026-04-10",
-            study_design=StudyDesign(
+            study_design=StudyDesign(  # type: ignore
                 type="retrospective",
                 blinding="double-blinded",
             ),
-            data_source=DataSource(
+            data_source=DataSource(  # type: ignore
                 sites=["Hospital A"],
                 time_period_start="2020-01-01",
                 time_period_end="2023-12-31",
@@ -121,7 +121,7 @@ class TestValidationSchemas:
                 sample_size=1000,
                 sample_size_justification="Power analysis",
             ),
-            reference_standard=ReferenceStandard(
+            reference_standard=ReferenceStandard(  # type: ignore
                 gold_standard="Clinical diagnosis",
                 reference_source="Physician assessment",
                 adjudication_process="Consensus review",
@@ -130,11 +130,11 @@ class TestValidationSchemas:
                 inter_rater_reliability_target=0.80,
                 inter_rater_reliability_method="Kappa",
             ),
-            endpoints=Endpoints(
+            endpoints=Endpoints(  # type: ignore
                 primary_endpoint="Test endpoint",
                 primary_endpoint_target="Target >= 90%",
             ),
-            statistical_analysis_plan=StatisticalAnalysisPlan(
+            statistical_analysis_plan=StatisticalAnalysisPlan(  # type: ignore
                 primary_hypothesis="Test hypothesis",
                 statistical_test="Binomial test",
                 power_calculation_description="Test calculation",
@@ -148,16 +148,16 @@ class TestValidationSchemas:
     def test_validation_plan_invalid_modality(self):
         """Test that invalid modality raises error."""
         with pytest.raises(ValueError):
-            ValidationPlan(
+            ValidationPlan(  # type: ignore
                 device_name="Test Device",
                 intended_use="Test",
                 modality="invalid_modality",
                 document_date="2026-04-10",
-                study_design=StudyDesign(
+                study_design=StudyDesign(  # type: ignore
                     type="retrospective",
                     blinding="double-blinded",
                 ),
-                data_source=DataSource(
+                data_source=DataSource(  # type: ignore
                     sites=["Hospital"],
                     time_period_start="2020-01-01",
                     time_period_end="2023-12-31",
@@ -166,7 +166,7 @@ class TestValidationSchemas:
                     sample_size=1000,
                     sample_size_justification="Test",
                 ),
-                reference_standard=ReferenceStandard(
+                reference_standard=ReferenceStandard(  # type: ignore
                     gold_standard="Test",
                     reference_source="Test",
                     adjudication_process="Test",
@@ -175,11 +175,11 @@ class TestValidationSchemas:
                     inter_rater_reliability_target=0.75,
                     inter_rater_reliability_method="Test",
                 ),
-                endpoints=Endpoints(
+                endpoints=Endpoints(  # type: ignore
                     primary_endpoint="Test",
                     primary_endpoint_target="Test",
                 ),
-                statistical_analysis_plan=StatisticalAnalysisPlan(
+                statistical_analysis_plan=StatisticalAnalysisPlan(  # type: ignore
                     primary_hypothesis="Test",
                     statistical_test="Test",
                     power_calculation_description="Test",
@@ -190,16 +190,16 @@ class TestValidationSchemas:
 
     def test_validation_plan_modality_case_insensitive(self):
         """Test that modality is case-insensitive."""
-        plan = ValidationPlan(
+        plan = ValidationPlan(  # type: ignore
             device_name="Test Device",
             intended_use="Test",
             modality="IMAGING",
             document_date="2026-04-10",
-            study_design=StudyDesign(
+            study_design=StudyDesign(  # type: ignore
                 type="retrospective",
                 blinding="double-blinded",
             ),
-            data_source=DataSource(
+            data_source=DataSource(  # type: ignore
                 sites=["Hospital"],
                 time_period_start="2020-01-01",
                 time_period_end="2023-12-31",
@@ -208,7 +208,7 @@ class TestValidationSchemas:
                 sample_size=1000,
                 sample_size_justification="Test",
             ),
-            reference_standard=ReferenceStandard(
+            reference_standard=ReferenceStandard(  # type: ignore
                 gold_standard="Test",
                 reference_source="Test",
                 adjudication_process="Test",
@@ -217,11 +217,11 @@ class TestValidationSchemas:
                 inter_rater_reliability_target=0.75,
                 inter_rater_reliability_method="Test",
             ),
-            endpoints=Endpoints(
+            endpoints=Endpoints(  # type: ignore
                 primary_endpoint="Test",
                 primary_endpoint_target="Test",
             ),
-            statistical_analysis_plan=StatisticalAnalysisPlan(
+            statistical_analysis_plan=StatisticalAnalysisPlan(  # type: ignore
                 primary_hypothesis="Test",
                 statistical_test="Test",
                 power_calculation_description="Test",
@@ -298,11 +298,11 @@ class TestGenerationECGExample:
         """Test that ECG config validates against schema."""
         with open(ecg_config_path) as f:
             config = yaml.safe_load(f)
-        plan = ValidationPlan(**config)
+        plan = ValidationPlan(**config)  # type: ignore
         assert plan.device_name == "CardioDetect ECG Arrhythmia Classifier"
         assert plan.modality == "signals"
         assert plan.study_design.multi_site is True
-        assert len(plan.study_design.site_locations) == 3
+        assert plan.study_design.site_locations is not None and len(plan.study_design.site_locations) == 3
 
     def test_generate_ecg_validation_plan(self, ecg_config_path):
         """Test generating ECG validation plan."""
@@ -356,7 +356,7 @@ class TestGenerationImagingExample:
         """Test that imaging config validates against schema."""
         with open(imaging_config_path) as f:
             config = yaml.safe_load(f)
-        plan = ValidationPlan(**config)
+        plan = ValidationPlan(**config)  # type: ignore
         assert "PneumoDetect" in plan.device_name
         assert plan.modality == "imaging"
         assert plan.study_design.multi_site is True

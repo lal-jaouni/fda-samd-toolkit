@@ -65,10 +65,10 @@ def main(yaml: str, output: str, device_name: str) -> None:
             console.print(f"\n[green]✓ Report saved to:[/green] {output_path}")
 
     except FileNotFoundError as e:
-        console.print(f"[red]Error:[/red] {e}", file=sys.stderr)
+        console.print(f"[red]Error:[/red] {e}")
         sys.exit(1)
     except ValueError as e:
-        console.print(f"[red]Error:[/red] {e}", file=sys.stderr)
+        console.print(f"[red]Error:[/red] {e}")
         sys.exit(1)
     except KeyboardInterrupt:
         console.print("\n[yellow]Checklist cancelled by user[/yellow]")

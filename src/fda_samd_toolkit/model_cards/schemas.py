@@ -281,6 +281,9 @@ if __name__ == "__main__":
             version="1.0.0",
             owner="Example Hospital",
             license="MIT",
+            citation=None,
+            contact=None,
+            release_date=None,
         ),
         intended_use=IntendedUse(
             primary_use="Detection of atrial fibrillation from 12-lead ECG",
@@ -293,14 +296,31 @@ if __name__ == "__main__":
         ),
         metrics=Metrics(
             overall={"sensitivity": 0.92, "specificity": 0.94, "auc_roc": 0.9407},
+            overall_confidence_intervals=None,
+            threshold_used=None,
+            notes=None,
         ),
         evaluation_data=EvaluationData(
             datasets=["Mayo Clinic validation cohort (n=5000)"],
+            motivation=None,
+            preprocessing=None,
+            test_train_split=None,
+            stratification=None,
         ),
         training_data=TrainingData(
             datasets=["Mayo, Cleveland, Johns Hopkins ECG databases"],
             sample_size=200000,
+            demographics=None,
+            data_sources=None,
+            inclusion_criteria=None,
+            exclusion_criteria=None,
+            quality_control=None,
+            data_shifts_addressed=None,
         ),
+        quantitative_analyses=None,
+        ethical_considerations=None,
+        caveats_recommendations=None,
+        fda_specific=None,
     )
 
     print("Model Card created successfully:")
