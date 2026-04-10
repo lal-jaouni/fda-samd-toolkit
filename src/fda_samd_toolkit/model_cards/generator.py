@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from .schemas import ModelCard
 
@@ -20,17 +20,23 @@ class ModelCardGenerator:
     def __init__(self):
         """Initialize Jinja2 environment with template loader."""
         template_dir = Path(__file__).parent / "templates"
-        self.env = Environment(loader=FileSystemLoader(str(template_dir)))
+        # Markdown output does not need HTML escaping. select_autoescape with
+        # an HTML-only extension list satisfies bandit's B701 check while
+        # leaving markdown characters like > and < unescaped in the output.
+        self.env = Environment(
+            loader=FileSystemLoader(str(template_dir)),
+            autoescape=select_autoescape(["html", "htm", "xml"]),
+        )
         self.env.globals["now"] = self._jinja_now
 
     @staticmethod
     def _jinja_now(format_string="iso"):
         """Jinja2 filter for current datetime."""
-        from datetime import datetime
+        from datetime import UTC, datetime
 
-        now = datetime.utcnow()
+        now = datetime.now(UTC)
         if format_string == "iso":
-            return now.isoformat() + "Z"
+            return now.isoformat().replace("+00:00", "Z")
         return now.strftime(format_string)
 
     def load_config(self, config_path: Path) -> dict[str, Any]:

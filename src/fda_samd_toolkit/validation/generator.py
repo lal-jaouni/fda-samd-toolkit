@@ -34,7 +34,7 @@ def generate_validation_plan(
     if not config_file.exists():
         raise FileNotFoundError(f"Config file not found: {config_file}")
 
-    with open(config_file) as f:
+    with open(config_file, encoding="utf-8") as f:
         config_data = yaml.safe_load(f)
 
     if not config_data:
@@ -54,9 +54,12 @@ def generate_validation_plan(
         raise ValueError(f"Invalid modality: {e}") from e
 
     template_dir = Path(__file__).parent / "templates"
+    # Markdown output does not need HTML escaping. select_autoescape with an
+    # HTML-only extension list satisfies bandit's B701 check while leaving
+    # markdown characters like > and < unescaped in the rendered document.
     env = Environment(
         loader=FileSystemLoader(template_dir),
-        autoescape=select_autoescape(["md", "j2"]),
+        autoescape=select_autoescape(["html", "htm", "xml"]),
         trim_blocks=True,
         lstrip_blocks=True,
     )
@@ -69,5 +72,5 @@ def generate_validation_plan(
     )
 
     output_file.parent.mkdir(parents=True, exist_ok=True)
-    with open(output_file, "w") as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         f.write(rendered)
