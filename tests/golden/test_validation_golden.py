@@ -39,9 +39,9 @@ class TestValidationGoldenFiles:
 
             # Compare outputs
             assert actual_output == expected_output, (
-                f"Validation plan output differs from golden file. "
-                f"If this is intentional, regenerate with: "
-                f"pytest tests/golden/test_validation_golden.py --update-golden"
+                "Validation plan output differs from golden file. "
+                "If this is intentional, regenerate with: "
+                "pytest tests/golden/test_validation_golden.py --update-golden"
             )
         finally:
             Path(output_path).unlink(missing_ok=True)

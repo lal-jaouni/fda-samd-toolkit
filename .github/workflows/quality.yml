@@ -31,16 +31,16 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install -e ".[dev]"
+          uv pip install --system -e ".[dev]"
 
       - name: Run tests with coverage
         run: |
-          uv run pytest --cov=src/fda_samd_toolkit --cov-report=term-missing --cov-fail-under=70
+          pytest --cov=src/fda_samd_toolkit --cov-report=term-missing --cov-fail-under=70
 
       - name: Generate HTML coverage report
         if: always()
         run: |
-          uv run pytest --cov=src/fda_samd_toolkit --cov-report=html
+          pytest --cov=src/fda_samd_toolkit --cov-report=html
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
@@ -71,11 +71,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install -e ".[dev]"
+          uv pip install --system -e ".[dev]"
 
       - name: Run ruff lint check
         run: |
-          uv run ruff check src tests
+          ruff check src tests
 
   type-check:
     name: Type Check
@@ -99,11 +99,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install -e ".[dev]"
+          uv pip install --system -e ".[dev]"
 
       - name: Run pyright type check
         run: |
-          uv run pyright src/fda_samd_toolkit/pccp src/fda_samd_toolkit/validation src/fda_samd_toolkit/model_cards src/fda_samd_toolkit/checklist
+          pyright src/fda_samd_toolkit/pccp src/fda_samd_toolkit/validation src/fda_samd_toolkit/model_cards src/fda_samd_toolkit/checklist
 
   mutation-testing:
     name: Mutation Testing
@@ -128,24 +128,25 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install -e ".[dev]"
+          uv pip install --system -e ".[dev]"
+          uv pip install --system mutmut
 
       - name: Run mutation testing on PCCP schemas
         run: |
-          uv run mutmut run --path src/fda_samd_toolkit/pccp/schemas.py --tests tests/pccp/ --timeout 10 || true
+          mutmut run --path src/fda_samd_toolkit/pccp/schemas.py --tests tests/pccp/ --timeout 10 || true
 
       - name: Run mutation testing on PCCP generator
         run: |
-          uv run mutmut run --path src/fda_samd_toolkit/pccp/generator.py --tests tests/pccp/ --timeout 10 || true
+          mutmut run --path src/fda_samd_toolkit/pccp/generator.py --tests tests/pccp/ --timeout 10 || true
 
       - name: Run mutation testing on validation schemas
         run: |
-          uv run mutmut run --path src/fda_samd_toolkit/validation/schemas.py --tests tests/validation/ --timeout 10 || true
+          mutmut run --path src/fda_samd_toolkit/validation/schemas.py --tests tests/validation/ --timeout 10 || true
 
       - name: Run mutation testing on model card schemas
         run: |
-          uv run mutmut run --path src/fda_samd_toolkit/model_cards/schemas.py --tests tests/test_model_cards.py --timeout 10 || true
+          mutmut run --path src/fda_samd_toolkit/model_cards/schemas.py --tests tests/test_model_cards.py --timeout 10 || true
 
       - name: Run mutation testing on checklist schemas
         run: |
-          uv run mutmut run --path src/fda_samd_toolkit/checklist/schemas.py --tests tests/checklist/ --timeout 10 || true
+          mutmut run --path src/fda_samd_toolkit/checklist/schemas.py --tests tests/checklist/ --timeout 10 || true
