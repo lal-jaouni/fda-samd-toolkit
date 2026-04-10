@@ -1,0 +1,368 @@
+# CardioGuard ECG-AI: Submission Readiness Checklist
+# YAML configuration for submission readiness tracking
+# Status: COMPLETE (ready), PARTIAL (in progress), MISSING (not started)
+
+device_information:
+  device_name: "CardioGuard ECG-AI"
+  submission_type: "510(k) Traditional"
+  predicate_device: "Anumana ECG-AI (K232488)"
+  submission_date_target: "2026-10-15"
+  esteban_receipt_date: null  # To be filled after FDA receives submission
+
+# SUBMISSION COMPONENTS CHECKLIST
+
+administrative_section:
+  - item: "Cover Letter"
+    status: "COMPLETE"
+    description: "FDA submission cover letter with device name, classification, submission type"
+    responsible_party: "Regulatory Affairs"
+    target_completion_date: "2026-10-01"
+    actual_completion_date: "2026-09-28"
+    document_location: "submission/cover_letter.pdf"
+    review_date: "2026-10-10"
+    notes: "Signed by VP Regulatory; includes authorization for inquiry"
+
+  - item: "Form FDA 1571 (IND Application) or 510(k) Form"
+    status: "COMPLETE"
+    description: "FDA Form 510(k) with device identification, predicate device, indications"
+    responsible_party: "Regulatory Affairs"
+    target_completion_date: "2026-10-01"
+    actual_completion_date: "2026-09-30"
+    document_location: "submission/FDA_510k_form_completed.pdf"
+    review_date: "2026-10-10"
+    notes: "Form 510(k) submitted with premarket notification number assignment expected within 30 days"
+
+  - item: "Facility Establishment Registration (FDA Form 2541a)"
+    status: "COMPLETE"
+    description: "Facility registration for CardioGuard Medical, Inc. with FDA"
+    responsible_party: "Regulatory Affairs"
+    target_completion_date: "2026-09-01"
+    actual_completion_date: "2026-08-30"
+    document_location: "FDA establishment registration (FEI: [to be assigned])"
+    notes: "Electronic submission via e-STARs; FEI number to be assigned upon submission"
+
+device_description_section:
+  - item: "Device Description Document"
+    status: "COMPLETE"
+    description: "Detailed technical description of algorithm, architecture, inputs, outputs, deployment"
+    responsible_party: "Product/Engineering"
+    target_completion_date: "2026-09-15"
+    actual_completion_date: "2026-09-10"
+    document_location: "examples/cardioguard-ecg-ai/510k/02_device_description.md"
+    review_date: "2026-10-05"
+    review_feedback: "Complete and technically accurate. Approved by CTO."
+    notes: "Includes model architecture, training data, deployment architecture, SBOM"
+
+  - item: "Indications for Use Statement"
+    status: "COMPLETE"
+    description: "Clinical indications, contraindications, intended users, use environment"
+    responsible_party: "Medical Affairs"
+    target_completion_date: "2026-09-15"
+    actual_completion_date: "2026-09-12"
+    document_location: "examples/cardioguard-ecg-ai/510k/01_indications_for_use.md"
+    review_date: "2026-10-05"
+    review_feedback: "Clear and comprehensive. Aligns with clinical evidence."
+    notes: "Includes performance summary and references to FDA guidance"
+
+  - item: "Labeling (Instructions for Use, Quick Reference Cards)"
+    status: "COMPLETE"
+    description: "Clinician-facing labeling with IFU, warnings, precautions, performance, examples"
+    responsible_party: "Medical Affairs/Regulatory"
+    target_completion_date: "2026-09-20"
+    actual_completion_date: "2026-09-18"
+    document_location: "examples/cardioguard-ecg-ai/510k/05_labeling.md"
+    review_date: "2026-10-08"
+    review_feedback: "Excellent clarity and practical examples. Approved for deployment."
+    notes: "Includes interpretation guide, examples, warnings, technical support contact info"
+
+predicate_device_section:
+  - item: "Substantial Equivalence Assessment"
+    status: "COMPLETE"
+    description: "Demonstration of substantial equivalence to Anumana ECG-AI (K232488)"
+    responsible_party: "Regulatory/Medical Affairs"
+    target_completion_date: "2026-09-25"
+    actual_completion_date: "2026-09-22"
+    document_location: "examples/cardioguard-ecg-ai/510k/03_substantial_equivalence.md"
+    review_date: "2026-10-08"
+    review_feedback: "Thorough and well-supported. Predicate selection justified."
+    notes: "Includes feature comparison table, performance comparison, risk profile analysis"
+
+  - item: "Predicate Device Data (K232488 Public Documents)"
+    status: "COMPLETE"
+    description: "FDA 510(k) summary for Anumana ECG-AI from CDRH database"
+    responsible_party: "Regulatory Affairs"
+    target_completion_date: "2026-08-30"
+    actual_completion_date: "2026-08-25"
+    document_location: "submission/predicate_data/Anumana_K232488_summary.pdf"
+    review_date: "2026-09-01"
+    notes: "Public information from FDA CDRH website; downloaded and attached to submission"
+
+performance_data_section:
+  - item: "Clinical Validation Protocol"
+    status: "COMPLETE"
+    description: "Prospective multi-site study design, endpoints, statistical methods"
+    responsible_party: "Medical Affairs/Clinical Science"
+    target_completion_date: "2026-09-01"
+    actual_completion_date: "2026-08-20"
+    document_location: "examples/cardioguard-ecg-ai/validation_plan.yaml"
+    review_date: "2026-09-15"
+    review_feedback: "IRB-approved study design. All regulatory requirements met."
+    notes: "18-month study; 1500 subjects; 3 sites; board-certified adjudication"
+
+  - item: "Clinical Validation Study Report"
+    status: "COMPLETE"
+    description: "Results of clinical validation study; primary and secondary endpoints, sub-population analysis"
+    responsible_party: "Clinical Science/Biostatistics"
+    target_completion_date: "2026-08-15"
+    actual_completion_date: "2026-07-30"
+    document_location: "examples/cardioguard-ecg-ai/510k/04_performance_summary.md"
+    review_date: "2026-09-20"
+    review_feedback: "Meets all primary endpoints. Sub-population analysis transparent. Approved."
+    notes: "AUROC 0.92 achieved; all secondary endpoints met; 1500-subject study"
+
+  - item: "Internal Validation Data (Training/Test Set Performance)"
+    status: "COMPLETE"
+    description: "Model performance on development dataset (not used for regulatory decision, supporting info only)"
+    responsible_party: "Data Science"
+    target_completion_date: "2026-07-15"
+    actual_completion_date: "2026-07-10"
+    document_location: "examples/cardioguard-ecg-ai/model_card.yaml"
+    review_date: "2026-09-15"
+    notes: "Internal validation AUROC 0.94; clinical validation AUROC 0.92 (more conservative, appropriate)"
+
+  - item: "Model Card"
+    status: "COMPLETE"
+    description: "Comprehensive model documentation including training data, performance, limitations, recommendations"
+    responsible_party: "Data Science"
+    target_completion_date: "2026-08-01"
+    actual_completion_date: "2026-07-28"
+    document_location: "examples/cardioguard-ecg-ai/model_card.yaml"
+    review_date: "2026-09-15"
+    review_feedback: "Excellent transparency on performance gaps and mitigation plans."
+    notes: "Includes sub-population analysis, identified disparity (0.03 AUROC gap), mitigation plan"
+
+safety_section:
+  - item: "Risk Analysis (ISO 14971)"
+    status: "COMPLETE"
+    description: "Hazard identification, risk assessment, and mitigation for all identified hazards"
+    responsible_party: "Quality/Regulatory"
+    target_completion_date: "2026-09-10"
+    actual_completion_date: "2026-09-05"
+    document_location: "examples/cardioguard-ecg-ai/risk_analysis.md"
+    review_date: "2026-10-05"
+    review_feedback: "Comprehensive. All RPN scores acceptable. Mitigations appropriate."
+    notes: "7 hazards identified; all RPN < 100; acceptable residual risk"
+
+  - item: "Cybersecurity Assessment"
+    status: "COMPLETE"
+    description: "Threat modeling, vulnerability assessment, security controls, SBOM, vulnerability disclosure policy"
+    responsible_party: "Security/IT"
+    target_completion_date: "2026-09-20"
+    actual_completion_date: "2026-09-15"
+    document_location: "examples/cardioguard-ecg-ai/cybersecurity.md"
+    review_date: "2026-10-08"
+    review_feedback: "Thorough threat model. Security controls align with FDA guidance. Annual pen test completed."
+    notes: "2026-09-30 penetration test passed (no critical vulns); SBOM included"
+
+  - item: "Software Bill of Materials (SBOM)"
+    status: "COMPLETE"
+    description: "Complete list of third-party libraries, versions, licenses, vulnerability status"
+    responsible_party: "Engineering"
+    target_completion_date: "2026-09-15"
+    actual_completion_date: "2026-09-12"
+    document_location: "examples/cardioguard-ecg-ai/cybersecurity.md (section 4)"
+    review_date: "2026-10-05"
+    notes: "SPDX format; all dependencies tracked; no known vulnerabilities as of 2026-10-15"
+
+  - item: "Adverse Event Reporting Plan"
+    status: "COMPLETE"
+    description: "MedWatch reporting procedures, post-market surveillance plan"
+    responsible_party: "Regulatory/Quality"
+    target_completion_date: "2026-09-20"
+    actual_completion_date: "2026-09-18"
+    document_location: "submission/medwatch_procedures.pdf"
+    review_date: "2026-10-08"
+    notes: "Serious adverse events reported within 30 days; non-serious tracked annually"
+
+change_management_section:
+  - item: "Predetermined Change Control Plan (PCCP)"
+    status: "COMPLETE"
+    description: "FDA-aligned plan for model retraining, data expansion, hyperparameter optimization"
+    responsible_party: "Regulatory/Clinical"
+    target_completion_date: "2026-09-25"
+    actual_completion_date: "2026-09-20"
+    document_location: "examples/cardioguard-ecg-ai/pccp.yaml"
+    review_date: "2026-10-08"
+    review_feedback: "Detailed and realistic. Drift monitoring thresholds appropriate. Approved."
+    notes: "Quarterly retraining cycle; 5% AUROC drift trigger; annual FDA notification"
+
+  - item: "Post-Market Surveillance Plan"
+    status: "COMPLETE"
+    description: "Real-world performance monitoring, registry participation, ongoing equity assessment"
+    responsible_party: "Clinical Affairs"
+    target_completion_date: "2026-09-25"
+    actual_completion_date: "2026-09-22"
+    document_location: "submission/post_market_surveillance_plan.pdf"
+    review_date: "2026-10-08"
+    notes: "24-month registry participation; quarterly AUROC monitoring; annual FDA reports"
+
+design_controls_section:
+  - item: "Design Inputs Document"
+    status: "COMPLETE"
+    description: "Clinical requirements, intended use, performance specifications"
+    responsible_party: "Product"
+    target_completion_date: "2026-07-01"
+    actual_completion_date: "2026-06-25"
+    document_location: "submission/design_inputs.pdf"
+    review_date: "2026-07-15"
+    notes: "Requirements traced through design, verification, validation"
+
+  - item: "Design Specification"
+    status: "COMPLETE"
+    description: "Detailed technical specifications for algorithm, inputs, outputs, deployment"
+    responsible_party: "Engineering"
+    target_completion_date: "2026-07-15"
+    actual_completion_date: "2026-07-10"
+    document_location: "examples/cardioguard-ecg-ai/510k/02_device_description.md"
+    review_date: "2026-09-01"
+    notes: "Includes model architecture, training procedure, inference specification"
+
+  - item: "Design Verification Report"
+    status: "COMPLETE"
+    description: "Verification that design meets specifications (unit tests, integration tests, system tests)"
+    responsible_party: "Quality Assurance"
+    target_completion_date: "2026-08-15"
+    actual_completion_date: "2026-08-10"
+    document_location: "submission/design_verification_report.pdf"
+    review_date: "2026-09-05"
+    review_feedback: "98% code coverage. All requirements traced. Approved."
+    notes: "Automated test suite; manual testing on representative ECGs"
+
+  - item: "Design Validation Report"
+    status: "COMPLETE"
+    description: "Validation that design meets user needs (clinical validation study)"
+    responsible_party: "Clinical Science"
+    target_completion_date: "2026-08-15"
+    actual_completion_date: "2026-07-30"
+    document_location: "examples/cardioguard-ecg-ai/510k/04_performance_summary.md"
+    review_date: "2026-09-20"
+    notes: "Clinical validation study completed; primary endpoints achieved"
+
+quality_and_regulatory_section:
+  - item: "Quality Management System (QMS) Documentation"
+    status: "COMPLETE"
+    description: "Evidence of ISO 13485 compliance or equivalent QMS"
+    responsible_party: "Quality"
+    target_completion_date: "2026-09-01"
+    actual_completion_date: "2026-08-30"
+    document_location: "submission/qms_overview.pdf"
+    review_date: "2026-09-15"
+    notes: "ISO 13485:2016 certified; third-party audit passed 2025-06-15"
+
+  - item: "Software Development Plan (IEC 62304)"
+    status: "COMPLETE"
+    description: "Software lifecycle documentation per IEC 62304"
+    responsible_party: "Engineering"
+    target_completion_date: "2026-08-01"
+    actual_completion_date: "2026-07-28"
+    document_location: "submission/software_development_plan.pdf"
+    review_date: "2026-09-05"
+    notes: "Class B software (serious injury possible); requirements met"
+
+  - item: "Labeling Approval (by Regulatory/Medical Affairs)"
+    status: "COMPLETE"
+    description: "Final review and approval of all clinical labeling and IFU"
+    responsible_party: "Regulatory"
+    target_completion_date: "2026-09-20"
+    actual_completion_date: "2026-09-18"
+    document_location: "examples/cardioguard-ecg-ai/510k/05_labeling.md"
+    review_date: "2026-10-08"
+    review_feedback: "Approved for submission and deployment."
+    notes: "Consistent with clinical evidence; warnings and precautions appropriate"
+
+submission_preparation_section:
+  - item: "Submission Package Assembly"
+    status: "COMPLETE"
+    description: "Organization of all documents into 510(k) submission package"
+    responsible_party: "Regulatory Affairs"
+    target_completion_date: "2026-10-01"
+    actual_completion_date: "2026-10-10"
+    document_location: "submission/ (all documents organized and cross-referenced)"
+    review_date: "2026-10-10"
+    notes: "PDF bookmarks, table of contents, cross-references complete"
+
+  - item: "Internal Submission Review (Final QA)"
+    status: "COMPLETE"
+    description: "Final internal review of entire submission for completeness and accuracy"
+    responsible_party: "Regulatory Affairs"
+    target_completion_date: "2026-10-10"
+    actual_completion_date: "2026-10-12"
+    document_location: "submission/internal_review_sign_off.pdf"
+    review_date: "2026-10-12"
+    review_feedback: "All documents present, consistent, and accurate. Approved for FDA submission."
+    notes: "Reviewed by: VP Regulatory, Medical Director, VP Engineering, Chief Medical Officer"
+
+  - item: "Pre-Submission Meeting Documentation (Q-Submission if done)"
+    status: "MISSING"
+    description: "FDA response to pre-submission Q-Submission (if submitted before full 510(k))"
+    responsible_party: "Regulatory Affairs"
+    target_completion_date: "2026-08-15"
+    actual_completion_date: null
+    notes: "Not planned for CardioGuard. Direct 510(k) submission selected as lower-risk predicate (Anumana K232488) is well-established."
+
+# OVERALL READINESS ASSESSMENT
+
+readiness_summary:
+  total_items: 30
+  complete_items: 29
+  partial_items: 0
+  missing_items: 1
+  completion_percentage: 96.7
+  readiness_status: "READY FOR SUBMISSION"
+  submission_target_date: "2026-10-15"
+  estimated_fda_decision: "2026-12-15 to 2027-01-15 (90-day standard review)"
+
+critical_path_items:
+  - name: "Clinical Validation Study Report"
+    status: "COMPLETE"
+    criticality: "MUST HAVE"
+    impact_if_missing: "Submission cannot be accepted without clinical performance data"
+
+  - name: "Substantial Equivalence Assessment"
+    status: "COMPLETE"
+    criticality: "MUST HAVE"
+    impact_if_missing: "510(k) submission requires predicate device comparison"
+
+  - name: "Risk Analysis"
+    status: "COMPLETE"
+    criticality: "MUST HAVE"
+    impact_if_missing: "Safety/effectiveness assessment required for Class II device"
+
+  - name: "Device Description"
+    status: "COMPLETE"
+    criticality: "MUST HAVE"
+    impact_if_missing: "FDA must understand device design and operation"
+
+# POST-SUBMISSION TRACKING
+
+submission_status:
+  submitted: false
+  submission_date: null
+  fda_receipt_number: null
+  fda_receipt_date: null
+  deficiency_notice_date: null
+  deficiency_response_due: null
+  final_decision_date: null
+  final_decision: null
+  notes: "Awaiting submission on 2026-10-15 (on schedule)"
+
+# SIGN-OFF
+
+document_prepared_by: "Sarah Chen, MD, PhD"
+document_prepared_date: "2026-10-12"
+reviewed_by_regulatory: "John Smith, VP Regulatory Affairs"
+reviewed_date_regulatory: "2026-10-12"
+reviewed_by_clinical: "Michael Rodriguez, VP Clinical Affairs"
+reviewed_date_clinical: "2026-10-12"
+approved_for_submission: true
+approval_date: "2026-10-12"
