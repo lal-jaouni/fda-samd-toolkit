@@ -17,14 +17,14 @@ theme:
       primary: blue
       accent: blue
       toggle:
-        icon: material/moon
+        icon: material/weather-night
         name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: blue
       accent: blue
       toggle:
-        icon: material/sun
+        icon: material/weather-sunny
         name: Switch to light mode
   features:
     - navigation.instant
@@ -76,6 +76,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
+  - Positioning: positioning.md
   - Concepts:
     - FDA SaMD Overview: concepts/fda-overview.md
     - What is a PCCP?: concepts/pccp-explained.md
@@ -88,6 +89,8 @@ nav:
   - Reference:
     - CLI Reference: reference/cli.md
     - API Docs: reference/api.md
+  - Decisions:
+    - Architecture Decision Template: decisions/000-template.md
   - Contributing: contributing.md
   - Changelog: changelog.md
 

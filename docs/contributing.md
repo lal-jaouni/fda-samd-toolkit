@@ -236,7 +236,7 @@ fda-samd pccp generate --config cardiac_monitor_pccp.yaml
 \`\`\`
 ```
 
-3. Add to docs: Reference in [Getting Started](getting-started.md) and [Examples](examples.md)
+3. Add to docs: Reference in [Getting Started](getting-started.md) and [Examples](https://github.com/lal-jaouni/fda-samd-toolkit/tree/master/examples)
 
 4. Commit:
 
@@ -540,7 +540,7 @@ Contributors are credited in:
 ## Getting Help
 
 - **Questions about FDA?** Check [FDA Overview](concepts/fda-overview.md) or [PCCP Explained](concepts/pccp-explained.md)
-- **How to use the toolkit?** See [Getting Started](getting-started.md) or [Guides](guides/)
+- **How to use the toolkit?** See [Getting Started](getting-started.md) or the [PCCP Generator guide](guides/pccp-generator.md)
 - **How to contribute code?** See this file or GitHub issues
 - **Report a bug?** Open a GitHub issue with reproduction steps
 - **Want to discuss an idea?** Start a GitHub discussion
