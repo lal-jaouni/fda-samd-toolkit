@@ -27,27 +27,15 @@ class ChecklistItem(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True)
 
     id: str = Field(..., description="Unique identifier (e.g., 'dc-001')")
-    category: str = Field(
-        ..., description="Category (Design Controls, Risk Management, etc.)"
-    )
-    requirement: str = Field(
-        ..., description="Specific regulatory requirement (clear, actionable)"
-    )
-    evidence_required: str = Field(
-        ..., description="What artifacts/evidence must be provided"
-    )
+    category: str = Field(..., description="Category (Design Controls, Risk Management, etc.)")
+    requirement: str = Field(..., description="Specific regulatory requirement (clear, actionable)")
+    evidence_required: str = Field(..., description="What artifacts/evidence must be provided")
     standard_reference: str = Field(
         ..., description="Reference to standard or regulation (e.g., '21 CFR 820.30(b)')"
     )
-    status: ItemStatus = Field(
-        default=ItemStatus.MISSING, description="Current completion status"
-    )
-    severity: ItemSeverity = Field(
-        ..., description="Severity if missing (blocker/major/minor)"
-    )
-    notes: str | None = Field(
-        None, description="Optional notes about this requirement"
-    )
+    status: ItemStatus = Field(default=ItemStatus.MISSING, description="Current completion status")
+    severity: ItemSeverity = Field(..., description="Severity if missing (blocker/major/minor)")
+    notes: str | None = Field(None, description="Optional notes about this requirement")
 
 
 class CategoryResult(BaseModel):
@@ -75,8 +63,7 @@ class CategoryResult(BaseModel):
         return [
             item
             for item in self.items
-            if item.severity == ItemSeverity.BLOCKER
-            and item.status != ItemStatus.COMPLETE
+            if item.severity == ItemSeverity.BLOCKER and item.status != ItemStatus.COMPLETE
         ]
 
 
@@ -85,9 +72,7 @@ class ReadinessReport(BaseModel):
 
     model_config = ConfigDict(str_strip_whitespace=True)
 
-    categories: list[CategoryResult] = Field(
-        ..., description="Results for each category"
-    )
+    categories: list[CategoryResult] = Field(..., description="Results for each category")
     overall_pct: float = Field(..., description="Overall completion percentage")
     timestamp: str = Field(..., description="Report generation timestamp (ISO 8601)")
     device_name: str | None = Field(None, description="Name of device being assessed")

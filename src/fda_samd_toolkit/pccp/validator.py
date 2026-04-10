@@ -3,7 +3,6 @@
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 
 @dataclass
@@ -13,7 +12,7 @@ class ValidationIssue:
     level: str  # "error", "warning", "info"
     section: str  # Section title or name
     message: str  # Human-readable issue description
-    line: Optional[int] = None  # Line number if known
+    line: int | None = None  # Line number if known
 
 
 class PCCPValidator:
@@ -84,7 +83,7 @@ class PCCPValidator:
         if not file_path.exists():
             raise FileNotFoundError(f"PCCP file not found: {path}")
 
-        with open(file_path, "r") as f:
+        with open(file_path) as f:
             self.content = f.read()
 
         self.lines = self.content.split("\n")

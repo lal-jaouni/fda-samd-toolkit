@@ -1,6 +1,5 @@
 """PCCP generator: load YAML config, validate, and render markdown document."""
 
-import os
 from pathlib import Path
 
 import yaml
@@ -32,7 +31,7 @@ def generate_pccp(config_path: str, output_path: str) -> None:
     if not config_path.exists():
         raise FileNotFoundError(f"Configuration file not found: {config_path}")
 
-    with open(config_path, "r") as f:
+    with open(config_path) as f:
         config_data = yaml.safe_load(f)
 
     if not config_data:
@@ -41,9 +40,7 @@ def generate_pccp(config_path: str, output_path: str) -> None:
     try:
         config = PCCPConfig(**config_data)
     except ValidationError as e:
-        raise ValidationError(
-            f"Configuration validation failed:\n{e.json()}"
-        ) from e
+        raise ValidationError(f"Configuration validation failed:\n{e.json()}") from e
 
     template_dir = Path(__file__).parent / "templates"
     env = Environment(
@@ -79,7 +76,7 @@ def load_config(config_path: str) -> PCCPConfig:
     if not config_path.exists():
         raise FileNotFoundError(f"Configuration file not found: {config_path}")
 
-    with open(config_path, "r") as f:
+    with open(config_path) as f:
         config_data = yaml.safe_load(f)
 
     if not config_data:
