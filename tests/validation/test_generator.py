@@ -1,20 +1,21 @@
 """Tests for the clinical validation plan generator."""
 
-import pytest
-from pathlib import Path
 import tempfile
+from pathlib import Path
+
+import pytest
 import yaml
 
-from fda_samd_toolkit.validation.schemas import (
-    ValidationPlan,
-    StudyDesign,
-    DataSource,
-    ReferenceStandard,
-    Endpoints,
-    StatisticalAnalysisPlan,
-)
 from fda_samd_toolkit.validation.generator import generate_validation_plan
 from fda_samd_toolkit.validation.modality_guidance import get_modality_guidance
+from fda_samd_toolkit.validation.schemas import (
+    DataSource,
+    Endpoints,
+    ReferenceStandard,
+    StatisticalAnalysisPlan,
+    StudyDesign,
+    ValidationPlan,
+)
 
 
 class TestValidationSchemas:
@@ -435,8 +436,9 @@ class TestGeneratorErrors:
 class TestTemplateRendering:
     """Test Jinja2 template rendering."""
 
-    def test_template_renders_all_sections(self, ecg_config_path):
+    def test_template_renders_all_sections(self):
         """Test that all major sections are rendered."""
+        ecg_config_path = Path(__file__).parent.parent.parent / "examples" / "validation_plan_ecg_classifier.yaml"
         with tempfile.TemporaryDirectory() as tmpdir:
             output_path = Path(tmpdir) / "validation_plan.md"
             generate_validation_plan(str(ecg_config_path), str(output_path))
@@ -459,8 +461,9 @@ class TestTemplateRendering:
             for section in expected_sections:
                 assert section in content, f"Missing section: {section}"
 
-    def test_template_renders_device_details(self, ecg_config_path):
+    def test_template_renders_device_details(self):
         """Test that device-specific details are rendered."""
+        ecg_config_path = Path(__file__).parent.parent.parent / "examples" / "validation_plan_ecg_classifier.yaml"
         with tempfile.TemporaryDirectory() as tmpdir:
             output_path = Path(tmpdir) / "validation_plan.md"
             generate_validation_plan(str(ecg_config_path), str(output_path))
@@ -474,8 +477,9 @@ class TestTemplateRendering:
             assert "90%" in content or "0.90" in content  # endpoint target
             assert "double-blinded" in content.lower()
 
-    def test_no_em_dashes_in_output(self, ecg_config_path):
+    def test_no_em_dashes_in_output(self):
         """Test that output does not contain em-dashes."""
+        ecg_config_path = Path(__file__).parent.parent.parent / "examples" / "validation_plan_ecg_classifier.yaml"
         with tempfile.TemporaryDirectory() as tmpdir:
             output_path = Path(tmpdir) / "validation_plan.md"
             generate_validation_plan(str(ecg_config_path), str(output_path))

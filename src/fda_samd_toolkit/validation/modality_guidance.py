@@ -1,6 +1,5 @@
 """Modality-specific validation guidance for different AI/ML data types."""
 
-
 IMAGING_GUIDANCE = {
     "modality_name": "Medical Imaging",
     "description": "AI/ML applied to radiological images (X-ray, CT, MRI, ultrasound, etc.)",
@@ -253,7 +252,6 @@ def get_modality_guidance(modality: str) -> dict:
     modality = modality.lower()
     if modality not in MODALITY_GUIDANCE:
         raise ValueError(
-            f"Unknown modality '{modality}'. "
-            f"Valid options: {', '.join(MODALITY_GUIDANCE.keys())}"
+            f"Unknown modality '{modality}'. Valid options: {', '.join(MODALITY_GUIDANCE.keys())}"
         )
     return MODALITY_GUIDANCE[modality]

@@ -1,9 +1,9 @@
 """Tests for the FDA SaMD Toolkit CLI."""
 
+import tempfile
+
 import pytest
 from click.testing import CliRunner
-from pathlib import Path
-import tempfile
 
 from fda_samd_toolkit.cli import cli
 
