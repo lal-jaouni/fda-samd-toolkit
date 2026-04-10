@@ -28,7 +28,7 @@ class TestModelCardSchemas:
 
     def test_model_details_creation(self):
         """Test ModelDetails schema validation."""
-        details = ModelDetails(
+        details = ModelDetails(  # type: ignore
             name="Test Model",
             version="1.0.0",
             owner="Test Organization",
@@ -39,7 +39,7 @@ class TestModelCardSchemas:
 
     def test_intended_use_creation(self):
         """Test IntendedUse schema validation."""
-        intended = IntendedUse(
+        intended = IntendedUse(  # type: ignore
             primary_use="AF detection from ECG",
             intended_users=["Cardiologists", "ED physicians"],
             clinical_setting=["Hospital", "ED"],
@@ -51,14 +51,14 @@ class TestModelCardSchemas:
 
     def test_metrics_with_subgroups(self):
         """Test Metrics schema with subgroup analysis."""
-        subgroup = MetricSubgroup(
+        subgroup = MetricSubgroup(  # type: ignore
             subgroup_name="Female",
             subgroup_definition="Biological sex female",
             n_cases=100,
             metrics={"sensitivity": 0.92, "specificity": 0.94},
         )
 
-        metrics = Metrics(
+        metrics = Metrics(  # type: ignore
             overall={"sensitivity": 0.92, "specificity": 0.94},
             subgroups=[subgroup],
         )
@@ -69,53 +69,53 @@ class TestModelCardSchemas:
 
     def test_training_data_creation(self):
         """Test TrainingData schema."""
-        training = TrainingData(
+        training = TrainingData(  # type: ignore
             datasets=["Dataset A", "Dataset B"],
             sample_size=100000,
             demographics={"mean_age": 67, "female_percent": 42},
         )
         assert training.sample_size == 100000
-        assert training.demographics["mean_age"] == 67
+        assert training.demographics is not None and training.demographics["mean_age"] == 67
 
     def test_evaluation_data_creation(self):
         """Test EvaluationData schema."""
-        eval_data = EvaluationData(
+        eval_data = EvaluationData(  # type: ignore
             datasets=["External validation cohort"],
             preprocessing=["Butterworth filter", "z-score normalization"],
             test_train_split={"train": 0.8, "test": 0.2},
         )
         assert len(eval_data.datasets) == 1
-        assert len(eval_data.preprocessing) == 2
-        assert eval_data.test_train_split["train"] == 0.8
+        assert eval_data.preprocessing is not None and len(eval_data.preprocessing) == 2
+        assert eval_data.test_train_split is not None and eval_data.test_train_split["train"] == 0.8
 
     def test_fda_specific_creation(self):
         """Test FDASpecific schema."""
-        fda = FDASpecific(
+        fda = FDASpecific(  # type: ignore
             intended_use_statement="AF detection from ECG",
             classification="Class II; 510(k)",
             predicate_devices=["K232488"],
             drift_monitoring_plan="Monthly KPI checks",
         )
         assert fda.classification == "Class II; 510(k)"
-        assert len(fda.predicate_devices) == 1
+        assert fda.predicate_devices is not None and len(fda.predicate_devices) == 1
 
     def test_full_model_card_creation(self):
         """Test creating a complete ModelCard."""
-        card = ModelCard(
-            model_details=ModelDetails(
+        card = ModelCard(  # type: ignore
+            model_details=ModelDetails(  # type: ignore
                 name="Test AF Detector",
                 version="1.0.0",
                 owner="Test Org",
             ),
-            intended_use=IntendedUse(
+            intended_use=IntendedUse(  # type: ignore
                 primary_use="AF detection",
                 intended_users=["Cardiologists"],
                 clinical_setting=["Hospital"],
             ),
-            factors=Factors(),
-            metrics=Metrics(overall={"sensitivity": 0.92}),
-            evaluation_data=EvaluationData(datasets=["Test cohort"]),
-            training_data=TrainingData(datasets=["Training cohort"]),
+            factors=Factors(),  # type: ignore
+            metrics=Metrics(overall={"sensitivity": 0.92}),  # type: ignore
+            evaluation_data=EvaluationData(datasets=["Test cohort"]),  # type: ignore
+            training_data=TrainingData(datasets=["Training cohort"]),  # type: ignore
         )
         assert card.model_details.name == "Test AF Detector"
         assert card.metrics.overall["sensitivity"] == 0.92
@@ -123,21 +123,21 @@ class TestModelCardSchemas:
     def test_optional_fields_in_schema(self):
         """Test that optional fields work correctly."""
         # Create model card with only required fields
-        card = ModelCard(
-            model_details=ModelDetails(
+        card = ModelCard(  # type: ignore
+            model_details=ModelDetails(  # type: ignore
                 name="Minimal Model",
                 version="1.0.0",
                 owner="Test",
             ),
-            intended_use=IntendedUse(
+            intended_use=IntendedUse(  # type: ignore
                 primary_use="Test",
                 intended_users=["Users"],
                 clinical_setting=["Setting"],
             ),
-            factors=Factors(),
-            metrics=Metrics(overall={"accuracy": 0.95}),
-            evaluation_data=EvaluationData(datasets=["Test"]),
-            training_data=TrainingData(datasets=["Train"]),
+            factors=Factors(),  # type: ignore
+            metrics=Metrics(overall={"accuracy": 0.95}),  # type: ignore
+            evaluation_data=EvaluationData(datasets=["Test"]),  # type: ignore
+            training_data=TrainingData(datasets=["Train"]),  # type: ignore
             # Optional sections
             ethical_considerations=None,
             fda_specific=None,
@@ -368,18 +368,21 @@ class TestModelCardValidation:
 
     def test_metrics_confidence_intervals(self):
         """Test that confidence intervals are properly formatted."""
-        subgroup = MetricSubgroup(
+        subgroup = MetricSubgroup(  # type: ignore
             subgroup_name="Test Subgroup",
             subgroup_definition="Test definition",
             n_cases=1000,
             metrics={"sensitivity": 0.92},
             confidence_intervals={"sensitivity": (0.90, 0.94)},
         )
-        assert subgroup.confidence_intervals["sensitivity"] == (0.90, 0.94)
+        assert subgroup.confidence_intervals is not None and subgroup.confidence_intervals["sensitivity"] == (
+            0.90,
+            0.94,
+        )
 
     def test_ethical_considerations_completeness(self):
         """Test that ethical considerations can be fully specified."""
-        ethical = EthicalConsiderations(
+        ethical = EthicalConsiderations(  # type: ignore
             impact_summary="Positive and negative impacts",
             potential_harms=["Missed diagnosis", "False positive"],
             demographic_disparities="4.2% disparity in Asian population",
@@ -391,7 +394,7 @@ class TestModelCardValidation:
 
     def test_caveats_recommendations_completeness(self):
         """Test CaveatsRecommendations schema."""
-        caveats = CaveatsRecommendations(
+        caveats = CaveatsRecommendations(  # type: ignore
             caveats=["Limited data in Asian populations"],
             known_limitations=["Paroxysmal AF not present at ECG"],
             recommendations=["Always review original ECG", "Manual review if confidence <0.60"],

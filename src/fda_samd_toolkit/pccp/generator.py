@@ -25,17 +25,17 @@ def generate_pccp(config_path: str, output_path: str) -> None:
     Example:
         >>> generate_pccp('examples/pccp_ecg.yaml', 'output/PCCP_ECG.md')
     """
-    config_path = Path(config_path)
-    output_path = Path(output_path)
+    config_file = Path(config_path)
+    output_file = Path(output_path)
 
-    if not config_path.exists():
-        raise FileNotFoundError(f"Configuration file not found: {config_path}")
+    if not config_file.exists():
+        raise FileNotFoundError(f"Configuration file not found: {config_file}")
 
-    with open(config_path) as f:
+    with open(config_file) as f:
         config_data = yaml.safe_load(f)
 
     if not config_data:
-        raise ValueError(f"Configuration file is empty: {config_path}")
+        raise ValueError(f"Configuration file is empty: {config_file}")
 
     try:
         config = PCCPConfig(**config_data)
@@ -54,8 +54,8 @@ def generate_pccp(config_path: str, output_path: str) -> None:
     template = env.get_template("pccp_main.md.j2")
     rendered = template.render(config=config)
 
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(output_path, "w") as f:
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_file, "w") as f:
         f.write(rendered)
 
 
@@ -73,15 +73,15 @@ def load_config(config_path: str) -> PCCPConfig:
         FileNotFoundError: If config file does not exist
         ValidationError: If configuration is invalid
     """
-    config_path = Path(config_path)
+    config_file = Path(config_path)
 
-    if not config_path.exists():
-        raise FileNotFoundError(f"Configuration file not found: {config_path}")
+    if not config_file.exists():
+        raise FileNotFoundError(f"Configuration file not found: {config_file}")
 
-    with open(config_path) as f:
+    with open(config_file) as f:
         config_data = yaml.safe_load(f)
 
     if not config_data:
-        raise ValueError(f"Configuration file is empty: {config_path}")
+        raise ValueError(f"Configuration file is empty: {config_file}")
 
     return PCCPConfig(**config_data)

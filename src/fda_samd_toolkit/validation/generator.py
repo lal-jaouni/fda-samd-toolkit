@@ -12,7 +12,7 @@ from fda_samd_toolkit.validation.schemas import ValidationPlan
 def generate_validation_plan(
     config_path: str,
     output_path: str,
-    modality: str = None,
+    modality: str | None = None,
 ) -> None:
     """
     Generate a clinical validation plan from a YAML configuration.
@@ -28,17 +28,17 @@ def generate_validation_plan(
         ValueError: If config is invalid or modality is unknown
         IOError: If output file cannot be written
     """
-    config_path = Path(config_path)
-    output_path = Path(output_path)
+    config_file = Path(config_path)
+    output_file = Path(output_path)
 
-    if not config_path.exists():
-        raise FileNotFoundError(f"Config file not found: {config_path}")
+    if not config_file.exists():
+        raise FileNotFoundError(f"Config file not found: {config_file}")
 
-    with open(config_path) as f:
+    with open(config_file) as f:
         config_data = yaml.safe_load(f)
 
     if not config_data:
-        raise ValueError(f"Config file is empty: {config_path}")
+        raise ValueError(f"Config file is empty: {config_file}")
 
     plan = ValidationPlan(**config_data)
 
@@ -68,6 +68,6 @@ def generate_validation_plan(
         modality_guidance=modality_guidance,
     )
 
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    with open(output_path, "w") as f:
+    output_file.parent.mkdir(parents=True, exist_ok=True)
+    with open(output_file, "w") as f:
         f.write(rendered)

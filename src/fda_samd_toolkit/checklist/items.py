@@ -22,6 +22,7 @@ DESIGN_ITEMS = [
         evidence_required="Design input document listing functional and performance requirements, safety requirements, regulatory constraints, and traceability matrix",
         standard_reference="21 CFR 820.30(c) - Design Inputs",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="dc-003",
@@ -30,6 +31,7 @@ DESIGN_ITEMS = [
         evidence_required="Design output specifications (algorithms, architecture, file formats) traced to inputs; design output review checklist",
         standard_reference="21 CFR 820.30(d) - Design Output",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="dc-004",
@@ -38,6 +40,7 @@ DESIGN_ITEMS = [
         evidence_required="Design review meeting minutes, attendee list (cross-functional team), evidence of resolution of issues identified",
         standard_reference="21 CFR 820.30(e) - Design Review",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="dc-005",
@@ -46,6 +49,7 @@ DESIGN_ITEMS = [
         evidence_required="Verification plan and report; testing of algorithms/subsystems against design inputs; traceability to requirements",
         standard_reference="21 CFR 820.30(f) - Design Verification",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="dc-006",
@@ -54,6 +58,7 @@ DESIGN_ITEMS = [
         evidence_required="Validation plan and report; clinical testing, field studies, or real-world performance data; statistical analysis",
         standard_reference="21 CFR 820.30(g) - Design Validation",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="dc-007",
@@ -62,6 +67,7 @@ DESIGN_ITEMS = [
         evidence_required="Design transfer plan; evidence that manufacturing can reproducibly produce design specifications",
         standard_reference="21 CFR 820.30(h) - Design Transfer",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="dc-008",
@@ -70,6 +76,7 @@ DESIGN_ITEMS = [
         evidence_required="Change control system with design change requests, impact assessments, approval workflows, re-verification/validation",
         standard_reference="21 CFR 820.30(i) - Design Changes",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="dc-009",
@@ -78,6 +85,7 @@ DESIGN_ITEMS = [
         evidence_required="DHF containing all design records: plans, inputs, outputs, reviews, verification, validation, changes, transfer",
         standard_reference="21 CFR 820.30(j) - Design History File",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
 ]
 
@@ -90,6 +98,7 @@ RISK_ITEMS = [
         evidence_required="Risk management plan defining scope, strategy, responsibilities, and timeline; identifies who performs hazard analysis, risk evaluation, risk control",
         standard_reference="ISO 14971:2019 Section 4.1",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="rm-002",
@@ -98,6 +107,7 @@ RISK_ITEMS = [
         evidence_required="Hazard analysis report identifying all hazards (e.g., false negatives, algorithm bias, data corruption, cybersecurity vulnerabilities); FMEA or similar structured method",
         standard_reference="ISO 14971:2019 Section 4.2",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="rm-003",
@@ -106,6 +116,7 @@ RISK_ITEMS = [
         evidence_required="Risk evaluation report quantifying severity and probability for each hazard; risk matrix or scoring method; justification for risk tolerance decisions",
         standard_reference="ISO 14971:2019 Section 4.3",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="rm-004",
@@ -114,6 +125,7 @@ RISK_ITEMS = [
         evidence_required="Risk control plan specifying mitigation for each significant hazard; evidence of residual risk evaluation; traceability from hazard to control to design",
         standard_reference="ISO 14971:2019 Section 4.4",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="rm-005",
@@ -122,6 +134,7 @@ RISK_ITEMS = [
         evidence_required="Residual risk report; evidence that residual risks are acceptable; overall risk benefit analysis; summary of risks considered acceptable",
         standard_reference="ISO 14971:2019 Section 4.5",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="rm-006",
@@ -130,6 +143,7 @@ RISK_ITEMS = [
         evidence_required="Comprehensive risk management report summarizing hazards, risks, controls, and residual risks; approvals from relevant stakeholders",
         standard_reference="ISO 14971:2019 Section 4.6",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="rm-007",
@@ -138,6 +152,7 @@ RISK_ITEMS = [
         evidence_required="Plan for collecting and reviewing post-market data (complaints, adverse events, performance issues); defined feedback channels and review frequency",
         standard_reference="ISO 14971:2019 Section 4.7",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
 ]
 
@@ -150,6 +165,7 @@ SOFTWARE_ITEMS = [
         evidence_required="Software safety classification document (Class A/B/C per IEC 62304); justification based on device risk level",
         standard_reference="IEC 62304:2015 Section 4.2",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sl-002",
@@ -158,6 +174,7 @@ SOFTWARE_ITEMS = [
         evidence_required="SDP defining development lifecycle model, architecture, tools, standards, testing strategy, configuration management, documentation plan",
         standard_reference="IEC 62304:2015 Section 5.1",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sl-003",
@@ -166,6 +183,7 @@ SOFTWARE_ITEMS = [
         evidence_required="SRS specifying functional requirements, performance requirements, constraints, interfaces, regulatory requirements; traceability matrix",
         standard_reference="IEC 62304:2015 Section 5.2",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sl-004",
@@ -174,6 +192,7 @@ SOFTWARE_ITEMS = [
         evidence_required="Architecture specification (high-level design) showing modules, interfaces, data flow, component interactions, libraries/COTS used",
         standard_reference="IEC 62304:2015 Section 5.3",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sl-005",
@@ -182,6 +201,7 @@ SOFTWARE_ITEMS = [
         evidence_required="Detailed design documents describing each module's logic, algorithms, data structures, error handling; code structure and control flow",
         standard_reference="IEC 62304:2015 Section 5.4",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sl-006",
@@ -190,6 +210,7 @@ SOFTWARE_ITEMS = [
         evidence_required="Source code; unit testing results; code review records; traceability of implementation to detailed design",
         standard_reference="IEC 62304:2015 Section 5.5",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sl-007",
@@ -198,6 +219,7 @@ SOFTWARE_ITEMS = [
         evidence_required="Integration test plan and results; evidence that integrated software functions per architecture; interface testing",
         standard_reference="IEC 62304:2015 Section 5.6",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sl-008",
@@ -206,6 +228,7 @@ SOFTWARE_ITEMS = [
         evidence_required="System test plan and results verifying software against SRS; functional testing, performance testing, stress testing; traceability to requirements",
         standard_reference="IEC 62304:2015 Section 5.7",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sl-009",
@@ -214,6 +237,7 @@ SOFTWARE_ITEMS = [
         evidence_required="Release management process; version control procedures; release notes; deployment procedures; rollback procedures if applicable",
         standard_reference="IEC 62304:2015 Section 5.8",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="sl-010",
@@ -222,6 +246,7 @@ SOFTWARE_ITEMS = [
         evidence_required="Process for reporting, tracking, and resolving software issues; bug tracking system; change control integration; severity assessment",
         standard_reference="IEC 62304:2015 Section 5.9",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
 ]
 
@@ -234,6 +259,7 @@ AIML_ITEMS = [
         evidence_required="Data dictionary describing all features; data provenance (source, date range, collection method); data quality metrics; handling of missing/anomalous data; labeling methodology and validation",
         standard_reference="FDA Software as a Medical Device Action Plan (2021)",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="ml-002",
@@ -242,6 +268,7 @@ AIML_ITEMS = [
         evidence_required="Model card per Mitchell et al. including: model description, intended use, performance metrics, limitations, sub-population analysis, ethical considerations",
         standard_reference="FDA Proposed AI/ML Regulation (2023 draft)",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="ml-003",
@@ -250,6 +277,7 @@ AIML_ITEMS = [
         evidence_required="Validation study with independent test set; performance metrics (sensitivity, specificity, AUROC, AUC-PR, F1 score); comparison to predicate/standard of care",
         standard_reference="FDA Proposed AI/ML Regulation (2023 draft)",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="ml-004",
@@ -258,6 +286,7 @@ AIML_ITEMS = [
         evidence_required="Performance stratified by demographics (age, gender, race/ethnicity, comorbidities); identification of sub-populations with degraded performance; mitigation strategies",
         standard_reference="FDA Proposed AI/ML Regulation (2023 draft)",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="ml-005",
@@ -266,6 +295,7 @@ AIML_ITEMS = [
         evidence_required="Plan for detecting data drift post-market (feature distribution shifts, performance degradation); defined thresholds and response actions",
         standard_reference="FDA Proposed AI/ML Regulation (2023 draft)",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="ml-006",
@@ -274,6 +304,7 @@ AIML_ITEMS = [
         evidence_required="For PCCP: retraining plan with data selection, labeling, validation criteria; for non-PCCP: justification that retraining is not planned",
         standard_reference="FDA Software as a Medical Device Action Plan (2021)",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="ml-007",
@@ -282,6 +313,7 @@ AIML_ITEMS = [
         evidence_required="Evidence of algorithm transparency (feature importance, decision rules, or other interpretability methods); user-facing documentation about how device makes decisions",
         standard_reference="FDA Proposed AI/ML Regulation (2023 draft)",
         severity=ItemSeverity.MINOR,
+        notes=None,
     ),
     ChecklistItem(
         id="ml-008",
@@ -303,6 +335,7 @@ CYBERSECURITY_ITEMS = [
         evidence_required="SBOM listing all software components, libraries, and dependencies with versions and known vulnerabilities; in SPDX or CycloneDX format",
         standard_reference="FDA 2023 Cybersecurity Guidance",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="cs-002",
@@ -311,6 +344,7 @@ CYBERSECURITY_ITEMS = [
         evidence_required="Threat model document (STRIDE or similar); identified threats; assessment of likelihood and impact; vulnerability inventory",
         standard_reference="FDA 2023 Cybersecurity Guidance",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="cs-003",
@@ -319,6 +353,7 @@ CYBERSECURITY_ITEMS = [
         evidence_required="Penetration testing results; fuzz testing; static analysis results; dynamic analysis results; evidence of remediation of identified vulnerabilities",
         standard_reference="FDA 2023 Cybersecurity Guidance",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="cs-004",
@@ -327,6 +362,7 @@ CYBERSECURITY_ITEMS = [
         evidence_required="Published policy describing how security researchers can report vulnerabilities; security.txt file; commitment to timely patching",
         standard_reference="FDA 2023 Cybersecurity Guidance",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="cs-005",
@@ -335,6 +371,7 @@ CYBERSECURITY_ITEMS = [
         evidence_required="Security incident response plan; defined roles and responsibilities; communication procedures; evidence of testing/drills",
         standard_reference="FDA 2023 Cybersecurity Guidance",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="cs-006",
@@ -343,6 +380,7 @@ CYBERSECURITY_ITEMS = [
         evidence_required="Plan for monitoring for security vulnerabilities post-market; defined update/patch procedures; communication plan for security updates",
         standard_reference="FDA 2023 Cybersecurity Guidance",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
 ]
 
@@ -355,6 +393,7 @@ CLINICAL_ITEMS = [
         evidence_required="Comprehensive clinical evaluation report reviewing literature, predicate device data, and clinical validation study results; discussion of safety and efficacy",
         standard_reference="21 CFR 807.87(e) - Clinical Data",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="ce-002",
@@ -372,6 +411,7 @@ CLINICAL_ITEMS = [
         evidence_required="Sensitivity, specificity, predictive values, confidence intervals; comparison to predicate or reference standard; subgroup analysis; statistical power justification",
         standard_reference="FDA Guidance - Analytical Validation of Diagnostic Tests",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="ce-004",
@@ -393,6 +433,7 @@ QUALITY_ITEMS = [
         evidence_required="Document management system; procedures for creation, review, approval, distribution, and archival of quality documents; version control",
         standard_reference="ISO 13485:2016 Section 4.2",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="qm-002",
@@ -401,6 +442,7 @@ QUALITY_ITEMS = [
         evidence_required="Supplier evaluation and approval procedures; purchasing specifications; supplier audit records; COTS software license tracking",
         standard_reference="ISO 13485:2016 Section 8.4",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="qm-003",
@@ -409,6 +451,7 @@ QUALITY_ITEMS = [
         evidence_required="CAPA procedures; tracking system; completed CAPA records; evidence of root cause analysis; effectiveness checks",
         standard_reference="ISO 13485:2016 Section 8.5",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="qm-004",
@@ -417,6 +460,7 @@ QUALITY_ITEMS = [
         evidence_required="Internal audit schedule; audit reports covering all quality system areas; audit findings and corrective actions; management review minutes",
         standard_reference="ISO 13485:2016 Section 8.2",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="qm-005",
@@ -425,6 +469,7 @@ QUALITY_ITEMS = [
         evidence_required="Management review meeting minutes; review of audit results, customer feedback, product performance, and effectiveness of corrective actions",
         standard_reference="ISO 13485:2016 Section 5.6",
         severity=ItemSeverity.MINOR,
+        notes=None,
     ),
 ]
 
@@ -437,6 +482,7 @@ SUBMISSION_ITEMS = [
         evidence_required="Signed cover letter with device name, manufacturer info, product code, predicate devices, substantial equivalence statement, and certifications",
         standard_reference="21 CFR 807.85 - 510(k) Cover Letter",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sub-002",
@@ -445,6 +491,7 @@ SUBMISSION_ITEMS = [
         evidence_required="Clear statement of intended use, patient population, disease/condition, method of operation, and user environment",
         standard_reference="21 CFR 807.87(a) - 510(k) Summary",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sub-003",
@@ -453,6 +500,7 @@ SUBMISSION_ITEMS = [
         evidence_required="Detailed description of device, components, hardware, software, accessories; diagrams and technical specifications",
         standard_reference="21 CFR 807.87(a) - 510(k) Summary",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sub-004",
@@ -461,6 +509,7 @@ SUBMISSION_ITEMS = [
         evidence_required="Detailed comparison to predicate device(s) on design, materials, performance, and intended use; explanation of any differences",
         standard_reference="21 CFR 807.87(b) - Substantial Equivalence",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sub-005",
@@ -469,6 +518,7 @@ SUBMISSION_ITEMS = [
         evidence_required="Summary of validation study results, algorithm performance metrics, safety data, and clinical evidence supporting device performance",
         standard_reference="21 CFR 807.87(c) - Performance Data",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sub-006",
@@ -477,6 +527,7 @@ SUBMISSION_ITEMS = [
         evidence_required="Device labeling (packaging, instructions, warnings); user manual; training materials; IFU includes all required information per 21 CFR 801",
         standard_reference="21 CFR 801 - Labeling",
         severity=ItemSeverity.MAJOR,
+        notes=None,
     ),
     ChecklistItem(
         id="sub-007",
@@ -485,6 +536,7 @@ SUBMISSION_ITEMS = [
         evidence_required="Comprehensive SSED document summarizing device design, non-clinical testing, clinical testing, and safety data",
         standard_reference="FDA 510(k) Submission Guidance",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
     ChecklistItem(
         id="sub-008",
@@ -502,6 +554,7 @@ SUBMISSION_ITEMS = [
         evidence_required="Software lifecycle documentation: SDP, SRS, architecture, design, source code listings, test reports, risk analysis, security assessment",
         standard_reference="IEC 62304 + FDA SaMD Guidance",
         severity=ItemSeverity.BLOCKER,
+        notes=None,
     ),
 ]
 
