@@ -18,7 +18,7 @@ Hotfix release: wires the validation CLI, restores spell-check CI job, and docum
 
 ### Fixed
 
-- Typo in `docs/guides/model-cards.md`: "mimick" corrected to "mimic".
+- Typo fix in `docs/guides/model-cards.md` (verb spelling corrected in the pacemaker patients subgroup note).
 - Added `ehr`, `rto`, `rpo`, and `stard` to the typos allowlist. These are real clinical and regulatory acronyms the spell-checker was incorrectly flagging.
 
 ### Planned for v0.2
