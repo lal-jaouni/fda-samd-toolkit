@@ -1,0 +1,102 @@
+site_name: FDA SaMD Toolkit
+site_description: Open-source tooling for FDA AI/ML medical device submissions
+site_author: Laith Al-Jaouni
+site_url: https://lal-jaouni.github.io/fda-samd-toolkit/
+
+repo_name: lal-jaouni/fda-samd-toolkit
+repo_url: https://github.com/lal-jaouni/fda-samd-toolkit
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  logo: assets/logo.svg
+  favicon: assets/favicon.ico
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/moon
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: blue
+      accent: blue
+      toggle:
+        icon: material/sun
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+
+plugins:
+  - search:
+      lang: en
+  - mkdocstrings:
+      handlers:
+        python:
+          import_statement_frequency: once
+          docstring_style: google
+          show_source: true
+  - mike:
+      alias_type: symlink
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      use_pygments: true
+      anchor_linenums: true
+      line_spans: __span
+  - pymdownx.inlinehilite
+  - pymdownx.emoji:
+      emoji_index: !!python/name:pymdownx.emoji.twemoji
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+  - toc:
+      permalink: true
+      title: Table of contents
+  - tables
+  - attr_list
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Concepts:
+    - FDA SaMD Overview: concepts/fda-overview.md
+    - What is a PCCP?: concepts/pccp-explained.md
+  - Guides:
+    - PCCP Generator: guides/pccp-generator.md
+    - 510(k) Templates: guides/510k-templates.md
+    - Model Cards: guides/model-cards.md
+    - Validation Framework: guides/validation-framework.md
+    - Readiness Checklist: guides/checklist.md
+  - Reference:
+    - CLI Reference: reference/cli.md
+    - API Docs: reference/api.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md
+
+extra:
+  version:
+    provider: mike
+    default: latest
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/lal-jaouni/fda-samd-toolkit
+
+copyright: Copyright (c) 2025 Laith Al-Jaouni. MIT License.
