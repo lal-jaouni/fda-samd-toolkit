@@ -29,6 +29,18 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  spell-check:
+    name: Spell Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Run typos
+        uses: crate-ci/typos@v1.28.4
+        with:
+          config: .typos.toml
+
   build:
     name: Build Documentation
     runs-on: ubuntu-latest
