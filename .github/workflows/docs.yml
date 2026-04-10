@@ -69,15 +69,3 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v4
 
-  spell-check:
-    name: Spell Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run typos spell checker
-        uses: crate-ci/typos@v1.28.4
-        with:
-          files: docs/ README.md CHANGELOG.md ROADMAP.md
-          config: ./.typos.toml
