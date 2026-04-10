@@ -40,7 +40,9 @@ def generate_pccp(config_path: str, output_path: str) -> None:
     try:
         config = PCCPConfig(**config_data)
     except ValidationError as e:
-        raise ValidationError(f"Configuration validation failed:\n{e.json()}") from e
+        # Wrap in a plain ValueError so the original Pydantic error stays
+        # accessible via __cause__ but the message is human-readable.
+        raise ValueError(f"Configuration validation failed:\n{e}") from e
 
     template_dir = Path(__file__).parent / "templates"
     env = Environment(

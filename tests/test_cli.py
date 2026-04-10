@@ -247,8 +247,17 @@ class TestChecklistCommand:
         assert "FDA SaMD Readiness Checklist" in result.output or "checklist" in result.output.lower()
 
     def test_checklist_runs(self, runner):
-        """Test checklist command runs without errors."""
-        result = runner.invoke(cli, ["checklist"])
+        """Test checklist command runs cleanly when given a YAML config."""
+        result = runner.invoke(
+            cli,
+            [
+                "checklist",
+                "--config",
+                "examples/checklist_artifacts.yaml",
+                "--device-name",
+                "Test Device",
+            ],
+        )
         assert result.exit_code == 0
         assert "checklist" in result.output.lower() or "checked" in result.output.lower()
 
