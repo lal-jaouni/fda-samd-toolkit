@@ -701,5 +701,214 @@ def init_validation(modality: str, output: str) -> None:
     console.print("[dim]Edit the config and run 'fda-samd validation generate' to build your plan.[/dim]")
 
 
+@cli.group()
+def predicate() -> None:
+    """Predicate device discovery via openFDA API."""
+    pass
+
+
+@predicate.command(name="discover")
+@click.option(
+    "--device-description",
+    type=str,
+    required=True,
+    help="Description of your device (e.g., 'ECG arrhythmia classifier')",
+)
+@click.option(
+    "--intended-use",
+    type=str,
+    required=False,
+    default="",
+    help="Intended use statement (optional)",
+)
+@click.option(
+    "--product-code",
+    type=str,
+    required=False,
+    default="",
+    help="FDA product code to boost matching (optional, e.g., DQK)",
+)
+@click.option(
+    "--limit",
+    type=int,
+    default=10,
+    help="Maximum number of results (default 10, max 100)",
+)
+@click.option(
+    "--output",
+    type=click.Path(),
+    required=False,
+    help="Output file path for markdown report (optional)",
+)
+def discover(
+    device_description: str,
+    intended_use: str,
+    product_code: str,
+    limit: int,
+    output: str | None,
+) -> None:
+    """
+    Discover predicate 510(k) devices via openFDA API.
+
+    Searches for existing cleared devices similar to your device, ranked by relevance.
+    Results can be viewed in the terminal or saved to a markdown file for your submission.
+
+    Example:
+        fda-samd predicate discover \\
+          --device-description "12-lead ECG arrhythmia classifier" \\
+          --intended-use "Detection of atrial fibrillation" \\
+          --limit 5
+    """
+    if not check_module_available("fda_samd_toolkit.predicate", "Predicate discovery"):
+        sys.exit(1)
+
+    try:
+        from fda_samd_toolkit.predicate.client import OpenFDAClient
+        from fda_samd_toolkit.predicate.scorer import PredicateScorer
+
+        # Validate inputs
+        if not device_description.strip():
+            console.print("[red]Error: device-description cannot be empty[/red]")
+            sys.exit(1)
+
+        if limit < 1 or limit > 100:
+            console.print("[red]Error: limit must be between 1 and 100[/red]")
+            sys.exit(1)
+
+        console.print("[cyan]Searching openFDA for predicate devices...[/cyan]")
+
+        # Query openFDA
+        predicates = OpenFDAClient.search_510k(device_description, limit=min(limit + 20, 100))
+
+        if not predicates:
+            console.print("[yellow]No matching predicates found. Try a different query.[/yellow]")
+            return
+
+        # Score and rank
+        scored = PredicateScorer.score_predicates(
+            predicates,
+            device_description,
+            intended_use=intended_use,
+            product_code=product_code,
+        )
+
+        # Limit to requested count
+        scored = scored[:limit]
+
+        # Display results
+        _print_predicate_table(scored)
+
+        # Optionally write markdown
+        if output:
+            markdown = _predicates_to_markdown(scored, device_description, intended_use, product_code)
+            output_path = Path(output)
+            output_path.write_text(markdown)
+            console.print(f"[green]✓ Markdown report saved:[/green] {output_path}")
+
+    except ImportError:
+        console.print(
+            Panel(
+                "Predicate discovery module not available.",
+                title="Error",
+                style="red",
+            )
+        )
+        sys.exit(1)
+    except ValueError as e:
+        console.print(f"[red]Invalid input: {e}[/red]")
+        sys.exit(1)
+    except RuntimeError as e:
+        console.print(f"[red]API error: {e}[/red]")
+        sys.exit(1)
+    except Exception as e:
+        console.print(
+            Panel(
+                f"Predicate discovery failed: {e}",
+                title="Error",
+                style="red",
+            )
+        )
+        sys.exit(1)
+
+
+def _print_predicate_table(scored) -> None:
+    """Print scored predicates as a rich table."""
+    table = Table(title="Top Predicate Devices (openFDA)")
+    table.add_column("Rank", style="cyan")
+    table.add_column("K Number", style="green")
+    table.add_column("Device Name")
+    table.add_column("Applicant")
+    table.add_column("Product Code", style="yellow")
+    table.add_column("Match Score", style="magenta")
+    table.add_column("Reasoning")
+
+    for i, pred in enumerate(scored, 1):
+        score_pct = f"{pred.match_score:.0%}"
+        table.add_row(
+            str(i),
+            pred.k_number,
+            pred.device_name,
+            pred.applicant,
+            pred.product_code,
+            score_pct,
+            pred.match_reasoning,
+        )
+
+    console.print(table)
+    console.print("[dim]Results from openFDA 510(k) device database. Cite K-numbers in your submission.[/dim]")
+
+
+def _predicates_to_markdown(
+    scored,
+    device_description: str,
+    intended_use: str,
+    product_code: str,
+) -> str:
+    """Convert scored predicates to markdown format for submission."""
+    lines = [
+        "# Predicate Device Search Results",
+        "",
+        "## Search Criteria",
+        "",
+        f"- **Device Description**: {device_description}",
+    ]
+
+    if intended_use:
+        lines.append(f"- **Intended Use**: {intended_use}")
+
+    if product_code:
+        lines.append(f"- **Product Code**: {product_code}")
+
+    lines.extend(
+        [
+            "",
+            "## Top Predicate Candidates",
+            "",
+            "| Rank | K-Number | Device Name | Applicant | Product Code | Decision Date | Match Score |",
+            "|------|----------|-------------|-----------|--------------|---------------|-------------|",
+        ]
+    )
+
+    for i, pred in enumerate(scored, 1):
+        lines.append(
+            f"| {i} | {pred.k_number} | {pred.device_name} | {pred.applicant} | "
+            f"{pred.product_code} | {pred.decision_date} | {pred.match_score:.0%} |"
+        )
+
+    lines.extend(
+        [
+            "",
+            "## Notes",
+            "",
+            "- Results generated using openFDA public 510(k) API.",
+            "- Match scores reflect similarity to your device description and intended use.",
+            "- Verify substantial equivalence by reviewing each predicate in the FDA 510(k) database.",
+            "- Include K-numbers of selected predicates in your 510(k) submission.",
+        ]
+    )
+
+    return "\n".join(lines)
+
+
 if __name__ == "__main__":
     cli()

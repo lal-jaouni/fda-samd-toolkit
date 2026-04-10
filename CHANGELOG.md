@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `fda-samd predicate discover` command for searching and ranking predicate 510(k) devices via the openFDA API. Users provide device description and intended use, the tool searches openFDA, scores results using fuzzy matching and keyword overlap, and returns a ranked table of candidates. Results can be exported to markdown for inclusion in a 510(k) submission. Includes 46 tests achieving 95% coverage across client, scorer, and CLI layers.
+
 ## [0.1.1] - 2026-04-10
 
 Hotfix release: wires the validation CLI, restores spell-check CI job, and documents known limitations uncovered by post-ship QA.
