@@ -582,5 +582,124 @@ def checklist(config: str | None, device_name: str | None, output: str | None) -
         sys.exit(1)
 
 
+@cli.group()
+def validation() -> None:
+    """Clinical validation plan operations."""
+    pass
+
+
+@validation.command(name="generate")
+@click.option(
+    "--config",
+    type=click.Path(exists=True),
+    required=True,
+    help="Path to validation plan YAML configuration",
+)
+@click.option(
+    "--output",
+    type=click.Path(),
+    required=True,
+    help="Output path for generated validation plan markdown",
+)
+@click.option(
+    "--modality",
+    type=click.Choice(
+        ["imaging", "signals", "nlp", "multimodal"],
+        case_sensitive=False,
+    ),
+    required=False,
+    help="Override the modality declared in the config (imaging, signals, nlp, multimodal)",
+)
+def generate_validation(config: str, output: str, modality: str | None) -> None:
+    """
+    Generate a clinical validation plan from configuration.
+
+    Example:
+        fda-samd validation generate --config examples/validation_plan_ecg_classifier.yaml --output validation_plan.md
+        fda-samd validation generate --config my_plan.yaml --output plan.md --modality imaging
+    """
+    if not check_module_available("fda_samd_toolkit.validation", "Validation plan generator"):
+        sys.exit(1)
+
+    try:
+        from fda_samd_toolkit.validation.generator import generate_validation_plan
+
+        console.print(f"[cyan]Loading validation config:[/cyan] {config}")
+        if modality:
+            console.print(f"[cyan]Using modality override:[/cyan] {modality}")
+        console.print("[cyan]Generating clinical validation plan...[/cyan]")
+        generate_validation_plan(config, output, modality=modality)
+        console.print(f"[green]✓ Validation plan generated:[/green] {output}")
+
+    except ImportError:
+        console.print(
+            Panel(
+                "Validation plan generator not available.",
+                title="Error",
+                style="red",
+            )
+        )
+        sys.exit(1)
+    except Exception as e:
+        console.print(
+            Panel(
+                f"Validation plan generation failed: {e}",
+                title="Error",
+                style="red",
+            )
+        )
+        sys.exit(1)
+
+
+@validation.command(name="init")
+@click.option(
+    "--modality",
+    type=click.Choice(
+        ["imaging", "signals", "nlp", "multimodal"],
+        case_sensitive=False,
+    ),
+    required=True,
+    help="Modality for the starter template",
+)
+@click.option(
+    "--output",
+    type=click.Path(),
+    required=False,
+    help="Output path for config template (default: validation_plan.yaml)",
+)
+def init_validation(modality: str, output: str) -> None:
+    """
+    Scaffold a validation plan configuration from a worked example.
+
+    Example:
+        fda-samd validation init --modality signals --output my_plan.yaml
+    """
+    output_path = Path(output or "validation_plan.yaml")
+
+    examples_dir = Path(__file__).parent.parent.parent / "examples"
+    starter_map = {
+        "signals": "validation_plan_ecg_classifier.yaml",
+        "imaging": "validation_plan_imaging_segmentation.yaml",
+        "nlp": "validation_plan_ecg_classifier.yaml",
+        "multimodal": "validation_plan_ecg_classifier.yaml",
+    }
+    source = examples_dir / starter_map[modality.lower()]
+
+    if not source.exists():
+        console.print(
+            Panel(
+                f"Starter example not found at {source}",
+                title="Error",
+                style="red",
+            )
+        )
+        sys.exit(1)
+
+    console.print(f"[cyan]Scaffolding validation plan for:[/cyan] {modality.upper()}")
+    output_path.write_text(source.read_text())
+    console.print(f"[green]✓ Template created:[/green] {output_path}")
+    console.print("[dim]Edit the config and run 'fda-samd validation generate' to build your plan.[/dim]")
+
+
 if __name__ == "__main__":
     cli()

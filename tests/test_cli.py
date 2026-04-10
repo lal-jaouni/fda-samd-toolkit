@@ -32,6 +32,7 @@ class TestCLIVersion:
         assert "templates" in result.output
         assert "model-card" in result.output
         assert "checklist" in result.output
+        assert "validation" in result.output
 
 
 class TestPCCPCommands:
@@ -255,6 +256,104 @@ class TestChecklistCommand:
         )
         assert result.exit_code == 0
         assert "checklist" in result.output.lower() or "checked" in result.output.lower()
+
+
+class TestValidationCommands:
+    """Test validation subcommands."""
+
+    def test_validation_help(self, runner):
+        """Test validation group help."""
+        result = runner.invoke(cli, ["validation", "--help"])
+        assert result.exit_code == 0
+        assert "generate" in result.output
+        assert "init" in result.output
+
+    def test_validation_generate_help(self, runner):
+        """Test validation generate help."""
+        result = runner.invoke(cli, ["validation", "generate", "--help"])
+        assert result.exit_code == 0
+        assert "--config" in result.output
+        assert "--output" in result.output
+        assert "--modality" in result.output
+
+    def test_validation_generate_missing_config(self, runner):
+        """Test validation generate without required --config flag."""
+        result = runner.invoke(cli, ["validation", "generate", "--output", "plan.md"])
+        assert result.exit_code != 0
+        assert "Missing option '--config'" in result.output
+
+    def test_validation_generate_runs(self, runner):
+        """Test validation generate produces a real document from the example config."""
+        import os
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_path = os.path.join(tmpdir, "plan.md")
+            result = runner.invoke(
+                cli,
+                [
+                    "validation",
+                    "generate",
+                    "--config",
+                    "examples/validation_plan_ecg_classifier.yaml",
+                    "--output",
+                    output_path,
+                ],
+            )
+            assert result.exit_code == 0, f"validation generate failed: {result.output}"
+            assert os.path.exists(output_path)
+            with open(output_path) as f:
+                content = f.read()
+            assert len(content) > 1000
+            assert "Clinical Validation Plan" in content
+
+    def test_validation_generate_with_modality_override(self, runner):
+        """Test validation generate accepts --modality override."""
+        import os
+
+        with tempfile.TemporaryDirectory() as tmpdir:
+            output_path = os.path.join(tmpdir, "plan.md")
+            result = runner.invoke(
+                cli,
+                [
+                    "validation",
+                    "generate",
+                    "--config",
+                    "examples/validation_plan_ecg_classifier.yaml",
+                    "--output",
+                    output_path,
+                    "--modality",
+                    "signals",
+                ],
+            )
+            assert result.exit_code == 0
+
+    def test_validation_init_help(self, runner):
+        """Test validation init help."""
+        result = runner.invoke(cli, ["validation", "init", "--help"])
+        assert result.exit_code == 0
+        assert "--modality" in result.output
+        assert "signals" in result.output
+        assert "imaging" in result.output
+
+    def test_validation_init_missing_modality(self, runner):
+        """Test validation init without required --modality flag."""
+        result = runner.invoke(cli, ["validation", "init"])
+        assert result.exit_code != 0
+        assert "Missing option '--modality'" in result.output
+
+    def test_validation_init_runs(self, runner):
+        """Test validation init scaffolds a YAML for each modality."""
+        import os
+
+        for modality in ["signals", "imaging", "nlp", "multimodal"]:
+            with tempfile.TemporaryDirectory() as tmpdir:
+                output_path = os.path.join(tmpdir, "plan.yaml")
+                result = runner.invoke(
+                    cli,
+                    ["validation", "init", "--modality", modality, "--output", output_path],
+                )
+                assert result.exit_code == 0, f"init failed for {modality}: {result.output}"
+                assert os.path.exists(output_path)
 
 
 class TestErrorHandling:

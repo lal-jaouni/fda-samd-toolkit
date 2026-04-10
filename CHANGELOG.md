@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-04-10
+
+Hotfix release: wires the validation CLI, restores spell-check CI job, and documents known limitations uncovered by post-ship QA.
+
+### Added
+
+- `fda-samd validation generate` and `fda-samd validation init` CLI subcommands. The clinical validation plan generator was shipped in v0.1.0 with example YAMLs and a working backend, but no CLI entry point. This adds the missing Click group and 8 test cases that exercise it end-to-end on the example configs.
+- Spell-check CI job re-enabled. The `.typos.toml` config was restructured to use the correct `[default.extend-words]` table format required by typos >= 1.x. The previous array form caused a TOML parse error in typos v1.28.4 and was temporarily disabled during the v0.1.0 release cut.
+
+### Fixed
+
+- Typo fix in `docs/guides/model-cards.md` (verb spelling corrected in the pacemaker patients subgroup note).
+- Added `ehr`, `rto`, `rpo`, and `stard` to the typos allowlist. These are real clinical and regulatory acronyms the spell-checker was incorrectly flagging.
+
 ### Planned for v0.2
 
 - Cybersecurity SBOM Generator (NTIA format, mandatory per June 2025 FDA guidance)
