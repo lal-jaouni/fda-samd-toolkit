@@ -32,9 +32,10 @@ Homepage = "https://github.com/lal-jaouni/fda-samd-toolkit"
 Issues = "https://github.com/lal-jaouni/fda-samd-toolkit/issues"
 Documentation = "https://github.com/lal-jaouni/fda-samd-toolkit#readme"
 
-[dependency-groups]
+[project.optional-dependencies]
 dev = [
     "pytest>=8.0",
+    "pytest-cov>=5.0",
     "pytest-json-report>=1.5",
     "ruff>=0.9",
     "pyright>=1.1",

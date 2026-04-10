@@ -1,0 +1,55 @@
+# Typos spell-checker config for the FDA SaMD Toolkit.
+# https://github.com/crate-ci/typos
+
+[default]
+# Check the whole file, but be lenient on identifier-looking tokens.
+extend-identifiers = []
+extend-words = [
+    "samd",        # Software as a Medical Device
+    "pccp",        # Predetermined Change Control Plan
+    "estar",       # FDA electronic Submission Template and Resource
+    "nda",         # New Drug Application
+    "510k",        # 510(k) pathway
+    "openfda",     # openFDA API
+    "pydantic",    # library name
+    "jinja",       # library name
+    "mkdocs",      # library name
+    "dicom",       # DICOM standard
+    "fhir",        # HL7 FHIR
+    "hl7",         # HL7 standard
+    "snomed",      # SNOMED CT
+    "loinc",       # LOINC
+    "icd",         # ICD coding system
+    "maude",       # FDA MAUDE database
+    "anumana",     # company name
+    "nference",    # company name
+    "ecg",         # electrocardiogram
+    "ppg",         # photoplethysmogram
+    "abp",         # arterial blood pressure
+    "imdrf",       # International Medical Device Regulators Forum
+    "iec",         # International Electrotechnical Commission
+    "aami",        # Association for the Advancement of Medical Instrumentation
+    "gmlp",        # Good Machine Learning Practice
+    "ntia",        # National Telecommunications and Information Administration
+    "sbom",        # Software Bill of Materials
+    "spdx",        # SPDX SBOM format
+    "cyclonedx",   # CycloneDX SBOM format
+    "pma",         # Pre-Market Approval
+    "raps",        # Regulatory Affairs Professionals Society
+    "auroc",       # Area Under the ROC Curve
+    "fmea",        # Failure Mode and Effects Analysis
+    "stride",      # STRIDE threat modeling
+]
+
+[files]
+extend-exclude = [
+    "*.lock",
+    "*.json",
+    "*.csv",
+    "*.svg",
+    "*.yaml",   # yaml configs contain domain terms that vary wildly
+    "*.yml",
+    "examples/**",
+    "tests/golden/**",
+    "research/**",
+]
