@@ -265,10 +265,11 @@ class ModelCard(BaseModel):
     fda_specific: FDASpecific | None = Field(None, description="FDA-specific fields for regulatory submissions")
 
     model_config = ConfigDict(
+        extra="forbid",
         json_schema_extra={
             "title": "FDA-Extended Model Card",
             "description": "Model card extending Mitchell et al. 2019 with FDA medical device fields",
-        }
+        },
     )
 
 
