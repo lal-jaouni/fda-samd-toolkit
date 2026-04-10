@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide will get you from zero to your first PCCP in 5 minutes. For deeper dives into each component, see the [Guides](../guides/pccp-generator.md) section.
+This guide will get you from zero to your first PCCP in 5 minutes. For deeper dives into each component, see the [Guides](guides/pccp-generator.md) section.
 
 ---
 
@@ -140,7 +140,7 @@ Now you have a PCCP template. Depending on your device, you may also need:
 
 ### Need a 510(k) Submission?
 
-See [510(k) Templates](../guides/510k-templates.md) for:
+See [510(k) Templates](guides/510k-templates.md) for:
 - Indications for Use section
 - Device Description with ML/AI specifics
 - Substantial Equivalence and predicate device analysis
@@ -148,7 +148,7 @@ See [510(k) Templates](../guides/510k-templates.md) for:
 
 ### Need to Document Your Model?
 
-See [Model Cards](../guides/model-cards.md) for:
+See [Model Cards](guides/model-cards.md) for:
 - FDA-specific model card fields
 - Data characterization (provenance, demographics, limitations)
 - Performance documentation across sub-populations
@@ -156,7 +156,7 @@ See [Model Cards](../guides/model-cards.md) for:
 
 ### Need a Clinical Validation Study?
 
-See [Validation Framework](../guides/validation-framework.md) for:
+See [Validation Framework](guides/validation-framework.md) for:
 - Study design templates (RCT, observational, real-world)
 - Sample size calculation scaffolding
 - Sub-population analysis plans
@@ -164,7 +164,7 @@ See [Validation Framework](../guides/validation-framework.md) for:
 
 ### Ready to Submit?
 
-See [Readiness Checklist](../guides/checklist.md) for:
+See [Readiness Checklist](guides/checklist.md) for:
 - Pre-submission gap analysis
 - Completeness scoring across 9 domains
 - Section-by-section checklist
@@ -183,7 +183,7 @@ A: v0.1 focuses on PCCP (post-market change control). De Novo and PMA pathways r
 
 **Q: How do I add my own templates?**
 
-A: See [Contributing](../contributing.md). The toolkit uses Jinja2 templates. You can customize the template directory or contribute back publicly.
+A: See [Contributing](contributing.md). The toolkit uses Jinja2 templates. You can customize the template directory or contribute back publicly.
 
 **Q: What if my device is a novel classifier (not retraining)?**
 
@@ -220,15 +220,15 @@ Check your YAML syntax. Common issues:
 
 ### Validation Reports Too Many Warnings
 
-Warnings are expected for alpha releases. Focus on critical issues first. See [PCCP Generator Guide](../guides/pccp-generator.md) for how to address common gaps.
+Warnings are expected for alpha releases. Focus on critical issues first. See [PCCP Generator Guide](guides/pccp-generator.md) for how to address common gaps.
 
 ---
 
 ## Next Steps
 
-1. **Understand the FDA landscape**: Read [FDA SaMD Overview](../concepts/fda-overview.md)
-2. **Learn PCCP concepts**: See [What is a PCCP?](../concepts/pccp-explained.md)
-3. **Deep dive into components**: Check [Guides](../guides/pccp-generator.md)
-4. **Contribute**: Help improve templates and examples. See [Contributing](../contributing.md)
+1. **Understand the FDA landscape**: Read [FDA SaMD Overview](concepts/fda-overview.md)
+2. **Learn PCCP concepts**: See [What is a PCCP?](concepts/pccp-explained.md)
+3. **Deep dive into components**: Check [Guides](guides/pccp-generator.md)
+4. **Contribute**: Help improve templates and examples. See [Contributing](contributing.md)
 
 For questions or issues, [open a GitHub issue](https://github.com/lal-jaouni/fda-samd-toolkit/issues).
