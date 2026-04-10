@@ -1,0 +1,627 @@
+# Clinical Validation Plan: {{ validation_plan.device_name }}
+
+**Document Version:** {{ validation_plan.document_version }}
+**Date:** {{ validation_plan.document_date }}
+**Modality:** {{ validation_plan.modality | replace('_', ' ') | title }}
+
+---
+
+## 1. Executive Summary
+
+This clinical validation plan describes the prospective clinical testing protocol for {{ validation_plan.device_name }}, an AI/ML-enabled medical device intended for {{ validation_plan.intended_use }}.
+
+The validation study will establish clinical performance, safety, and generalizability of the algorithm across diverse patient populations and clinical settings. This plan adheres to FDA guidance on clinical performance assessment for AI/ML devices (FDA 2024) and clinical performance assessment for computer-assisted detection devices (FDA 2020).
+
+**Key Study Parameters:**
+- Study Design: {{ validation_plan.study_design.type | title }}
+- Planned Sample Size: {{ validation_plan.data_source.sample_size }} subjects
+- Primary Endpoint: {{ validation_plan.endpoints.primary_endpoint_target }}
+- Data Modality: {{ validation_plan.modality | replace('_', ' ') | title }}
+
+---
+
+## 2. Device and Intended Use
+
+### 2.1 Device Name and Classification
+**Device Name:** {{ validation_plan.device_name }}
+
+**Intended Use:**
+{{ validation_plan.intended_use }}
+
+This device processes {{ validation_plan.modality | replace('_', ' ') | title }} data and provides decision support for clinical interpretation and diagnosis.
+
+### 2.2 Indications for Use
+- **Patient Population:** [Specify age range, disease state, clinical setting]
+- **Clinical Setting:** [Hospital, outpatient, home, etc.]
+- **Provider Type:** [Cardiologists, radiologists, etc.]
+
+---
+
+## 3. Study Design
+
+### 3.1 Overview
+**Study Type:** {{ validation_plan.study_design.type | title }}
+**Blinding:** {{ validation_plan.study_design.blinding | title }}
+{% if validation_plan.study_design.multi_site %}**Multi-Site:** Yes ({{ validation_plan.study_design.sites_count }} sites){% else %}**Multi-Site:** No{% endif %}
+{% if validation_plan.study_design.study_duration_months %}**Duration:** {{ validation_plan.study_design.study_duration_months }} months{% endif %}
+
+**Rationale for Study Design:**
+The {{ validation_plan.study_design.type }} design with {{ validation_plan.study_design.blinding }} blinding was selected to:
+- [Rationale 1: Reduces bias in reference standard assessment]
+- [Rationale 2: Reflects real-world deployment scenario]
+- [Rationale 3: Enables assessment of algorithm on consecutive patients]
+
+{% if validation_plan.study_design.multi_site %}
+**Participating Sites:**
+{% for site in validation_plan.study_design.site_locations %}
+- {{ site }}
+{% endfor %}
+
+Multi-site enrollment ensures:
+- Geographic diversity and generalization potential
+- Different clinical practices and workflows
+- Diverse patient populations by race, ethnicity, and socioeconomic status
+{% endif %}
+
+### 3.2 Regulatory References
+FDA guidance documents informing this validation plan:
+- FDA "Clinical Performance Assessment: Considerations for Computer-Assisted Detection Devices" (2020)
+- FDA "Predetermined Change Control Plans for AI/ML-Enabled Medical Devices" (December 2024)
+- STARD 2015 (Standards for Reporting Diagnostic Accuracy Studies)
+- TRIPOD-AI (Transparent Reporting of Evaluations with Nonlinear Machine Learning Models)
+- IMDRF SaMD Framework
+
+---
+
+## 4. Study Population and Data
+
+### 4.1 Data Sources
+
+**Primary Data Sources:**
+{% for site in validation_plan.data_source.sites %}
+- {{ site }}
+{% endfor %}
+
+**Data Collection Period:** {{ validation_plan.data_source.time_period_start }} to {{ validation_plan.data_source.time_period_end }}
+
+**Total Sample Size:** {{ validation_plan.data_source.sample_size }} subjects
+
+### 4.2 Inclusion Criteria
+Subjects will be eligible for the study if they meet all of the following criteria:
+
+{% for criterion in validation_plan.data_source.inclusion_criteria %}
+- {{ criterion }}
+{% endfor %}
+
+### 4.3 Exclusion Criteria
+Subjects will be excluded from the study if they meet any of the following criteria:
+
+{% for criterion in validation_plan.data_source.exclusion_criteria %}
+- {{ criterion }}
+{% endfor %}
+
+### 4.4 Sample Size Justification
+
+**Planned Sample Size:** {{ validation_plan.data_source.sample_size }} subjects
+
+**Statistical Justification:**
+{{ validation_plan.data_source.sample_size_justification }}
+
+**Sample Size Calculation Details:**
+[Provide alpha level, power target (typically 80-90%), effect size, assumed performance rates, and dropout rate assumptions used in calculation]
+
+### 4.5 Population Diversity and Representation
+{% if validation_plan.data_source.population_diversity %}
+**Diversity Goals:**
+{{ validation_plan.data_source.population_diversity }}
+{% else %}
+**Diversity Goals:**
+The study will aim to enroll subjects reflecting the diversity of the target clinical population, including:
+- Age range covering pediatric, adult, and geriatric populations as appropriate
+- Balanced representation by sex/gender
+- Race and ethnicity representative of the US population and healthcare disparities literature
+- Multiple comorbidity profiles
+- Varying disease severities
+{% endif %}
+
+**Rationale:** FDA guidance and clinical standards emphasize evaluation of AI algorithms across demographic subgroups to identify and mitigate performance disparities. Underrepresentation of any demographic group limits evidence of safety and effectiveness in that population.
+
+---
+
+## 5. Reference Standard (Gold Standard)
+
+### 5.1 Reference Standard Definition
+**Gold Standard:** {{ validation_plan.reference_standard.gold_standard }}
+
+**Source of Reference Standard:** {{ validation_plan.reference_standard.reference_source }}
+
+**Clinical Justification:**
+This reference standard is the accepted diagnostic or prognostic standard for the condition of interest. [Provide rationale for why this standard is appropriate and clinically meaningful.]
+
+### 5.2 Adjudication Process
+**Adjudication Protocol:** {{ validation_plan.reference_standard.adjudication_process }}
+
+**Adjudicator Qualifications:**
+{{ validation_plan.reference_standard.adjudicator_qualifications }}
+
+**Number of Adjudicators:** {{ validation_plan.reference_standard.number_of_adjudicators }}
+
+**Process for Disagreement:**
+[Specify decision rule when adjudicators disagree. Examples:
+- Majority vote (use if >=3 adjudicators)
+- Consensus discussion among all adjudicators
+- Escalation to third-party senior expert for tiebreaker
+- Do NOT use majority vote if only 2 adjudicators; escalate instead]
+
+### 5.3 Inter-Rater Reliability
+**Target Inter-Rater Reliability:** {{ validation_plan.reference_standard.inter_rater_reliability_target }} ({{ validation_plan.reference_standard.inter_rater_reliability_method }})
+
+**Methodology for Assessing Reliability:**
+- All adjudicators will independently review reference data
+- At minimum, 10% of subjects will be reviewed by all adjudicators for reliability assessment
+- Reliability will be calculated before subject enrollment completes
+- If target reliability not met, adjudicators will undergo retraining and process revised
+
+---
+
+## 6. Primary and Secondary Endpoints
+
+### 6.1 Primary Endpoint
+**Endpoint:** {{ validation_plan.endpoints.primary_endpoint }}
+
+**Primary Success Criterion:** {{ validation_plan.endpoints.primary_endpoint_target }}
+
+**Definition of Success:** [Specify what performance is considered clinically and statistically significant]
+
+### 6.2 Secondary Endpoints
+{% if validation_plan.endpoints.secondary_endpoints %}
+{% for endpoint in validation_plan.endpoints.secondary_endpoints %}
+- {{ endpoint }}
+{% endfor %}
+{% else %}
+[Secondary endpoints will be listed. Examples:
+- Sensitivity at specified threshold
+- Specificity at specified threshold
+- Positive predictive value in typical patient prevalence
+- Negative predictive value
+- Comparison to clinical expert performance]
+{% endif %}
+
+### 6.3 Performance Targets
+**Sensitivity:** {% if validation_plan.endpoints.sensitivity_target %}{{ validation_plan.endpoints.sensitivity_target }}{% else %}[To be specified]{% endif %}
+{% if validation_plan.endpoints.sensitivity_lower_ci %}(95% CI lower bound: {{ validation_plan.endpoints.sensitivity_lower_ci }}){% endif %}
+
+**Specificity:** {% if validation_plan.endpoints.specificity_target %}{{ validation_plan.endpoints.specificity_target }}{% else %}[To be specified]{% endif %}
+{% if validation_plan.endpoints.specificity_lower_ci %}(95% CI lower bound: {{ validation_plan.endpoints.specificity_lower_ci }}){% endif %}
+
+{% if validation_plan.endpoints.positive_predictive_value_target %}
+**Positive Predictive Value:** {{ validation_plan.endpoints.positive_predictive_value_target }}
+{% endif %}
+
+{% if validation_plan.endpoints.negative_predictive_value_target %}
+**Negative Predictive Value:** {{ validation_plan.endpoints.negative_predictive_value_target }}
+{% endif %}
+
+**Rationale for Performance Targets:**
+[Explain how targets were determined. Consider:
+- Clinical literature on acceptable performance for this indication
+- FDA predicate device performance if 510(k) pathway
+- Expert consultation on clinically meaningful performance
+- Trade-off analysis between sensitivity (avoiding missed diagnoses) and specificity (avoiding false alarms)]
+
+---
+
+## 7. Statistical Analysis Plan
+
+### 7.1 Primary Hypothesis
+**Hypothesis:** {{ validation_plan.statistical_analysis_plan.primary_hypothesis }}
+
+### 7.2 Statistical Test and Analysis
+**Test:** {{ validation_plan.statistical_analysis_plan.statistical_test }}
+
+**Significance Level (alpha):** {{ validation_plan.statistical_analysis_plan.significance_level }}
+
+**Target Power:** {{ validation_plan.statistical_analysis_plan.power_target }}
+
+### 7.3 Power Calculation
+**Sample Size Justification:**
+{{ validation_plan.statistical_analysis_plan.power_calculation_description }}
+
+[Include detailed calculation showing:
+- Formula used
+- Assumed performance parameters from pilot data or literature
+- Assumptions about dropout/missing data
+- Any adjustments for multiple comparisons or clustering]
+
+### 7.4 Handling Multiple Comparisons
+**Multiplicity Correction:** {{ validation_plan.statistical_analysis_plan.multiplicity_correction }}
+
+[If multiple primary endpoints or subgroup tests are planned, specify correction method:
+- Bonferroni (most conservative)
+- Holm step-down procedure
+- False discovery rate (FDR) control
+- Pre-specified subgroup hierarchy with no correction for primary analysis]
+
+### 7.5 Missing Data Strategy
+**Approach:** {{ validation_plan.statistical_analysis_plan.missing_data_strategy }}
+
+[Specify:
+- Handling of subjects with missing reference standard assessment
+- Handling of subjects with missing algorithm prediction
+- Handling of partially completed studies (early dropout)
+- Primary analysis (complete case, per-protocol, or intention-to-analyze)]
+
+{% if validation_plan.statistical_analysis_plan.sensitivity_analyses %}
+### 7.6 Sensitivity Analyses
+Sensitivity analyses will be conducted to assess robustness of primary findings:
+{% for analysis in validation_plan.statistical_analysis_plan.sensitivity_analyses %}
+- {{ analysis }}
+{% endfor %}
+{% endif %}
+
+---
+
+## 8. Subgroup Analysis
+
+{% if validation_plan.subgroup_analysis %}
+
+### 8.1 Planned Subgroup Stratifications
+The following subgroups will be analyzed to assess whether algorithm performance differs across populations:
+
+**Subgroups:**
+{% for subgroup in validation_plan.subgroup_analysis.subgroups %}
+- {{ subgroup }}
+{% endfor %}
+
+**Stratification Variables:**
+{% for var in validation_plan.subgroup_analysis.stratification_variables %}
+- {{ var }}
+{% endfor %}
+
+### 8.2 Performance Targets by Subgroup
+{% if validation_plan.subgroup_analysis.performance_target_by_subgroup %}
+{% for subgroup, target in validation_plan.subgroup_analysis.performance_target_by_subgroup.items() %}
+- **{{ subgroup }}:** {{ target }}
+{% endfor %}
+{% else %}
+Performance targets by subgroup will be established based on pilot data and clinical relevance. Non-inferiority (no clinically meaningful decrement) is expected across all subgroups.
+{% endif %}
+
+### 8.3 Minority Representation
+{% if validation_plan.subgroup_analysis.minority_representation %}
+**Strategy:**
+{{ validation_plan.subgroup_analysis.minority_representation }}
+{% else %}
+**Strategy:**
+The study will:
+- Actively recruit subjects from historically underrepresented racial and ethnic groups
+- Ensure minimum representation of 15-20% for race/ethnicity categories other than white
+- Oversample if necessary to achieve balanced demographic representation
+- Partner with community health centers and minority-serving institutions
+{% endif %}
+
+### 8.4 Differential Performance Analysis
+{% if validation_plan.subgroup_analysis.differential_performance_analysis %}
+**Plan:**
+{{ validation_plan.subgroup_analysis.differential_performance_analysis }}
+{% else %}
+**Plan:**
+- Calculate performance metrics (sensitivity, specificity, AUROC) separately for each subgroup
+- Conduct interaction testing to assess whether performance differs significantly across subgroups
+- Qualitatively assess potential sources of disparities (data quality, clinical phenotype, socioeconomic factors)
+- If significant disparities detected, plan for mitigation (retraining, clinical decision rules, monitoring)
+{% endif %}
+
+{% else %}
+### 8.1 Subgroup Analysis
+Subgroup analyses will assess whether algorithm performance differs significantly across:
+- Demographic groups (sex, age category, race/ethnicity)
+- Disease severity categories
+- Comorbidity profiles
+- Device/scanner type (if applicable to modality)
+
+See Section 4.5 on population diversity for planned stratifications.
+
+{% endif %}
+
+---
+
+## 9. External Validation and Generalization Testing
+
+{% if validation_plan.generalization_testing %}
+
+### 9.1 External Validation Sites
+{% if validation_plan.generalization_testing.external_validation_sites %}
+**Sites:**
+{% for site in validation_plan.generalization_testing.external_validation_sites %}
+- {{ site }}
+{% endfor %}
+
+**Sample Size:** {% if validation_plan.generalization_testing.external_validation_sample_size %}{{ validation_plan.generalization_testing.external_validation_sample_size }}{% else %}To be determined{% endif %} subjects
+
+**Timeline:** {% if validation_plan.generalization_testing.external_validation_timeline %}{{ validation_plan.generalization_testing.external_validation_timeline }}{% else %}[Specify: during pilot phase, pre-submission, or post-approval]{% endif %}
+
+**Site Selection Rationale:**
+External validation sites should be geographically and organizationally distinct from primary study sites to ensure generalization. Sites should differ in:
+- Electronic health record system and vendor
+- Clinical workflows and provider expertise levels
+- Patient population demographics and disease burden
+- For imaging: equipment manufacturer and acquisition protocols
+- For signals: device manufacturer and signal processing parameters
+
+{% else %}
+**External Validation Approach:**
+A planned external validation study will be conducted at geographically and organizationally distinct sites with diverse patient populations to establish generalizability of the algorithm prior to clinical deployment.
+
+**Planned Sample Size:** [To be determined based on interim analyses]
+
+**Timeline:** [Specify: during pilot phase, pre-submission, or post-approval]
+{% endif %}
+
+### 9.2 Temporal Validation
+{% if validation_plan.generalization_testing.temporal_validation_plan %}
+**Plan:**
+{{ validation_plan.generalization_testing.temporal_validation_plan }}
+{% else %}
+**Plan:**
+Algorithm performance will be assessed on data acquired in different time periods to evaluate temporal stability and detect data drift:
+- Primary study: Data from [specific time period]
+- Temporal validation: Data from [subsequent time period >=6-12 months later]
+- Assessment: Compare performance metrics between periods; investigate any significant differences
+{% endif %}
+
+### 9.3 Data Drift Monitoring
+{% if validation_plan.generalization_testing.data_drift_monitoring %}
+**Plan:**
+{{ validation_plan.generalization_testing.data_drift_monitoring }}
+{% else %}
+**Plan:**
+Post-market surveillance will include monitoring for data drift:
+- **Frequency:** Monthly analysis of algorithm inputs and performance metrics
+- **Drift Detection Methods:** [Specify: statistical tests (Kolmogorov-Smirnov, population stability index), visual inspection of distributions, expert review]
+- **Action Thresholds:** [Specify: performance degradation >5% triggers retraining; distribution shift >2 SD triggers investigation]
+- **Response Protocol:** [Specify: if drift detected, implement retraining, model revalidation, or clinical alert]
+{% endif %}
+
+### 9.4 Geographic Generalization
+{% if validation_plan.generalization_testing.geographic_generalization_plan %}
+**Plan:**
+{{ validation_plan.generalization_testing.geographic_generalization_plan }}
+{% else %}
+**Plan:**
+The algorithm will be evaluated for generalization across geographic regions and diverse healthcare systems:
+- Multi-site primary study including [X] sites across [Y] states/regions
+- Assessment of performance consistency across sites
+- Evaluation of whether site-specific retraining is necessary
+- Analysis of demographic and health system characteristics associated with performance variation
+{% endif %}
+
+{% else %}
+### 9.1 External Validation and Generalization
+Planned external validation and generalization testing will establish that algorithm performance is consistent across diverse clinical settings and patient populations, supporting broader deployment.
+
+{% endif %}
+
+---
+
+## 10. Safety Monitoring
+
+{% if validation_plan.safety_monitoring %}
+
+### 10.1 Adverse Event Definitions
+**Adverse Event:** {{ validation_plan.safety_monitoring.adverse_event_definition }}
+
+**Serious Adverse Event:** {{ validation_plan.safety_monitoring.serious_adverse_event_definition }}
+
+### 10.2 Prospective Safety Monitoring
+**Monitoring Plan:**
+{{ validation_plan.safety_monitoring.adverse_event_monitoring_plan }}
+
+[Specify:
+- How adverse events will be detected and reported
+- Frequency of safety reviews
+- Criteria for escalation]
+
+{% if validation_plan.safety_monitoring.safety_stopping_rules %}
+### 10.3 Safety Stopping Rules
+**Rules:**
+{{ validation_plan.safety_monitoring.safety_stopping_rules }}
+
+[Pre-specified stopping criteria:
+- If serious adverse event rate exceeds X%
+- If false negative rate leads to [specify adverse clinical outcome] in >X subjects
+- If false positive rate triggers unnecessary interventions in >X% of subjects]
+{% endif %}
+
+### 10.4 Clinical Impact of False Positives and Negatives
+{% if validation_plan.safety_monitoring.false_positive_impact_assessment %}
+**False Positive Impact:**
+{{ validation_plan.safety_monitoring.false_positive_impact_assessment }}
+{% else %}
+**False Positive Impact:**
+[Specify potential clinical and patient impacts of false positive predictions. Example: false positive sepsis alert may trigger unnecessary antibiotics, line placement, and ICU admission]
+{% endif %}
+
+{% if validation_plan.safety_monitoring.false_negative_impact_assessment %}
+**False Negative Impact:**
+{{ validation_plan.safety_monitoring.false_negative_impact_assessment }}
+{% else %}
+**False Negative Impact:**
+[Specify potential clinical and patient impacts of false negative predictions. Example: false negative arrhythmia detection may result in missed diagnosis and delayed treatment of life-threatening condition]
+{% endif %}
+
+**Mitigation Strategies:**
+- [Clinician review and override capability for borderline predictions]
+- [High-confidence threshold for automated alerts versus lower-confidence decision support]
+- [Alerts integrated into existing clinical workflow with clear documentation of algorithm prediction and confidence]
+- [Training for clinicians on algorithm capabilities and limitations]
+
+{% else %}
+### 10.1 Safety Monitoring Plan
+Comprehensive prospective safety monitoring will be implemented during the validation study to:
+- Detect unexpected adverse events potentially related to algorithm performance
+- Identify false positive and false negative predictions and their clinical impact
+- Monitor for differential safety across demographic subgroups
+- Establish stopping rules if unacceptable safety profile identified
+
+{% endif %}
+
+---
+
+## 11. Modality-Specific Considerations
+
+### 11.1 {{ validation_plan.modality | replace('_', ' ') | title }}-Specific Guidance
+This validation plan incorporates modality-specific best practices for {{ validation_plan.modality | replace('_', ' ') }} AI/ML validation.
+
+{% if modality_guidance %}
+**Key Considerations:**
+{% for consideration in modality_guidance.key_considerations %}
+- {{ consideration }}
+{% endfor %}
+
+**Data Source Requirements:**
+{{ modality_guidance.data_source_guidance }}
+
+**Reference Standard Requirements:**
+{{ modality_guidance.reference_standard_guidance }}
+
+**Endpoint Specifications:**
+{{ modality_guidance.endpoint_guidance }}
+
+**Statistical Analysis:**
+{{ modality_guidance.statistical_guidance }}
+
+**Subgroup Analysis Recommendations:**
+{{ modality_guidance.subgroup_guidance }}
+
+**Safety Considerations:**
+{{ modality_guidance.safety_guidance }}
+
+**External Validation Strategy:**
+{{ modality_guidance.external_validation_guidance }}
+{% endif %}
+
+---
+
+## 12. Data Management and Quality Assurance
+
+### 12.1 Data Collection and Security
+- All subject data will be de-identified per HIPAA standards before analysis
+- Electronic data capture will be used with audit trails and validation rules
+- Data quality checks will be performed at study sites before data transfer
+- All data transfers will be encrypted and logged
+
+### 12.2 Algorithm Implementation
+**Input Specifications:**
+[Specify: data format, required fields, sampling rate/resolution, preprocessing requirements]
+
+**Inference Pipeline:**
+[Specify: preprocessing steps, model version, confidence threshold, output format]
+
+**Version Control:**
+- Algorithm version will be documented and fixed before study enrollment begins
+- Any modifications or retraining during study will be tracked and reported
+- Final algorithm version used for analysis will be specified in final report
+
+---
+
+## 13. Success Criteria and Analysis
+
+### 13.1 Primary Success Criterion
+The study will be considered successful if:
+- {{ validation_plan.endpoints.primary_endpoint_target }}
+
+### 13.2 Secondary Success Criteria
+Secondary success will be demonstrated if:
+{% if validation_plan.endpoints.secondary_endpoints %}
+{% for endpoint in validation_plan.endpoints.secondary_endpoints %}
+- {{ endpoint }}
+{% endfor %}
+{% else %}
+[Secondary metrics meet pre-specified thresholds]
+{% endif %}
+
+### 13.3 Analysis Population
+- **Primary Analysis:** [Specify: Intention-to-treat (all enrolled), Per-protocol (protocol-adherent), or others]
+- **Sensitivity Analyses:** [Specify alternative populations to test robustness]
+
+---
+
+## 14. Study Timeline
+
+| Milestone | Timeline |
+|-----------|----------|
+| Institutional Review Board (IRB) Review | [Date] |
+| Site Initiation | [Date] |
+| Subject Enrollment Complete | [Date] |
+| Final Data Lock | [Date] |
+| Interim Analysis (if planned) | [Date] |
+| Final Analysis | [Date] |
+| Report Completion | [Date] |
+
+---
+
+## 15. Quality and Regulatory Compliance
+
+### 15.1 Regulatory Oversight
+- Study will comply with FDA regulations (21 CFR Part 11, Part 56, Part 312 if applicable)
+- Institutional Review Board (IRB) review and approval required before enrollment
+- Informed consent obtained from all subjects or legally authorized representatives
+
+### 15.2 Quality Assurance
+- Protocol deviations tracked and reported
+- Regular quality reviews of data collection and algorithm performance
+- Monitoring for loss to follow-up and missing data
+- Audit trail maintained for all algorithm predictions and reference standard assignments
+
+### 15.3 Regulatory References
+{% if validation_plan.regulatory_references %}
+{% for reference in validation_plan.regulatory_references %}
+- {{ reference }}
+{% endfor %}
+{% else %}
+- FDA "Clinical Performance Assessment: Considerations for Computer-Assisted Detection Devices" (2020)
+- FDA "Predetermined Change Control Plans for Machine Learning-Enabled Medical Devices" (December 2024)
+- STARD 2015: Standards for Reporting Diagnostic Accuracy Studies
+- TRIPOD-AI: Transparent Reporting of Evaluations with Nonlinear Machine Learning Models
+- IMDRF Software as a Medical Device Framework
+- 21 CFR Part 11: Electronic Records; Electronic Signatures
+- 21 CFR Part 56: Institutional Review Boards
+{% endif %}
+
+---
+
+## 16. Appendices
+
+### Appendix A: Algorithm Architecture Summary
+[Provide high-level description of:
+- Input data types and preprocessing
+- Model architecture (if appropriate to disclose)
+- Training data and validation approach used during development
+- Known limitations and edge cases]
+
+### Appendix B: Case Report Form Templates
+[Attach templates for:
+- Subject demographic and clinical data
+- Reference standard assessment forms
+- Algorithm prediction documentation]
+
+### Appendix C: Statistical Formulas and Sample Size Calculations
+[Attach detailed calculations showing:
+- Sample size formula and parameters
+- Interim analysis plan (if applicable)
+- Stopping boundaries]
+
+### Appendix D: Study Protocol
+[Attach the full institutional protocol reviewed by IRB]
+
+---
+
+**Document Approved By:**
+
+| Role | Name | Signature | Date |
+|------|------|-----------|------|
+| Principal Investigator | | | |
+| Sponsor Representative | | | |
+| Regulatory Affairs | | | |
+

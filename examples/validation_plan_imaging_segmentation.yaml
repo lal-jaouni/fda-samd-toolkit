@@ -1,0 +1,251 @@
+# Clinical Validation Plan Configuration: Chest X-ray Pneumonia Detection
+# This example demonstrates a prospective multi-site validation study for
+# an AI algorithm detecting pneumonia on chest radiographs.
+
+device_name: "PneumoDetect: Chest X-ray Pneumonia AI"
+intended_use: >
+  Detection of pneumonia on posteroanterior (PA) and anteroposterior (AP) chest
+  radiographs as clinical decision support for radiologists and emergency physicians
+  evaluating patients with suspected pneumonia in acute care and ambulatory settings.
+
+modality: imaging
+document_version: "1.0"
+document_date: "2026-04-10"
+
+# Study Design
+study_design:
+  type: prospective
+  blinding: single-blinded
+  multi_site: true
+  sites_count: 3
+  site_locations:
+    - "Hospital A (Urban Teaching Hospital), New York, NY"
+    - "Hospital B (Community Hospital), Phoenix, AZ"
+    - "Hospital C (Academic Medical Center), Boston, MA"
+  study_duration_months: 24
+
+# Data Source
+data_source:
+  sites:
+    - "Hospital A Radiology Department"
+    - "Hospital B Radiology Department"
+    - "Hospital C Radiology Department"
+  time_period_start: "2026-06-01"
+  time_period_end: "2028-05-31"
+  sample_size: 800
+  inclusion_criteria:
+    - "Age 18 years or older"
+    - "Clinical suspicion of pneumonia (fever, respiratory symptoms, or clinical presentation)"
+    - "Chest radiograph (PA, AP, or lateral view) obtained within 24 hours of study enrollment"
+    - "Available clinical outcome data (confirmed diagnosis) within 30 days of radiograph"
+    - "Informed consent obtained from subject or legally authorized representative"
+  exclusion_criteria:
+    - "Non-diagnostic radiograph (severe patient motion, incorrect positioning, equipment malfunction)"
+    - "Radiograph with extensive artifact or foreign bodies obscuring lung fields"
+    - "Prior pneumonia diagnosis within past 3 months"
+    - "Immunocompromised state preventing standard reference standard (e.g., untreated HIV CD4<200)"
+    - "Subject unable to complete study follow-up for reference standard determination"
+  population_diversity: >
+    Target enrollment of 800 subjects with distribution:
+    Age: 18-40 (15%), 41-60 (30%), 61-75 (35%), >75 (20%);
+    Sex: 48% Female, 52% Male;
+    Race/Ethnicity: 55% White, 25% Hispanic/Latino, 15% Black/African American, 5% Asian.
+    Comorbidity representation: Diabetes (35%), Chronic lung disease (25%),
+    Immunosuppression (10%), No comorbidities (30%).
+
+# Reference Standard
+reference_standard:
+  gold_standard: >
+    Confirmed pneumonia diagnosis based on clinical assessment and objective findings:
+    (1) Symptoms of pneumonia (cough, fever, dyspnea), (2) Abnormal vital signs or
+    hypoxia, (3) Infiltrate on follow-up imaging (CT chest or repeat radiograph), or
+    (4) Positive respiratory culture. Absence of pneumonia confirmed by clinical
+    resolution without antibiotics and negative follow-up imaging if clinically indicated.
+  reference_source: "Physician clinical assessment with objective diagnostic confirmation"
+  adjudication_process: >
+    Three radiologists (blinded to algorithm output) will independently review chest
+    radiographs and assign pneumonia presence/absence using standardized form.
+    Reference standard established by majority consensus (2 of 3 agreement).
+    Discordant cases escalated to senior thoracic radiologist for final determination.
+    Radiologists will also assess image quality and confidence in diagnosis.
+  adjudicator_qualifications: >
+    Board-certified radiologists with minimum 5 years post-board experience.
+    At least one adjudicator must have fellowship training or demonstrated expertise
+    in thoracic imaging (chest X-ray interpretation volume >10 interpretations/week,
+    publications or teaching in chest radiology).
+  number_of_adjudicators: 3
+  inter_rater_reliability_target: 0.80
+  inter_rater_reliability_method: "Fleiss kappa for multi-rater pneumonia classification"
+
+# Endpoints
+endpoints:
+  primary_endpoint: >
+    Sensitivity and specificity of PneumoDetect for detection of pneumonia infiltrates
+    on chest radiographs compared to expert radiologist consensus assessment.
+  primary_endpoint_target: >
+    Sensitivity >= 90% (95% CI lower bound >= 85%) AND
+    Specificity >= 85% (95% CI lower bound >= 80%)
+  secondary_endpoints:
+    - "AUROC >= 0.92 for pneumonia detection"
+    - "Performance stratified by imaging modality (PA, AP, portable radiographs)"
+    - "Performance stratified by patient age groups"
+    - "Comparison of algorithm performance to individual radiologist performance"
+    - "Positive Predictive Value and Negative Predictive Value at typical prevalence"
+    - "Performance on equivocal cases (image quality score 3-4/5)"
+  sensitivity_target: 0.90
+  specificity_target: 0.85
+  sensitivity_lower_ci: 0.85
+  specificity_lower_ci: 0.80
+  positive_predictive_value_target: 0.75
+  negative_predictive_value_target: 0.95
+
+# Statistical Analysis Plan
+statistical_analysis_plan:
+  primary_hypothesis: >
+    PneumoDetect will achieve sensitivity >= 90% and specificity >= 85% for
+    pneumonia detection on chest radiographs, demonstrating non-inferiority
+    to expert radiologist assessment in a prospective multi-site cohort.
+  statistical_test: >
+    One-sided binomial test for sensitivity and specificity; DeLong test for
+    AUROC comparison between algorithm and individual radiologists.
+  significance_level: 0.05
+  power_target: 0.90
+  power_calculation_description: >
+    Based on assumed pneumonia prevalence of 40% (320 positive, 480 negative cases),
+    target sensitivity 90% vs. null 75%, power calculation yields n>=320 positive cases.
+    For specificity 85% vs. null 70%, n>=480 negative cases provides >90% power.
+    Using binomial test formula: n = [z_alpha + z_beta]^2 * p0(1-p0) / (p1-p0)^2.
+    Sample size of 800 total provides adequate power for both primary endpoints with
+    20% buffer for potential incomplete reference standards or protocol deviations.
+  multiplicity_correction: >
+    No correction applied to co-primary sensitivity and specificity tests
+    (pre-specified non-inferiority margins). Holm step-down procedure applied to
+    4 secondary radiograph type and age stratification tests (adjusted alpha levels).
+  missing_data_strategy: >
+    Intention-to-analyze: all enrolled subjects with interpretable radiographs included.
+    Complete case analysis if reference standard available. Subjects with missing
+    reference standard assessment (unable to complete follow-up) excluded from analysis,
+    with sensitivity analysis using multiple imputation under missing-at-random assumption.
+  sensitivity_analyses:
+    - "Analysis excluding radiographs with image quality score <3/5"
+    - "Stratified analysis by AP vs. PA vs. portable radiograph positioning"
+    - "Performance in pediatric subjects (age <18) if any enrolled"
+    - "Analysis excluding subjects with prior pneumonia history"
+    - "Performance on radiographs with atypical presentations or shadows mimicking pneumonia"
+    - "Comparison using different confidence thresholds (varying algorithm decision boundary)"
+
+# Subgroup Analysis
+subgroup_analysis:
+  subgroups:
+    - "Sex: Male vs. Female"
+    - "Age: 18-40, 41-60, 61-75, >75 years"
+    - "Race/Ethnicity: White, Hispanic/Latino, Black/African American, Asian, Other"
+    - "Comorbidity: Diabetes, Chronic Lung Disease, Immunosuppression, None"
+    - "Radiograph Type: PA vs. AP vs. Portable (supine)"
+    - "Image Quality: Excellent/Good vs. Acceptable vs. Compromised"
+  stratification_variables:
+    - "age_group"
+    - "sex"
+    - "race_ethnicity"
+    - "comorbidity_category"
+    - "radiograph_positioning"
+  performance_target_by_subgroup:
+    "Female": "Sensitivity >= 88%, Specificity >= 83%"
+    "Male": "Sensitivity >= 90%, Specificity >= 85%"
+    "18-40 years": "Sensitivity >= 92%, Specificity >= 88%"
+    "41-60 years": "Sensitivity >= 90%, Specificity >= 85%"
+    "61-75 years": "Sensitivity >= 90%, Specificity >= 85%"
+    ">75 years": "Sensitivity >= 88%, Specificity >= 82%"
+    "PA radiograph": "Sensitivity >= 92%, Specificity >= 87%"
+    "AP radiograph": "Sensitivity >= 90%, Specificity >= 85%"
+    "Portable radiograph": "Sensitivity >= 85%, Specificity >= 80%"
+  minority_representation: >
+    Active recruitment at urban hospital with diverse catchment population.
+    Target Hispanic/Latino enrollment 25% (200 subjects), Black/African American
+    15% (120 subjects) through community outreach and partnership with local
+    community health centers. Materials in Spanish and other languages provided.
+  differential_performance_analysis: >
+    Separate sensitivity/specificity reported for each demographic and clinical subgroup.
+    Chi-square tests assess whether performance differs significantly across groups.
+    Logistic regression with interaction terms evaluates whether demographic factors
+    predict differential algorithm performance. If significant disparity detected,
+    qualitative assessment of potential drivers (radiograph quality, disease phenotype,
+    imaging interpretation differences) and plan mitigation strategies.
+
+# Generalization Testing
+generalization_testing:
+  external_validation_sites:
+    - "Hospital D (Different healthcare system, different state)"
+    - "Hospital E (International site, if applicable)"
+  external_validation_sample_size: 300
+  external_validation_timeline: >
+    External validation conducted post-primary analysis, pre-submission.
+    Timeline: 6 months for subject enrollment and analysis completion.
+    Conducted at geographically distinct sites with different radiology practices,
+    equipment manufacturers, and patient demographics.
+  temporal_validation_plan: >
+    Temporal generalization assessed on radiographs collected 12+ months after
+    primary study enrollment completion. Analysis will compare algorithm sensitivity/
+    specificity on temporally distinct data. Investigation of any performance
+    degradation that may indicate data drift or model obsolescence.
+  data_drift_monitoring: >
+    Post-market surveillance: Quarterly analysis of algorithm predictions on
+    incoming radiographs. Drift detection using Kolmogorov-Smirnov test on input
+    image features (histogram shifts). If quarterly sensitivity drops >3% or specificity
+    drops >2%, trigger investigation and potential retraining. Annual model performance
+    verification in at least one external site.
+  geographic_generalization_plan: >
+    Primary study across 3 US regions assesses regional generalization.
+    External validation at 2 additional sites (including potential international site)
+    demonstrates broader applicability. Analysis investigates relationship between
+    site-level characteristics (patient demographics, clinical prevalence, imaging
+    equipment, radiologist expertise) and algorithm performance variation.
+
+# Safety Monitoring
+safety_monitoring:
+  adverse_event_definition: >
+    Clinically significant error in pneumonia detection potentially affecting
+    patient management: false positive triggering unnecessary antibiotic initiation,
+    hospitalization, or invasive procedures; false negative resulting in missed
+    pneumonia diagnosis and delayed treatment.
+  serious_adverse_event_definition: >
+    False negative pneumonia detection leading to delayed diagnosis, treatment delay,
+    clinical deterioration, or adverse outcome (respiratory failure, sepsis, mortality).
+    False positive causing major morbidity from unnecessary antibiotic toxicity,
+    healthcare-associated infection, or treatment complications.
+  adverse_event_monitoring_plan: >
+    Prospective study: structured chart review of all algorithm-radiologist disagreements.
+    Research coordinator reviews discordant cases and follows clinical outcomes for
+    30 days post-radiograph. Any subject experiencing adverse event or poor outcome
+    following algorithm false prediction flagged for safety review. Regular safety
+    meetings every 3 months to assess pattern of errors.
+  safety_stopping_rules: >
+    Study halted if: (1) False negative rate exceeds 15% in pneumonia detection,
+    (2) >= 3 subjects identified with serious adverse outcome attributable to
+    false negative pneumonia detection, or (3) Primary endpoint sensitivity
+    <85% with 95% CI lower bound <80%.
+  false_positive_impact_assessment: >
+    False positive pneumonia detection may trigger: unnecessary broad-spectrum
+    antibiotic initiation (antibiotic resistance, adverse reactions, Clostridioides
+    difficile risk), hospital admission (cost, nosocomial infection risk),
+    patient anxiety and unnecessary procedures. Risk mitigated by: high specificity
+    target (85%), integration as radiologist decision support (not autonomous diagnosis),
+    requirement for clinical correlation before treatment initiation.
+  false_negative_impact_assessment: >
+    False negative pneumonia detection results in: missed diagnosis and delayed
+    treatment initiation, disease progression and clinical deterioration, increased
+    risk of severe pneumonia complications (respiratory failure, sepsis, mortality).
+    Risk mitigated by: high sensitivity target (90%), maintenance of clinical workflow
+    where radiologist makes final diagnostic determination, clinician judgment for
+    patients with high clinical suspicion despite algorithm prediction.
+
+# Regulatory References
+regulatory_references:
+  - "FDA 'Clinical Performance Assessment: Considerations for Computer-Assisted Detection Devices' (2020)"
+  - "FDA 'Predetermined Change Control Plans for Machine Learning-Enabled Medical Devices' (December 2024)"
+  - "STARD 2015 (Standards for Reporting Diagnostic Accuracy Studies)"
+  - "TRIPOD-AI (Transparent Reporting of Evaluations with Nonlinear Machine Learning Models)"
+  - "ACR Appropriateness Criteria: Suspected Pneumonia"
+  - "RSNA Reporting Guidelines for Pneumonia Imaging"
+  - "DICOM Standard for Medical Imaging and Related Information"
+  - "IEC 62304: Medical Device Software Lifecycle Processes"

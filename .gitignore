@@ -1,17 +1,62 @@
+# Python
 __pycache__/
 *.py[cod]
-.pytest_cache/
-.ruff_cache/
-.pyright/
+*.so
+.Python
+*.egg
 *.egg-info/
 dist/
 build/
+.eggs/
+*.whl
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Testing
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+test-report.json
+coverage.xml
+*.cover
+
+# Type checkers / linters
+.mypy_cache/
+.pyright/
+.ruff_cache/
+.dmypy.json
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# uv
+uv.lock
+
+# MkDocs
+site/
+
+# Generated user documents (keep examples in version control)
+output/
+*.generated.md
+*.generated.pdf
+
+# Secrets
 .env
 .env.*
 *.secret
+*.pem
 *.key
-test-report.json
+
+# Claude
 .claude/worktrees/
 .claude/settings.local.json
-mlflow/
-*.db

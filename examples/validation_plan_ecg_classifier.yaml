@@ -1,0 +1,227 @@
+# Clinical Validation Plan Configuration: ECG Arrhythmia Classifier
+# This example demonstrates a retrospective validation study for an ECG-based
+# arrhythmia detection AI algorithm.
+
+device_name: "CardioDetect ECG Arrhythmia Classifier"
+intended_use: >
+  Detection and classification of cardiac arrhythmias from 12-lead ECG signals
+  as decision support for cardiologists during clinical assessment of patients
+  with suspected arrhythmias or cardiac conduction abnormalities.
+
+modality: signals
+document_version: "1.0"
+document_date: "2026-04-10"
+
+# Study Design
+study_design:
+  type: retrospective
+  blinding: double-blinded
+  multi_site: true
+  sites_count: 3
+  site_locations:
+    - "Johns Hopkins Medical Center, Baltimore, MD"
+    - "Stanford Health, Palo Alto, CA"
+    - "Mayo Clinic, Rochester, MN"
+  study_duration_months: 18
+
+# Data Source
+data_source:
+  sites:
+    - "Johns Hopkins Hospital ECG Repository"
+    - "Stanford Health ECG Database"
+    - "Mayo Clinic Cardiovascular Biobank"
+  time_period_start: "2020-01-01"
+  time_period_end: "2023-12-31"
+  sample_size: 1500
+  inclusion_criteria:
+    - "Age 18 years or older at time of ECG"
+    - "Complete 12-lead ECG recording with sampling rate 250 Hz or higher"
+    - "Confirmed clinical diagnosis or outcome within 6 months of ECG (for reference standard)"
+    - "Available cardiology assessment or device diagnosis for adjudication"
+    - "Clinical note documentation of arrhythmia status or cardiac rhythm"
+  exclusion_criteria:
+    - "Incomplete or corrupted ECG signal"
+    - "ECG signal quality score <80% (excessive noise, artifact, baseline wander)"
+    - "Paced rhythms (due to complexity in rhythm classification)"
+    - "Subjects with no clinical follow-up data for reference standard establishment"
+    - "Insufficient documentation for adjudicator reference standard determination"
+  population_diversity: >
+    The study aims to enroll a demographically diverse population including:
+    Age: 18-40 (25%), 41-60 (35%), 61-75 (25%), >75 (15%);
+    Sex: 48% Female, 52% Male;
+    Race/Ethnicity: 60% White, 20% Black/African American, 12% Hispanic/Latino, 8% Asian.
+    Comorbidity distribution should reflect typical cardiology clinic prevalence
+    (hypertension 50%, diabetes 25%, structural heart disease 15%).
+
+# Reference Standard
+reference_standard:
+  gold_standard: >
+    Clinical diagnosis of cardiac arrhythmia confirmed by board-certified
+    cardiologists based on 12-lead ECG interpretation, device interrogation
+    (for patients with pacemakers/ICDs), electrophysiology testing, or cardiac imaging.
+  reference_source: "Board-certified cardiologist clinical assessment"
+  adjudication_process: >
+    Two independent board-certified cardiologists will review each ECG and classify
+    the cardiac rhythm using standardized classification system (Brugada classification
+    for arrhythmias). For cases of disagreement, a third cardiologist specialist in
+    electrophysiology will adjudicate. Final reference standard assignment requires
+    consensus of at least 2 of 3 adjudicators.
+  adjudicator_qualifications: >
+    Board certification in Cardiology from American Board of Internal Medicine with
+    minimum 5 years post-board certification experience. Cardiologists must have
+    demonstrated expertise in arrhythmia interpretation (publications, clinical role,
+    or fellowship training in electrophysiology).
+  number_of_adjudicators: 3
+  inter_rater_reliability_target: 0.85
+  inter_rater_reliability_method: "Fleiss kappa for multi-rater reliability"
+
+# Endpoints
+endpoints:
+  primary_endpoint: >
+    Sensitivity and specificity for detection of atrial fibrillation (AF) on 12-lead ECG
+    compared to clinical reference standard diagnosis.
+  primary_endpoint_target: >
+    Sensitivity >= 90% (95% CI lower bound >= 85%) AND
+    Specificity >= 95% (95% CI lower bound >= 90%)
+  secondary_endpoints:
+    - "Classification accuracy for 5-class arrhythmia categories (Normal, AF, Atrial Flutter, SVT, VT)"
+    - "Area Under Receiver Operating Characteristic Curve (AUROC) for AF detection: >= 0.92"
+    - "Positive Predictive Value >= 85% at typical AF prevalence of 5%"
+    - "Negative Predictive Value >= 98%"
+    - "Performance consistency across device brands (GE, Philips, Nihon Kohden, Schiller)"
+  sensitivity_target: 0.90
+  specificity_target: 0.95
+  sensitivity_lower_ci: 0.85
+  specificity_lower_ci: 0.90
+
+# Statistical Analysis Plan
+statistical_analysis_plan:
+  primary_hypothesis: >
+    The CardioDetect algorithm will achieve sensitivity >= 90% and specificity >= 95%
+    for atrial fibrillation detection compared to clinical reference standard in a
+    diverse population of 1500 subjects.
+  statistical_test: >
+    Binomial test for sensitivity and specificity, with DeLong test for comparing
+    AUROC between algorithm and clinical cardiologist performance.
+  significance_level: 0.05
+  power_target: 0.90
+  power_calculation_description: >
+    Sample size calculation assumes AF prevalence of 15% (225 AF subjects, 1275 non-AF).
+    Using binomial test with alpha=0.05, power=0.90, and target sensitivity=90%
+    with null hypothesis of 80%, n=225 AF subjects provides adequate power.
+    For specificity with target 95% (null=90%), n=1275 non-AF subjects provides power>0.99.
+    Additional 20% buffer (n=1800 total enrollment, 1500 analyzable) accounts for
+    potential protocol deviations and missing reference standards.
+    Formula: n = [z_alpha + z_beta]^2 * p0 * (1-p0) / (p1 - p0)^2.
+  multiplicity_correction: >
+    No correction for primary AF sensitivity/specificity tests (pre-specified co-primary).
+    Bonferroni correction (alpha/5 = 0.01) applied to 5 secondary arrhythmia class tests.
+  missing_data_strategy: >
+    Primary analysis: intention-to-analyze with complete case analysis for subjects
+    with valid ECG and reference standard. Sensitivity analysis will use multiple
+    imputation (MICE) for subjects with missing reference standard adjudication.
+    Subjects with technical ECG failures will be excluded (recorded separately).
+  sensitivity_analyses:
+    - "Stratified analysis by AF paroxysmal vs. persistent/permanent"
+    - "Performance on high-quality ECGs (SNR >40dB) vs. routine clinical recordings"
+    - "Sensitivity analysis excluding subjects with structural heart disease"
+    - "Sub-group analysis by device manufacturer (GE vs. Philips vs. others)"
+    - "Analysis removing outlier subjects with extreme signal characteristics"
+
+# Subgroup Analysis
+subgroup_analysis:
+  subgroups:
+    - "Sex: Male vs. Female"
+    - "Age: <50, 50-65, >65 years"
+    - "Race/Ethnicity: White, Black/African American, Hispanic/Latino, Asian, Other"
+    - "Comorbidity: None vs. Hypertension vs. Diabetes vs. Structural Heart Disease"
+    - "Arrhythmia Type: Paroxysmal AF vs. Persistent AF"
+    - "Device Manufacturer: GE, Philips, Nihon Kohden, Schiller, Other"
+  stratification_variables:
+    - "age_group"
+    - "sex"
+    - "race_ethnicity"
+    - "comorbidity_status"
+  performance_target_by_subgroup:
+    "Female": "Sensitivity >= 88%, Specificity >= 94%"
+    "Male": "Sensitivity >= 90%, Specificity >= 95%"
+    "<50 years": "Sensitivity >= 92%, Specificity >= 96%"
+    "50-65 years": "Sensitivity >= 90%, Specificity >= 95%"
+    ">65 years": "Sensitivity >= 88%, Specificity >= 94%"
+  minority_representation: >
+    The study will actively recruit from diverse healthcare systems serving
+    African American, Hispanic/Latino, and Asian communities. Target enrollment:
+    Black/African American 20% (300 subjects), Hispanic/Latino 12% (180 subjects),
+    Asian 8% (120 subjects). Recruitment incentives and multi-language materials
+    will be provided.
+  differential_performance_analysis: >
+    Chi-square tests will assess whether sensitivity/specificity differs significantly
+    across demographic subgroups. If disparity detected (>5% difference), we will
+    investigate potential drivers (signal quality, arrhythmia phenotype, comorbidities)
+    and plan mitigation (retraining data weighting, confidence adjustments).
+
+# Generalization Testing
+generalization_testing:
+  external_validation_sites:
+    - "Cleveland Clinic, Cleveland, OH"
+    - "UCSF Medical Center, San Francisco, CA"
+  external_validation_sample_size: 400
+  external_validation_timeline: >
+    External validation will be conducted post-primary analysis, pre-FDA submission.
+    Timeline: 6 months for enrollment and analysis.
+  temporal_validation_plan: >
+    Temporal validation will assess algorithm performance on ECGs collected in 2024
+    (>12 months after primary study data). Comparison metrics: sensitivity/specificity
+    should not degrade >3%. Investigation of any drift with updated prevalence
+    estimates or signal distribution shifts.
+  data_drift_monitoring: >
+    Post-market surveillance: Monthly analysis of algorithm predictions and confidence
+    distributions. Drift detection using Kolmogorov-Smirnov test (p<0.05 triggers
+    investigation). Performance metrics tracked monthly; if monthly sensitivity drops
+    >5% or specificity drops >3%, trigger retraining protocol.
+  geographic_generalization_plan: >
+    The multi-site primary study (3 geographic regions) will assess regional performance
+    variation. External validation adds 2 additional regions for 5-region US coverage.
+    Analysis will assess whether site-specific performance differences relate to
+    demographic factors, clinical practice patterns, or equipment differences.
+
+# Safety Monitoring
+safety_monitoring:
+  adverse_event_definition: >
+    Any clinical consequence of false algorithm prediction that results in
+    unintended patient harm, unnecessary intervention, or diagnostic delay.
+    Includes: false positive AF detection triggering inappropriate anticoagulation,
+    false negative missing clinically significant arrhythmia.
+  serious_adverse_event_definition: >
+    False negative result leading to missed AF diagnosis with subsequent stroke,
+    thromboembolic event, or other serious morbidity. False positive leading to
+    major bleeding from inappropriate anticoagulation.
+  adverse_event_monitoring_plan: >
+    During retrospective study: structured chart review of false predictions
+    and clinical outcomes. For all subjects with disagreement between algorithm
+    and reference standard, senior cardiologist will assess clinical consequences.
+  safety_stopping_rules: >
+    Study will be paused if: (1) False negative rate in AF detection >15%,
+    (2) >3 subjects identified with serious adverse outcome attributable to
+    false negative, or (3) Sensitivity <85% with lower 95% CI <80%.
+  false_positive_impact_assessment: >
+    False positive AF detection may trigger: (a) Initiation of anticoagulation therapy
+    with bleeding risk, (b) Unnecessary cardiology referral and additional testing,
+    (c) Patient anxiety and lifestyle modifications. Impact mitigated by: integration
+    of algorithm output as decision support (not standalone diagnostic), requirement
+    for clinician confirmation before treatment decisions, high specificity target (95%).
+  false_negative_impact_assessment: >
+    False negative AF detection may result in: (a) Missed opportunity for
+    anticoagulation in patient at stroke risk, (b) Delayed referral for rate control
+    or other management, (c) Patient experiencing stroke or other thromboembolic event.
+    Impact mitigated by: high sensitivity target (90%), integration in standard
+    ECG interpretation workflow, clinician override capability.
+
+# Regulatory References
+regulatory_references:
+  - "FDA 'Clinical Performance Assessment: Considerations for Computer-Assisted Detection Devices' (2020)"
+  - "FDA 'Predetermined Change Control Plans for Machine Learning-Enabled Medical Devices' (December 2024)"
+  - "STARD 2015 (Standards for Reporting Diagnostic Accuracy Studies)"
+  - "TRIPOD-AI (Transparent Reporting of Evaluations with Nonlinear Machine Learning Models in Diagnostic and Prognostic Applications)"
+  - "ACC/AHA Guidelines for Atrial Fibrillation (2019)"
+  - "IEC 62304: Medical Device Software Lifecycle Processes"
