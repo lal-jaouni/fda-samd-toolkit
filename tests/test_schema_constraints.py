@@ -11,8 +11,10 @@ from fda_samd_toolkit.pccp.schemas import PCCPConfig
 from fda_samd_toolkit.validation.schemas import StatisticalAnalysisPlan
 
 
-def _minimal_stat_plan_kwargs(**overrides):
-    base = {
+def _make_stat_plan(**overrides):
+    """Build a StatisticalAnalysisPlan via model_validate to avoid pyright
+    kwarg typing issues when exercising invalid values."""
+    base: dict = {
         "primary_hypothesis": "H1: sensitivity >= 90%",
         "statistical_test": "Binomial test",
         "power_calculation_description": "Alpha 0.05, power 0.90, one-sided test",
@@ -20,53 +22,53 @@ def _minimal_stat_plan_kwargs(**overrides):
         "missing_data_strategy": "Complete case analysis",
     }
     base.update(overrides)
-    return base
+    return StatisticalAnalysisPlan.model_validate(base)
 
 
 class TestSignificanceLevelConstraint:
     def test_default_valid(self):
-        plan = StatisticalAnalysisPlan(**_minimal_stat_plan_kwargs())
+        plan = _make_stat_plan()
         assert plan.significance_level == 0.05
 
     def test_explicit_valid(self):
-        plan = StatisticalAnalysisPlan(**_minimal_stat_plan_kwargs(significance_level=0.01))
+        plan = _make_stat_plan(significance_level=0.01)
         assert plan.significance_level == 0.01
 
     def test_rejects_zero(self):
         with pytest.raises(ValidationError) as excinfo:
-            StatisticalAnalysisPlan(**_minimal_stat_plan_kwargs(significance_level=0.0))
+            _make_stat_plan(significance_level=0.0)
         msg = str(excinfo.value).lower()
         assert "greater than" in msg or "gt" in msg
 
     def test_rejects_one(self):
         with pytest.raises(ValidationError):
-            StatisticalAnalysisPlan(**_minimal_stat_plan_kwargs(significance_level=1.0))
+            _make_stat_plan(significance_level=1.0)
 
     def test_rejects_above_one(self):
         with pytest.raises(ValidationError):
-            StatisticalAnalysisPlan(**_minimal_stat_plan_kwargs(significance_level=2.5))
+            _make_stat_plan(significance_level=2.5)
 
     def test_rejects_negative(self):
         with pytest.raises(ValidationError):
-            StatisticalAnalysisPlan(**_minimal_stat_plan_kwargs(significance_level=-0.1))
+            _make_stat_plan(significance_level=-0.1)
 
 
 class TestPowerTargetConstraint:
     def test_explicit_valid(self):
-        plan = StatisticalAnalysisPlan(**_minimal_stat_plan_kwargs(power_target=0.80))
+        plan = _make_stat_plan(power_target=0.80)
         assert plan.power_target == 0.80
 
     def test_rejects_zero(self):
         with pytest.raises(ValidationError):
-            StatisticalAnalysisPlan(**_minimal_stat_plan_kwargs(power_target=0.0))
+            _make_stat_plan(power_target=0.0)
 
     def test_rejects_one(self):
         with pytest.raises(ValidationError):
-            StatisticalAnalysisPlan(**_minimal_stat_plan_kwargs(power_target=1.0))
+            _make_stat_plan(power_target=1.0)
 
     def test_rejects_above_one(self):
         with pytest.raises(ValidationError):
-            StatisticalAnalysisPlan(**_minimal_stat_plan_kwargs(power_target=1.5))
+            _make_stat_plan(power_target=1.5)
 
 
 class TestPCCPEffectiveDate:
