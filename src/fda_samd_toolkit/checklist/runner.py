@@ -43,9 +43,7 @@ def _prompt_item_status(item: ChecklistItem) -> ItemStatus:
     return status_map[choice]
 
 
-def run_interactive(
-    device_name: str | None = None, skip_complete: bool = False
-) -> ReadinessReport:
+def run_interactive(device_name: str | None = None, skip_complete: bool = False) -> ReadinessReport:
     """
     Run interactive checklist walking through each item.
 
@@ -62,9 +60,7 @@ def run_interactive(
     )
 
     if not device_name:
-        device_name = Prompt.ask(
-            "Device name (optional)", default="Unnamed Device"
-        )
+        device_name = Prompt.ask("Device name (optional)", default="Unnamed Device")
 
     categories = get_all_categories()
     all_results = []
@@ -111,9 +107,7 @@ def run_interactive(
     return report
 
 
-def run_from_yaml(
-    yaml_path: str | Path, device_name: str | None = None
-) -> ReadinessReport:
+def run_from_yaml(yaml_path: str | Path, device_name: str | None = None) -> ReadinessReport:
     """
     Load checklist status from YAML file instead of interactive prompts.
 
@@ -245,8 +239,7 @@ def report_to_markdown(report: ReadinessReport) -> str:
     if report.blockers:
         lines.append("\n## BLOCKERS (Critical Missing Items)\n")
         lines.append(
-            f"{report.total_blockers_missing} blocker items require immediate "
-            "attention:\n"
+            f"{report.total_blockers_missing} blocker items require immediate attention:\n"
         )
         for category, item in report.blockers:
             lines.append(
@@ -274,9 +267,7 @@ def report_to_markdown(report: ReadinessReport) -> str:
 
         # List missing and partial items
         incomplete_items = [
-            i
-            for i in cat_result.items
-            if i.status in (ItemStatus.MISSING, ItemStatus.PARTIAL)
+            i for i in cat_result.items if i.status in (ItemStatus.MISSING, ItemStatus.PARTIAL)
         ]
 
         if incomplete_items:
@@ -343,5 +334,3 @@ def print_report(report: ReadinessReport) -> None:
         )
 
     console.print(table)
-
-

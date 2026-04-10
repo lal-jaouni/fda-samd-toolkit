@@ -1,0 +1,423 @@
+# CardioGuard ECG-AI: Clinical Validation Plan Configuration
+# Retrospective, double-blinded, multi-site validation study
+# Input configuration for validation plan generator (future toolkit v0.3)
+
+device_information:
+  device_name: "CardioGuard ECG-AI"
+  manufacturer: "CardioGuard Medical, Inc."
+  device_classification: "Class II Software-as-a-Medical-Device"
+  predicate_device: "Anumana ECG-AI (K232488)"
+  validation_plan_version: "1.0"
+  validation_plan_date: "2026-04-10"
+
+intended_use_for_validation:
+  clinical_indication: >
+    CardioGuard ECG-AI is intended to assist primary care and urgent care clinicians
+    in detecting atrial fibrillation, ventricular tachycardia, and 1st degree
+    atrioventricular block from 12-lead electrocardiogram (ECG) recordings in
+    ambulatory adult patients (age >= 18 years) presenting with signs or symptoms
+    of cardiac arrhythmia.
+
+  target_population: >
+    Ambulatory adult patients (18-85 years old) presenting to primary care clinics,
+    urgent care centers, or telehealth platforms with signs or symptoms of cardiac
+    arrhythmia (palpitations, syncope, fatigue, dyspnea) or undergoing routine ECG screening.
+
+  modality: "ECG signal analysis"
+
+study_design:
+  study_name: "CardioGuard ECG-AI Clinical Validation Study"
+  study_type: "Retrospective"
+  study_design_rationale: >
+    Retrospective design selected because:
+    (1) Target arrhythmias occur at known low prevalence in primary care (AFib ~2-3%, VT <1%)
+    (2) Retrospective approach avoids selection bias and allows enrollment from existing
+        medical record repositories with complete follow-up data
+    (3) Cost-effective compared to prospective study while providing robust clinical validation
+    (4) Precedent in FDA-cleared ECG AI devices (Anumana K232488 used retrospective design)
+
+  study_population_design: "Multi-site, representative of diversity in age, sex, race/ethnicity, comorbidities"
+
+  blinding_strategy: "Double-blinded"
+  blinding_details: >
+    (1) Adjudicators (board-certified cardiologists) are blinded to CardioGuard model outputs
+    (2) CardioGuard algorithm developers have no access to adjudication results until after
+        final performance analysis
+    (3) Adjudication performed independently for each ECG; cross-site adjudication for
+        quality assurance
+
+  multi_site_design: true
+  number_of_sites: 3
+  sites:
+    - name: "Johns Hopkins Medical Center"
+      location: "Baltimore, MD"
+      primary_contacts:
+        - name: "Dr. Sarah Chen, MD, PhD"
+          role: "Site Lead, Cardiologist"
+        - name: "Dr. James Wilson, MD"
+          role: "Adjudicator, Board-Certified Cardiologist"
+      ecg_repository: "Johns Hopkins Hospital ECG Repository"
+      expected_enrollment: 600
+
+    - name: "Stanford Health"
+      location: "Palo Alto, CA"
+      primary_contacts:
+        - name: "Dr. Michael Torres, MD"
+          role: "Site Lead, Cardiologist"
+        - name: "Dr. Lisa Anderson, MD"
+          role: "Adjudicator, Board-Certified Cardiologist"
+      ecg_repository: "Stanford Health ECG Database"
+      expected_enrollment: 450
+
+    - name: "Mayo Clinic"
+      location: "Rochester, MN"
+      primary_contacts:
+        - name: "Dr. Robert Kumar, MD, PhD"
+          role: "Site Lead, Cardiologist"
+        - name: "Dr. Jennifer Lee, MD"
+          role: "Adjudicator, Board-Certified Cardiologist"
+      ecg_repository: "Mayo Clinic Cardiovascular Biobank"
+      expected_enrollment: 450
+
+  study_duration_months: 18
+  estimated_start_date: "2025-01-01"
+  estimated_completion_date: "2026-06-30"
+
+study_sample:
+  sample_size_justification: >
+    Sample size of 1500 subjects provides adequate statistical power:
+    (1) Primary endpoint: AUROC >= 0.90 with 95% CI lower bound >= 0.87
+    (2) Assumption: true AUROC = 0.92 (based on internal validation)
+    (3) Alpha = 0.05 (two-tailed), Beta = 0.10 (80% power)
+    (4) Required sample size: ~1200 patients; oversampling to 1500 for stratified analysis
+
+  sample_size: 1500
+  sample_size_details:
+    overall: 1500
+    by_site:
+      johns_hopkins: 600
+      stanford: 450
+      mayo: 450
+    by_age_target:
+      "18-40": 375  # 25%
+      "41-65": 525  # 35%
+      "66+": 600    # 40%
+    by_sex_target:
+      male: 780     # 52%
+      female: 720   # 48%
+    by_race_ethnicity_target:
+      white: 900            # 60%
+      black: 300            # 20%
+      hispanic: 180         # 12%
+      asian: 120            # 8%
+
+  inclusion_criteria:
+    - "Age 18 years or older at time of ECG"
+    - "Complete 12-lead ECG recording with sampling rate >= 250 Hz"
+    - "Confirmed cardiac diagnosis or clinical follow-up within 6 months of index ECG"
+    - "Available cardiology assessment, device interrogation, or clinical documentation for reference standard"
+    - "Adequate ECG signal quality (visual inspection, baseline wander < 5 mV, noise < 2 mV)"
+
+  exclusion_criteria:
+    - "Pediatric patients (age < 18 years)"
+    - "Incomplete or corrupted ECG signal (missing leads, excessive noise or artifact)"
+    - "ECG signal quality score < 80% as determined by automated artifact detection"
+    - "Paced rhythms (pacemaker or ICD patients)"
+    - "Subjects with insufficient clinical follow-up data for reference standard determination (< 6 months)"
+    - "Subjects with inadequate documentation for adjudicator review and reference standard assignment"
+
+  population_diversity_targets:
+    age_distribution: >
+      18-40 years: 25% (younger population with lower arrhythmia prevalence)
+      41-65 years: 35% (peak prevalence of target arrhythmias)
+      66+ years: 40% (elderly population with highest arrhythmia burden)
+
+    sex_distribution: >
+      Male: 52% (slight male predominance reflects typical cardiology clinic population)
+      Female: 48%
+
+    race_ethnicity_distribution: >
+      White: 60% (reflects US census estimate)
+      Black/African American: 20% (oversampled to assess sub-population performance; US prevalence ~13%)
+      Hispanic/Latino: 12%
+      Asian American: 8%
+
+    comorbidity_targets: >
+      Hypertension: 50% (most common comorbidity in cardiology populations)
+      Diabetes: 25%
+      Structural heart disease (known CAD, HFrEF, HFpEF, valvular disease): 15%
+      Chronic kidney disease: 10%
+      Prior stroke or TIA: 5%
+
+data_source:
+  data_source_description: "Retrospective ECG repositories from 3 major US health systems"
+
+  sites_and_data_sources:
+    - site: "Johns Hopkins Medical Center"
+      data_source: "Johns Hopkins Hospital ECG Repository"
+      operating_system: "MUSE ECG Management System (GE Healthcare)"
+      available_records: "~400,000 ECG recordings from 2020-2023"
+      quality_assurance: "Johns Hopkins IT department maintains HIPAA compliance and data integrity standards"
+
+    - site: "Stanford Health"
+      data_source: "Stanford Health ECG Database"
+      operating_system: "Philips PageWriter and Mortara ELI ECG machines"
+      available_records: "~250,000 ECG recordings from 2020-2023"
+      quality_assurance: "Stanford IT and Privacy Office oversee data access and retention"
+
+    - site: "Mayo Clinic"
+      data_source: "Mayo Clinic Cardiovascular Biobank"
+      operating_system: "Multi-platform ECG collection (GE MUSE, Philips, Mortara)"
+      available_records: "~300,000 ECG recordings from 2018-2023"
+      quality_assurance: "Mayo Clinic Institutional Review Board (IRB) oversight; prospective biobank management"
+
+  time_period: "2020-2023"
+  time_period_start_date: "2020-01-01"
+  time_period_end_date: "2023-12-31"
+
+  data_selection_methodology: >
+    (1) Site researchers query ECG repositories for inclusion criteria
+    (2) Exclude records with missing clinical documentation or follow-up data
+    (3) Random sample from eligible population to achieve target enrollment and stratification targets
+    (4) De-identify all records (remove PHI, assign study ID)
+    (5) Verify demographics and clinical comorbidities from EHR documentation
+
+reference_standard:
+  reference_standard_definition: >
+    The reference standard for cardiac rhythm classification is established as:
+    Clinical diagnosis of cardiac arrhythmia confirmed by board-certified cardiologists
+    based on 12-lead ECG interpretation, correlation with clinical symptoms, medical
+    history, device interrogation data (for pacemaker/ICD patients), or electrophysiology
+    testing results.
+
+  reference_standard_source: "Board-certified cardiologist clinical assessment"
+
+  adjudication_process: >
+    (1) Three independent board-certified cardiologists review each ECG independently
+        (blinded to CardioGuard model output)
+    (2) Each adjudicator assigns a rhythm classification (normal sinus, atrial fibrillation,
+        ventricular tachycardia, 1st degree AV block, other)
+    (3) Additional clinical context reviewed as available: patient age, symptoms, medical history,
+        prior ECGs, device interrogation, imaging reports
+    (4) Consensus classification: rhythm classified based on agreement of at least 2 of 3 adjudicators
+    (5) If disagreement among all 3 adjudicators (e.g., 1 votes AFib, 2 vote normal), case escalated
+        to fourth adjudicator (electrophysiology specialist) for tie-breaking
+
+  adjudicator_qualifications:
+    qualifications: >
+      (1) Board certification in Cardiology from American Board of Internal Medicine
+      (2) Minimum 5 years post-board certification clinical experience
+      (3) Demonstrated expertise in arrhythmia interpretation:
+          - Publication record in cardiology or arrhythmia journals, OR
+          - Fellowship training in electrophysiology, OR
+          - Current clinical role in arrhythmia center or electrophysiology clinic
+      (4) Successful completion of study protocol training
+
+    adjudicators_planned: 3
+    adjudicators_identified:
+      - name: "Dr. James Wilson, MD, FACC"
+        institution: "Johns Hopkins"
+        board_certification: "Cardiology (2015), Electrophysiology (2018)"
+        experience_years: 8
+      - name: "Dr. Lisa Anderson, MD, FACC"
+        institution: "Stanford"
+        board_certification: "Cardiology (2010)"
+        experience_years: 13
+      - name: "Dr. Jennifer Lee, MD, FACC"
+        institution: "Mayo Clinic"
+        board_certification: "Cardiology (2012), Electrophysiology (2016)"
+        experience_years: 11
+
+  inter_rater_reliability_target:
+    metric: "Fleiss kappa"
+    target_value: 0.85
+    interpretation: "Substantial agreement; values >= 0.80 indicate good clinical reliability"
+
+  inter_rater_reliability_assessment: >
+    (1) Conduct pilot adjudication of 100 ECGs with all 3 adjudicators before main study
+    (2) Calculate Fleiss kappa for pairwise agreements
+    (3) If kappa < 0.80, conduct protocol training and re-run pilot
+    (4) During main study, randomly select 10% of cases (150 ECGs) for re-adjudication
+        by a second adjudicator to monitor ongoing inter-rater reliability
+
+endpoints:
+  primary_endpoint:
+    name: "AUROC >= 0.90 with 95% Confidence Interval Lower Bound >= 0.87"
+    description: >
+      CardioGuard ECG-AI demonstrates adequate discrimination ability between arrhythmia
+      cases and non-cases, with acceptable precision estimated by the confidence interval.
+    success_criterion: "AUROC >= 0.90 (95% CI lower bound >= 0.87)"
+    statistical_method: "ROC analysis using DeLong method for CI calculation"
+
+  secondary_endpoints:
+    - name: "Sensitivity >= 0.85"
+      description: "At least 85% of true arrhythmias correctly detected"
+      threshold: 0.85
+
+    - name: "Specificity >= 0.90"
+      description: "At least 90% of true negatives (normal rhythms) correctly identified"
+      threshold: 0.90
+
+    - name: "Positive Predictive Value >= 0.88"
+      description: "Of flagged cases, at least 88% are true positives"
+      threshold: 0.88
+
+    - name: "Negative Predictive Value >= 0.90"
+      description: "Of non-flagged cases, at least 90% are true negatives"
+      threshold: 0.90
+
+    - name: "Sub-population AUROC Gap <= 0.03"
+      description: "Maximum difference in AUROC between any two demographic groups <= 0.03"
+      threshold: 0.03
+
+study_methodology:
+  statistical_analysis_plan: >
+    (1) Primary analysis: Overall AUROC calculation with 95% confidence intervals using
+        DeLong method (nonparametric comparison of ROC curves)
+    (2) Sensitivity/specificity calculated at the pre-specified clinical decision threshold
+        (probability >= 0.70 for positive classification)
+    (3) Subgroup analyses: stratified AUROC calculation for age groups, sex, race/ethnicity
+    (4) Missing data: complete-case analysis (no imputation); document any missing data patterns
+    (5) Interim analysis: not planned (fixed-sample design)
+    (6) No adjustments for multiple comparisons (secondary endpoints are pre-specified)
+
+  threshold_selection: >
+    The decision threshold of 0.70 (probability of arrhythmia) was selected to:
+    (1) Maximize sensitivity while maintaining acceptable specificity
+    (2) Align with internal validation performance analysis
+    (3) Prioritize detection of arrhythmias (minimize false negatives) in clinical context
+        where missing AFib may result in thromboembolic event
+
+  software_and_analysis_tools: >
+    Statistical analysis performed using Python (scikit-learn, scipy for ROC analysis).
+    All analysis code version-controlled and reviewable by second analyst for QA.
+
+data_handling:
+  data_protection_and_privacy: >
+    (1) All ECG data and clinical information de-identified prior to study team access
+    (2) Assignment of unique study ID (no PHI in study database)
+    (3) Data transmission between sites and central analysis occurs via encrypted channels (TLS 1.3)
+    (4) Access restricted to study team members who have completed IRB training and signed
+        data use agreements
+    (5) Study database access logs maintained for audit
+
+  data_retention:
+    retention_period_years: 7
+    rationale: "Standard FDA requirement for medical device records"
+
+quality_assurance:
+  data_quality_checks: >
+    (1) Missing data validation: ensure all required fields populated
+    (2) Range checks: age 18-120, probability scores 0-1
+    (3) Duplicate checks: identify duplicate ECGs from same patient to prevent bias
+    (4) Consistency checks: cross-check demographics between ECG record and EHR data
+
+  adjudication_quality_assurance: >
+    (1) Pilot adjudication of 100 cases to establish baseline inter-rater reliability
+    (2) Random selection of 10% of cases (150 ECGs) for re-adjudication by second reviewer
+    (3) Calculate percent agreement and Fleiss kappa on re-reviewed subset
+    (4) Any drift in adjudication quality triggers protocol retraining
+
+  algorithm_quality_checks: >
+    (1) Verify CardioGuard version and configuration match submission version
+    (2) Test algorithm on known positive and negative controls (synthetic ECGs)
+    (3) Version control all code and configuration files
+    (4) Log all inference runs with timestamp, ECG ID, and output probabilities
+
+expected_outcomes:
+  expected_primary_outcome: >
+    CardioGuard ECG-AI achieves AUROC >= 0.90 with 95% confidence interval lower bound >= 0.87,
+    demonstrating clinical performance consistent with or superior to predicate device (Anumana K232488, AUROC 0.92).
+
+  anticipated_subpopulation_performance: >
+    (1) Age: slight variation expected; lower in 18-40 age group (AUROC ~0.91) due to lower
+        training data prevalence
+    (2) Sex: minimal variation expected (M/F AUROC difference < 0.02)
+    (3) Race/ethnicity: 0.03 AUROC gap identified in internal validation between White and Black
+        populations; similar gap expected in clinical validation study. Gap documented and mitigation
+        planned (additional diverse data, v1.1 retraining)
+
+  alternative_outcomes: >
+    If primary endpoint not achieved (AUROC < 0.90 or CI lower bound < 0.87):
+    (1) Investigate post-hoc potential causes (data quality issues, equipment variation, population differences)
+    (2) Conduct sensitivity analysis excluding outlier sites or patient subgroups
+    (3) Decision: proceed to FDA with lower performance (with justification), OR
+        recommend additional training data and revalidation before submission
+
+monitoring_and_safety:
+  data_monitoring_committee:
+    planned: false
+    rationale: "Retrospective study with no ongoing patient safety risk; no DMC required"
+
+  safety_monitoring: >
+    (1) No prospective safety monitoring (retrospective study of historical data)
+    (2) Post-hoc review of any discordant cases where CardioGuard output conflicts
+        significantly with adjudication result; documented in case report form
+    (3) No stopping rules (fixed retrospective sample)
+
+regulatory_and_ethical:
+  irb_review: true
+  irb_submission_plan: >
+    Study protocol and data use agreements submitted to institutional review boards (IRBs)
+    at each participating site (Johns Hopkins, Stanford, Mayo Clinic) for review and approval.
+    Anticipated IRB approval: Q4 2024 (before study start 2025-01-01).
+
+  informed_consent: >
+    Not required. Retrospective review of existing medical records and de-identified ECG data.
+    IRBs may waive consent under 45 CFR 46.104(d) (retrospective data, all identifiers removed).
+
+  privacy_and_hipaa_compliance: >
+    (1) All data handled under Business Associate Agreements (BAAs) between CardioGuard Medical
+        and participating health systems
+    (2) Data de-identified per HIPAA Safe Harbor method (remove all 18 categories of PHI)
+    (3) Secure data transmission via encrypted channels; data storage encrypted at rest
+
+  publication_plan:
+    peer_review_publication: true
+    target_journals: "Circulation: Arrhythmias and Electrophysiology, Heart Rhythm"
+    submission_timeline: "Q4 2026 (after FDA submission and anticipated clearance)"
+
+timeline_and_milestones:
+  milestones:
+    - date: "2024-10-15"
+      event: "IRB submissions to Johns Hopkins, Stanford, Mayo Clinic"
+    - date: "2024-12-15"
+      event: "All IRB approvals received; data use agreements finalized"
+    - date: "2025-01-01"
+      event: "Study initiation; data collection begins at all sites"
+    - date: "2025-02-01"
+      event: "Pilot adjudication (100 ECGs) to assess inter-rater reliability"
+    - date: "2025-06-01"
+      event: "Enrollment target: 500 patients (33% of 1500)"
+    - date: "2026-01-01"
+      event: "Enrollment target: 1000 patients (67% of 1500)"
+    - date: "2026-06-30"
+      event: "Enrollment complete (1500 patients); adjudication complete"
+    - date: "2026-07-15"
+      event: "Data QA and cleanup"
+    - date: "2026-08-01"
+      event: "Statistical analysis and endpoint evaluation"
+    - date: "2026-09-01"
+      event: "Final report generation; FDA submission package assembly"
+    - date: "2026-10-15"
+      event: "510(k) submission to FDA"
+
+study_governance:
+  study_sponsor: "CardioGuard Medical, Inc."
+  principal_investigator: "Dr. Sarah Chen, MD, PhD (Johns Hopkins Medical Center)"
+  study_coordinator: "Jane Smith, MS, CCRP (CardioGuard Medical)"
+  statistical_analysis_lead: "Dr. Robert Kumar, PhD (Mayo Clinic)"
+
+contact_information:
+  primary_contact:
+    name: "Dr. Sarah Chen, MD, PhD"
+    title: "Principal Investigator, Study Lead"
+    institution: "Johns Hopkins Medical Center"
+    email: "schen@jhmi.edu"
+    phone: "+1-410-955-1234"
+
+  regulatory_contact:
+    name: "Dr. John Smith, MD, JD"
+    title: "Chief Regulatory Officer, CardioGuard Medical"
+    email: "jsmith@cardiogaurd-medical.com"
+    phone: "+1-617-555-0123"

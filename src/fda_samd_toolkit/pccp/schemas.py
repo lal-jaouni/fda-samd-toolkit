@@ -1,7 +1,7 @@
 """Pydantic v2 schemas for PCCP configuration and validation."""
 
-from typing import Optional
-from pydantic import BaseModel, Field, ConfigDict, field_validator
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class DeviceInfo(BaseModel):
@@ -16,10 +16,10 @@ class DeviceInfo(BaseModel):
     classification: str = Field(
         ..., description="FDA classification (e.g., 'Class II', 'Class III')"
     )
-    predicate_device: Optional[str] = Field(
+    predicate_device: str | None = Field(
         None, description="510(k) predicate device name (if applicable)"
     )
-    device_id: Optional[str] = Field(None, description="FDA Device ID (if available)")
+    device_id: str | None = Field(None, description="FDA Device ID (if available)")
 
 
 class PerformanceMetric(BaseModel):
@@ -28,9 +28,7 @@ class PerformanceMetric(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True)
 
     name: str = Field(..., description="Metric name (e.g., 'AUROC', 'Sensitivity')")
-    description: str = Field(
-        ..., description="What this metric measures and why it matters"
-    )
+    description: str = Field(..., description="What this metric measures and why it matters")
     baseline_value: float = Field(..., description="Baseline value from development")
     threshold_warning: float = Field(
         ..., description="Warning threshold (trigger for investigation)"
@@ -38,9 +36,7 @@ class PerformanceMetric(BaseModel):
     threshold_action: float = Field(
         ..., description="Action threshold (trigger for model retraining)"
     )
-    direction: str = Field(
-        default="higher", description="'higher' or 'lower' for good performance"
-    )
+    direction: str = Field(default="higher", description="'higher' or 'lower' for good performance")
 
     @field_validator("direction")
     @classmethod
@@ -62,12 +58,8 @@ class DataDriftMonitoring(BaseModel):
     monitoring_frequency: str = Field(
         ..., description="How often drift is checked (e.g., 'weekly', 'monthly')"
     )
-    threshold_description: str = Field(
-        ..., description="What constitutes actionable drift"
-    )
-    response_protocol: str = Field(
-        ..., description="What happens when drift is detected"
-    )
+    threshold_description: str = Field(..., description="What constitutes actionable drift")
+    response_protocol: str = Field(..., description="What happens when drift is detected")
 
 
 class PlannedModification(BaseModel):
@@ -98,9 +90,7 @@ class ModificationProtocol(BaseModel):
         ...,
         description="How data is collected, versioned, and managed for retraining",
     )
-    data_quality_checks: str = Field(
-        ..., description="Quality assurance steps before retraining"
-    )
+    data_quality_checks: str = Field(..., description="Quality assurance steps before retraining")
     retraining_methodology: str = Field(
         ..., description="Algorithm, loss function, hyperparameters, and training process"
     )
@@ -114,9 +104,7 @@ class ModificationProtocol(BaseModel):
     performance_thresholds: list[PerformanceMetric] = Field(
         ..., description="List of performance metrics with warning and action thresholds"
     )
-    drift_monitoring: DataDriftMonitoring = Field(
-        ..., description="Data drift detection strategy"
-    )
+    drift_monitoring: DataDriftMonitoring = Field(..., description="Data drift detection strategy")
     deployment_process: str = Field(
         ..., description="How the validated model is deployed to production"
     )
@@ -155,9 +143,7 @@ class ImpactAssessment(BaseModel):
         ...,
         description="Benefits of planned modifications (improved performance, broader applicability, etc.)",
     )
-    risks: str = Field(
-        ..., description="Potential risks introduced by modifications"
-    )
+    risks: str = Field(..., description="Potential risks introduced by modifications")
     risk_mitigations: list[RiskMitigation] = Field(
         ..., description="Detailed mitigations for each identified risk"
     )
@@ -185,11 +171,11 @@ class PCCPConfig(BaseModel):
     impact_assessment: ImpactAssessment = Field(
         ..., description="Assessment of modification impacts"
     )
-    regulatory_compliance: Optional[str] = Field(
+    regulatory_compliance: str | None = Field(
         None,
         description="Statements about compliance with applicable regulations (21 CFR 11, etc.)",
     )
     version: str = Field(default="1.0", description="PCCP document version")
-    effective_date: Optional[str] = Field(
+    effective_date: str | None = Field(
         None, description="Date PCCP becomes effective (ISO 8601 format)"
     )
