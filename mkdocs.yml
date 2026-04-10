@@ -41,10 +41,6 @@ plugins:
   - search:
       lang: en
   - mkdocstrings:
-      handlers:
-        python:
-          docstring_style: google
-          show_source: true
   - mike:
       alias_type: symlink
 
