@@ -161,8 +161,7 @@ def run_from_yaml(yaml_path: str | Path, device_name: str | None = None) -> Read
         }
         if status_str not in status_map:
             raise ValueError(
-                f"Invalid status '{status_str}' for item {item_id}. "
-                "Must be 'complete', 'partial', or 'missing'"
+                f"Invalid status '{status_str}' for item {item_id}. Must be 'complete', 'partial', or 'missing'"
             )
 
         item_statuses[item_id] = status_map[status_str]
@@ -229,18 +228,13 @@ def report_to_markdown(report: ReadinessReport) -> str:
         "# FDA SaMD Submission Readiness Report\n",
         f"**Device:** {report.device_name}\n",
         f"**Report Generated:** {report.timestamp}\n",
-        (
-            f"**Overall Completion:** {report.overall_pct}% "
-            f"({report.total_complete}/{report.total_items} items)\n"
-        ),
+        (f"**Overall Completion:** {report.overall_pct}% ({report.total_complete}/{report.total_items} items)\n"),
     ]
 
     # Blockers section
     if report.blockers:
         lines.append("\n## BLOCKERS (Critical Missing Items)\n")
-        lines.append(
-            f"{report.total_blockers_missing} blocker items require immediate attention:\n"
-        )
+        lines.append(f"{report.total_blockers_missing} blocker items require immediate attention:\n")
         for category, item in report.blockers:
             lines.append(
                 f"- [{item.id}] **{category}**: {item.requirement}\n"
@@ -260,24 +254,16 @@ def report_to_markdown(report: ReadinessReport) -> str:
 
         # Status distribution
         lines.append(
-            f"- Complete: {cat_result.complete}\n"
-            f"- Partial: {cat_result.partial}\n"
-            f"- Missing: {cat_result.missing}\n"
+            f"- Complete: {cat_result.complete}\n- Partial: {cat_result.partial}\n- Missing: {cat_result.missing}\n"
         )
 
         # List missing and partial items
-        incomplete_items = [
-            i for i in cat_result.items if i.status in (ItemStatus.MISSING, ItemStatus.PARTIAL)
-        ]
+        incomplete_items = [i for i in cat_result.items if i.status in (ItemStatus.MISSING, ItemStatus.PARTIAL)]
 
         if incomplete_items:
             lines.append("\n**Incomplete Items:**\n")
             for item in incomplete_items:
-                severity_str = (
-                    f"[{item.severity.upper()}]"
-                    if item.severity.value != ItemSeverity.MINOR.value
-                    else ""
-                )
+                severity_str = f"[{item.severity.upper()}]" if item.severity.value != ItemSeverity.MINOR.value else ""
                 status_str = f"({item.status.upper()})"
                 lines.append(
                     f"- {severity_str} [{item.id}] {item.requirement} {status_str}\n"
@@ -309,9 +295,7 @@ def print_report(report: ReadinessReport) -> None:
 
     # Blockers alert
     if report.blockers:
-        console.print(
-            f"[red bold]WARNING: {report.total_blockers_missing} BLOCKER ITEMS MISSING[/red bold]\n"
-        )
+        console.print(f"[red bold]WARNING: {report.total_blockers_missing} BLOCKER ITEMS MISSING[/red bold]\n")
 
     # Category summary table
     table = Table(title="Category Summary")

@@ -6,7 +6,7 @@ using Pydantic schemas and Jinja2 templates.
 """
 
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 import yaml
 from jinja2 import Environment, FileSystemLoader
@@ -33,7 +33,7 @@ class ModelCardGenerator:
             return now.isoformat() + "Z"
         return now.strftime(format_string)
 
-    def load_config(self, config_path: Path) -> Dict[str, Any]:
+    def load_config(self, config_path: Path) -> dict[str, Any]:
         """
         Load and parse YAML configuration file.
 
@@ -51,7 +51,7 @@ class ModelCardGenerator:
         if not config_path.exists():
             raise FileNotFoundError(f"Config file not found: {config_path}")
 
-        with open(config_path, "r", encoding="utf-8") as f:
+        with open(config_path, encoding="utf-8") as f:
             config = yaml.safe_load(f)
 
         if config is None:
@@ -59,7 +59,7 @@ class ModelCardGenerator:
 
         return config
 
-    def validate_config(self, config: Dict[str, Any]) -> ModelCard:
+    def validate_config(self, config: dict[str, Any]) -> ModelCard:
         """
         Validate configuration against Pydantic schema.
 
@@ -76,7 +76,7 @@ class ModelCardGenerator:
             model_card = ModelCard(**config)
             return model_card
         except ValueError as e:
-            raise ValueError(f"Configuration validation failed: {e}")
+            raise ValueError(f"Configuration validation failed: {e}") from e
 
     def generate_model_card(
         self, config_path: Path, output_path: Path, template_name: str = "model_card.md.j2"

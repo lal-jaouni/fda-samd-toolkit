@@ -30,12 +30,10 @@ class ChecklistItem(BaseModel):
     category: str = Field(..., description="Category (Design Controls, Risk Management, etc.)")
     requirement: str = Field(..., description="Specific regulatory requirement (clear, actionable)")
     evidence_required: str = Field(..., description="What artifacts/evidence must be provided")
-    standard_reference: str = Field(
-        ..., description="Reference to standard or regulation (e.g., '21 CFR 820.30(b)')"
-    )
+    standard_reference: str = Field(..., description="Reference to standard or regulation (e.g., '21 CFR 820.30(b)')")
     status: ItemStatus = Field(default=ItemStatus.MISSING, description="Current completion status")
     severity: ItemSeverity = Field(..., description="Severity if missing (blocker/major/minor)")
-    notes: str | None = Field(None, description="Optional notes about this requirement")
+    notes: str | None = Field(default=None, description="Optional notes about this requirement")
 
 
 class CategoryResult(BaseModel):
@@ -61,9 +59,7 @@ class CategoryResult(BaseModel):
     def blockers(self) -> list[ChecklistItem]:
         """Return all blocker items that are not complete."""
         return [
-            item
-            for item in self.items
-            if item.severity == ItemSeverity.BLOCKER and item.status != ItemStatus.COMPLETE
+            item for item in self.items if item.severity == ItemSeverity.BLOCKER and item.status != ItemStatus.COMPLETE
         ]
 
 

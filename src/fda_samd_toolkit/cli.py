@@ -85,7 +85,7 @@ def generate(config: str, output: str, template: str) -> None:
         sys.exit(1)
 
     try:
-        from fda_samd_toolkit.pccp import generator as _  # noqa: F401
+        from fda_samd_toolkit.pccp.generator import generate_pccp
 
         config_path = Path(config)
         output_path = Path(output)
@@ -93,12 +93,22 @@ def generate(config: str, output: str, template: str) -> None:
         console.print(f"[cyan]Loading config:[/cyan] {config_path}")
         console.print(f"[cyan]Template:[/cyan] {template}")
         console.print("[cyan]Generating PCCP...[/cyan]")
+        generate_pccp(str(config_path), str(output_path))
         console.print(f"[green]✓ PCCP generated:[/green] {output_path}")
 
     except ImportError:
         console.print(
             Panel(
                 "PCCP generator module not available. Check documentation.",
+                title="Error",
+                style="red",
+            )
+        )
+        sys.exit(1)
+    except Exception as e:
+        console.print(
+            Panel(
+                f"PCCP generation failed: {e}",
                 title="Error",
                 style="red",
             )
@@ -120,20 +130,49 @@ def validate(file: str) -> None:
     Example:
         fda-samd pccp validate --file pccp.md
     """
-    if not check_module_available("fda_samd_toolkit.validation", "PCCP validator"):
+    if not check_module_available("fda_samd_toolkit.pccp", "PCCP validator"):
         sys.exit(1)
 
     try:
-        from fda_samd_toolkit.validation import validator as _  # noqa: F401
+        from fda_samd_toolkit.pccp.validator import validate_pccp
 
         file_path = Path(file)
         console.print(f"[cyan]Validating:[/cyan] {file_path}")
-        console.print("[green]✓ Validation passed[/green] (stub implementation)")
+        issues = validate_pccp(str(file_path))
+        if not issues:
+            console.print("[green]✓ No validation issues found[/green]")
+            return
+        errors = [i for i in issues if i.level == "error"]
+        warnings = [i for i in issues if i.level == "warning"]
+        info = [i for i in issues if i.level == "info"]
+        if errors:
+            console.print(f"[red]✗ {len(errors)} error(s)[/red]")
+            for issue in errors:
+                console.print(f"  [red]error[/red] {issue.section}: {issue.message}")
+        if warnings:
+            console.print(f"[yellow]! {len(warnings)} warning(s)[/yellow]")
+            for issue in warnings:
+                console.print(f"  [yellow]warn [/yellow] {issue.section}: {issue.message}")
+        if info:
+            console.print(f"[cyan]i {len(info)} info[/cyan]")
+            for issue in info:
+                console.print(f"  [cyan]info [/cyan] {issue.section}: {issue.message}")
+        if errors:
+            sys.exit(1)
 
     except ImportError:
         console.print(
             Panel(
                 "Validation module not available.",
+                title="Error",
+                style="red",
+            )
+        )
+        sys.exit(1)
+    except Exception as e:
+        console.print(
+            Panel(
+                f"PCCP validation failed: {e}",
                 title="Error",
                 style="red",
             )
@@ -163,14 +202,33 @@ def init(type: str, output: str) -> None:
     """
     output_path = Path(output or "config.yaml")
 
+    # Map device type to a packaged example we can copy as a starter scaffold.
+    examples_dir = Path(__file__).parent.parent.parent / "examples"
+    type_to_example = {
+        "ecg": examples_dir / "pccp_ecg_classifier.yaml",
+        "imaging": examples_dir / "pccp_imaging_segmentation.yaml",
+        "signals": examples_dir / "pccp_ecg_classifier.yaml",
+        "nlp": examples_dir / "pccp_ecg_classifier.yaml",
+    }
+
+    source = type_to_example.get(type.lower())
+    if source is None or not source.exists():
+        console.print(
+            Panel(
+                f"No starter example available for type '{type}'. See examples/ in the repo.",
+                title="Error",
+                style="red",
+            )
+        )
+        sys.exit(1)
+
     try:
         from fda_samd_toolkit.pccp.schemas import PCCPConfig as _  # noqa: F401
 
         console.print(f"[cyan]Scaffolding PCCP config for:[/cyan] {type.upper()}")
+        output_path.write_text(source.read_text())
         console.print(f"[green]✓ Template created:[/green] {output_path}")
-        console.print(
-            "[dim]Edit the config and run 'fda-samd pccp generate' to build your PCCP.[/dim]"
-        )
+        console.print("[dim]Edit the config and run 'fda-samd pccp generate' to build your PCCP.[/dim]")
 
     except ImportError:
         console.print(
@@ -284,8 +342,7 @@ def show(name: str) -> None:
                 f"[bold]{name}[/bold]\n\n"
                 f"[cyan]Type:[/cyan] {template['type']}\n"
                 f"[cyan]Description:[/cyan] {template['description']}\n\n"
-                "[cyan]Sections:[/cyan]\n"
-                + "\n".join(f"  - {section}" for section in template["sections"]),
+                "[cyan]Sections:[/cyan]\n" + "\n".join(f"  - {section}" for section in template["sections"]),
                 title="Template Details",
             )
         )
@@ -366,19 +423,29 @@ def generate_card(config: str, output: str) -> None:
         sys.exit(1)
 
     try:
-        from fda_samd_toolkit.model_cards import generator as _  # noqa: F401
+        from fda_samd_toolkit.model_cards.generator import ModelCardGenerator
 
         config_path = Path(config)
         output_path = Path(output)
 
         console.print(f"[cyan]Loading model config:[/cyan] {config_path}")
         console.print("[cyan]Generating model card...[/cyan]")
+        ModelCardGenerator().generate_model_card(config_path, output_path)
         console.print(f"[green]✓ Model card generated:[/green] {output_path}")
 
     except ImportError:
         console.print(
             Panel(
                 "Model card generator not available.",
+                title="Error",
+                style="red",
+            )
+        )
+        sys.exit(1)
+    except Exception as e:
+        console.print(
+            Panel(
+                f"Model card generation failed: {e}",
                 title="Error",
                 style="red",
             )
@@ -408,15 +475,26 @@ def init_card(type: str, output: str) -> None:
     """
     output_path = Path(output or "model_card.yaml")
 
+    examples_dir = Path(__file__).parent.parent.parent / "examples"
+    source = examples_dir / "model_card_ecg_classifier.yaml"
+
+    if not source.exists():
+        console.print(
+            Panel(
+                f"Starter example not found at {source}",
+                title="Error",
+                style="red",
+            )
+        )
+        sys.exit(1)
+
     try:
         from fda_samd_toolkit.model_cards import schemas as _  # noqa: F401
 
         console.print(f"[cyan]Scaffolding model card for:[/cyan] {type.upper()}")
+        output_path.write_text(source.read_text())
         console.print(f"[green]✓ Template created:[/green] {output_path}")
-        console.print(
-            "[dim]Edit the config and run 'fda-samd model-card "
-            "generate' to build your model card.[/dim]"
-        )
+        console.print("[dim]Edit the config and run 'fda-samd model-card generate' to build your model card.[/dim]")
 
     except ImportError:
         console.print(
@@ -430,33 +508,73 @@ def init_card(type: str, output: str) -> None:
 
 
 @cli.command()
-def checklist() -> None:
+@click.option(
+    "--config",
+    type=click.Path(exists=True),
+    required=False,
+    help="YAML file with pre-recorded artifact statuses (skips interactive prompts)",
+)
+@click.option(
+    "--device-name",
+    type=str,
+    required=False,
+    help="Device name to include in the report",
+)
+@click.option(
+    "--output",
+    type=click.Path(),
+    required=False,
+    help="Optional markdown report output path",
+)
+def checklist(config: str | None, device_name: str | None, output: str | None) -> None:
     """
-    Run an interactive FDA readiness checklist.
+    Run the FDA readiness checklist.
 
-    Example:
+    With --config, runs non-interactively from a YAML file. Without, runs
+    interactively, prompting for each of the 58 items across 8 categories.
+
+    Examples:
         fda-samd checklist
+        fda-samd checklist --config examples/checklist_artifacts.yaml --output readiness.md
     """
-    if not check_module_available("fda_samd_toolkit.checklist", "Interactive checklist"):
+    if not check_module_available("fda_samd_toolkit.checklist", "Readiness checklist"):
         sys.exit(1)
 
     try:
-        console.print("[cyan]FDA SaMD Readiness Checklist[/cyan]")
-        console.print()
-        console.print("[dim]1. Device classification: [/dim]", end="")
-        click.echo("Class II (example)")
-        console.print("[dim]2. Predicate device identified: [/dim]", end="")
-        click.echo("Yes")
-        console.print("[dim]3. Algorithm performance validated: [/dim]", end="")
-        click.echo("In progress")
-        console.print()
-        console.print("[yellow]3 items checked, 1 in progress, 2 pending[/yellow]")
-        console.print("[dim]Run 'fda-samd checklist --help' for more options.[/dim]")
+        from fda_samd_toolkit.checklist.runner import (
+            print_report,
+            report_to_markdown,
+            run_from_yaml,
+            run_interactive,
+        )
+
+        if config:
+            console.print(f"[cyan]Loading checklist artifacts from:[/cyan] {config}")
+            report = run_from_yaml(config, device_name=device_name)
+        else:
+            console.print("[cyan]Running interactive FDA SaMD Readiness Checklist[/cyan]")
+            report = run_interactive(device_name=device_name)
+
+        print_report(report)
+
+        if output:
+            output_path = Path(output)
+            output_path.write_text(report_to_markdown(report))
+            console.print(f"[green]✓ Markdown report written:[/green] {output_path}")
 
     except ImportError:
         console.print(
             Panel(
                 "Checklist module not available.",
+                title="Error",
+                style="red",
+            )
+        )
+        sys.exit(1)
+    except Exception as e:
+        console.print(
+            Panel(
+                f"Checklist failed: {e}",
                 title="Error",
                 style="red",
             )
