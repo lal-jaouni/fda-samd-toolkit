@@ -99,12 +99,14 @@ class TestGetTemplateContent:
 
     def test_raises_file_not_found_if_template_missing_from_disk(self):
         """If a template is in TEMPLATE_FILES but the file is missing, raise FileNotFoundError."""
-        with patch(
-            "fda_samd_toolkit.templates_510k.loader.TEMPLATES_DIR",
-            Path("/nonexistent/templates"),
+        with (
+            patch(
+                "fda_samd_toolkit.templates_510k.loader.TEMPLATES_DIR",
+                Path("/nonexistent/templates"),
+            ),
+            pytest.raises(FileNotFoundError),
         ):
-            with pytest.raises(FileNotFoundError):
-                get_template_content("01_indications_for_use.md")
+            get_template_content("01_indications_for_use.md")
 
 
 class TestCopyTemplate:
@@ -141,13 +143,15 @@ class TestCopyTemplate:
             assert "Unknown template" in str(excinfo.value)
 
     def test_raises_file_not_found_if_template_missing(self):
-        with tempfile.TemporaryDirectory() as tmpdir:
-            with patch(
+        with (
+            tempfile.TemporaryDirectory() as tmpdir,
+            patch(
                 "fda_samd_toolkit.templates_510k.loader.TEMPLATES_DIR",
                 Path("/nonexistent/templates"),
-            ):
-                with pytest.raises(FileNotFoundError):
-                    copy_template("01_indications_for_use.md", Path(tmpdir))
+            ),
+            pytest.raises(FileNotFoundError),
+        ):
+            copy_template("01_indications_for_use.md", Path(tmpdir))
 
     def test_accepts_string_destination(self):
         """copy_template should accept Path or string destinations."""
