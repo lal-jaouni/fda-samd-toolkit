@@ -18,7 +18,8 @@ Building AI/ML for healthcare? FDA Software-as-a-Medical-Device (SaMD) submissio
 | **FDA-Extended Model Card Generator** | Shipped | Mitchell et al. 2019 sections plus FDA fields (predicate devices, classification, subpopulation analysis, PCCP linkage) |
 | **Clinical Validation Framework** | Shipped | Modality guidance for imaging, signals, NLP, multimodal |
 | **Submission Readiness Checklist** | Shipped | 58 items across 8 categories with interactive runner |
-| **Click + Rich CLI** | Shipped | `pccp`, `templates`, `model-card`, `checklist` subcommands |
+| **Predicate Device Discovery** | Shipped | Search openFDA 510(k) database, rank by relevance |
+| **Click + Rich CLI** | Shipped | `pccp`, `templates`, `model-card`, `checklist`, `predicate` subcommands |
 | **MkDocs Documentation Site** | Shipped | Per-component user guides plus API and CLI references |
 | **CardioGuard ECG-AI Worked Example** | Shipped | Complete fictional 510(k) package tying every component together |
 
@@ -53,6 +54,13 @@ fda-samd checklist \
 
 # Or run the checklist interactively (prompts for each of 58 items)
 fda-samd checklist
+
+# Discover predicate devices from openFDA 510(k) database
+fda-samd predicate discover \
+  --device-description "12-lead ECG arrhythmia classifier" \
+  --intended-use "Detection of atrial fibrillation" \
+  --limit 5 \
+  --output predicates.md
 ```
 
 The [`examples/cardioguard-ecg-ai/`](examples/cardioguard-ecg-ai/) directory has a complete narrative worked submission package showing how every component fits together: PCCP, model card, validation plan, 5 filled 510(k) sections, risk analysis, cybersecurity, submission checklist, and project timeline. (Note: the CardioGuard YAMLs are illustrative narrative; the runnable CLI examples above use the schema-conforming fixtures in `examples/`.)
