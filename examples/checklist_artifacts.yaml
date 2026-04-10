@@ -1,0 +1,139 @@
+# Example FDA SaMD Submission Readiness Checklist - Artifact Inventory
+#
+# This file maps your project artifacts to submission readiness checklist items.
+# Run with: python -m fda_samd_toolkit.checklist --yaml examples/checklist_artifacts.yaml --output report.md
+
+device_name: Cardiac Arrhythmia Detection Algorithm (CADA)
+
+items:
+  # Design Controls - 9 items
+  - id: dc-001
+    status: complete  # Design plan document in docs/design-control/design_plan_v2.0.md
+  - id: dc-002
+    status: complete  # Design inputs document in docs/design-control/design_inputs_signed.pdf
+  - id: dc-003
+    status: partial   # Design outputs documented but missing interface specifications
+  - id: dc-004
+    status: complete  # Design review held 2026-03-15, minutes in docs/design-control/review_minutes.md
+  - id: dc-005
+    status: complete  # Unit test coverage 94%, report in tests/verification_report.md
+  - id: dc-006
+    status: partial   # Clinical validation study in progress (enrollment 45/100 patients)
+  - id: dc-007
+    status: missing   # Design transfer not yet initiated
+  - id: dc-008
+    status: complete  # Change control board established, 3 changes processed
+  - id: dc-009
+    status: complete  # Design history file maintained in docs/DHF/
+
+  # Risk Management - 7 items
+  - id: rm-001
+    status: complete  # Risk management plan signed by QA manager
+  - id: rm-002
+    status: complete  # FMEA completed, 12 hazards identified
+  - id: rm-003
+    status: complete  # Risk matrix evaluated, all hazards scored
+  - id: rm-004
+    status: partial   # Risk controls defined but not all validated
+  - id: rm-005
+    status: partial   # Residual risk evaluation in progress
+  - id: rm-006
+    status: missing   # Risk management report not yet compiled
+  - id: rm-007
+    status: missing   # Post-production monitoring plan not defined
+
+  # Software Lifecycle - 10 items
+  - id: sl-001
+    status: complete  # Software classified as Class B (IEC 62304)
+  - id: sl-002
+    status: complete  # SDP document approved by development lead
+  - id: sl-003
+    status: complete  # SRS with 125 requirements, traceability matrix complete
+  - id: sl-004
+    status: complete  # Software architecture document with 5 diagrams
+  - id: sl-005
+    status: partial   # Detailed design 80% complete (main modules done)
+  - id: sl-006
+    status: complete  # 2,400 lines of Python tested, code review complete
+  - id: sl-007
+    status: complete  # Integration testing passed (8/8 modules)
+  - id: sl-008
+    status: partial   # System testing 90% complete (stress testing pending)
+  - id: sl-009
+    status: missing   # Release procedures not yet documented
+  - id: sl-010
+    status: complete  # Bug tracking via GitHub Issues, severity system defined
+
+  # AI/ML-Specific - 8 items
+  - id: ml-001
+    status: complete  # Training data documentation: 15K ECG samples, metadata in data/README.md
+  - id: ml-002
+    status: partial   # Model card started, missing performance tables
+  - id: ml-003
+    status: partial   # Algorithm validated on 500-patient test set (sensitivity 94%, specificity 89%)
+  - id: ml-004
+    status: missing   # Sub-population analysis not yet stratified by age/gender
+  - id: ml-005
+    status: missing   # Data drift monitoring plan not defined
+  - id: ml-006
+    status: missing   # Retraining procedures not documented
+  - id: ml-007
+    status: partial   # SHAP analysis completed, user documentation in progress
+  - id: ml-008
+    status: missing   # PCCP not applicable (no planned modifications)
+
+  # Cybersecurity - 6 items
+  - id: cs-001
+    status: partial   # SBOM generated but not reviewed for accuracy
+  - id: cs-002
+    status: partial   # Threat model draft completed, vulnerability assessment pending
+  - id: cs-003
+    status: missing   # Security testing not yet scheduled
+  - id: cs-004
+    status: missing   # Vulnerability disclosure policy not published
+  - id: cs-005
+    status: missing   # Incident response plan not yet developed
+  - id: cs-006
+    status: missing   # Post-market security monitoring plan not defined
+
+  # Clinical Evidence - 4 items
+  - id: ce-001
+    status: partial   # Clinical evaluation report outline started
+  - id: ce-002
+    status: partial   # Clinical validation study IRB protocol submitted 2026-03-20
+  - id: ce-003
+    status: partial   # Preliminary statistics available (n=45 enrolled)
+  - id: ce-004
+    status: missing   # Substantial equivalence assessment not yet written
+
+  # Quality Management - 5 items
+  - id: qm-001
+    status: complete  # Document control system implemented via GitHub + wiki
+  - id: qm-002
+    status: partial   # Supplier controls for cloud infrastructure defined, medical software library audit pending
+  - id: qm-003
+    status: complete  # CAPA system in place, 2 corrective actions completed
+  - id: qm-004
+    status: missing   # Internal audit schedule not yet finalized
+  - id: qm-005
+    status: missing   # Management review meeting not yet scheduled
+
+  # Submission Documents - 9 items
+  - id: sub-001
+    status: missing   # 510(k) cover letter not yet prepared
+  - id: sub-002
+    status: complete  # Indications for use finalized and approved
+  - id: sub-003
+    status: complete  # Device description document prepared
+  - id: sub-004
+    status: missing   # Substantial equivalence comparison not started
+  - id: sub-005
+    status: partial   # Performance data summary outline started
+  - id: sub-006
+    status: partial   # User manual 75% complete
+  - id: sub-007
+    status: missing   # SSED document not started
+  - id: sub-008
+    status: missing   # Biocompatibility not applicable (software only)
+  - id: sub-009
+    status: missing   # Software documentation package not compiled
