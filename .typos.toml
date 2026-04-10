@@ -1,6 +1,3 @@
-# Typos spell-checker config for the FDA SaMD Toolkit.
-# https://github.com/crate-ci/typos
-
 [default]
 extend-identifiers = []
 extend-words = [
