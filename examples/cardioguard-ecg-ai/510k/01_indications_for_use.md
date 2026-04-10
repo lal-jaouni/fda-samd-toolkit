@@ -187,7 +187,7 @@ CardioGuard Medical, Inc. commits to the following post-market activities:
 
 - FDA PCCP Guidance: Predetermined Change Control Plans for Machine Learning-Enabled Medical Devices (December 2024)
 - FDA AI/ML Action Plan (2021)
-- Anumana ECG-AI 510(k) Submission (K232488)
+- [Predicate Device 510(k) Submission, K-number redacted]
 - IEC 62304: Medical Device Software - Software Lifecycle Processes
 - ISO 13485: Medical Devices - Quality Management Systems
 - IMDRF Software as a Medical Device (SaMD) Framework

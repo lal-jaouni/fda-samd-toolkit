@@ -57,6 +57,18 @@ output/
 *.pem
 *.key
 
+# Local-only strategy and planning docs (not for public repo)
+docs/strategy/
+
+# Local-only project config and research (not for public repo)
+CLAUDE.md
+.claude/
+research/
+
+# Stray top-level scaffold files produced by CLI init commands in this working tree
+/config.yaml
+/model_card.yaml
+
 # Claude
 .claude/worktrees/
 .claude/settings.local.json

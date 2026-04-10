@@ -5,7 +5,7 @@
 device_information:
   device_name: "CardioGuard ECG-AI"
   submission_type: "510(k) Traditional"
-  predicate_device: "Anumana ECG-AI (K232488)"
+  predicate_device: "[Predicate Device, K-number redacted]"
   submission_date_target: "2026-10-15"
   esteban_receipt_date: null  # To be filled after FDA receives submission
 
@@ -78,7 +78,7 @@ device_description_section:
 predicate_device_section:
   - item: "Substantial Equivalence Assessment"
     status: "COMPLETE"
-    description: "Demonstration of substantial equivalence to Anumana ECG-AI (K232488)"
+    description: "Demonstration of substantial equivalence to [Predicate Device, K-number redacted]"
     responsible_party: "Regulatory/Medical Affairs"
     target_completion_date: "2026-09-25"
     actual_completion_date: "2026-09-22"
@@ -87,13 +87,13 @@ predicate_device_section:
     review_feedback: "Thorough and well-supported. Predicate selection justified."
     notes: "Includes feature comparison table, performance comparison, risk profile analysis"
 
-  - item: "Predicate Device Data (K232488 Public Documents)"
+  - item: "Predicate Device Data ([Predicate K-number] Public Documents)"
     status: "COMPLETE"
-    description: "FDA 510(k) summary for Anumana ECG-AI from CDRH database"
+    description: "FDA 510(k) summary for [Predicate Device] from CDRH database"
     responsible_party: "Regulatory Affairs"
     target_completion_date: "2026-08-30"
     actual_completion_date: "2026-08-25"
-    document_location: "submission/predicate_data/Anumana_K232488_summary.pdf"
+    document_location: "submission/predicate_data/predicate_k_number_summary.pdf"
     review_date: "2026-09-01"
     notes: "Public information from FDA CDRH website; downloaded and attached to submission"
 
@@ -308,7 +308,7 @@ submission_preparation_section:
     responsible_party: "Regulatory Affairs"
     target_completion_date: "2026-08-15"
     actual_completion_date: null
-    notes: "Not planned for CardioGuard. Direct 510(k) submission selected as lower-risk predicate (Anumana K232488) is well-established."
+    notes: "Not planned for CardioGuard. Direct 510(k) submission selected as lower-risk predicate ([Predicate K-number redacted]) is well-established."
 
 # OVERALL READINESS ASSESSMENT
 

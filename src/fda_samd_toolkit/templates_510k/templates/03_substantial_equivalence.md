@@ -37,16 +37,16 @@ Name the predicate(s) and justify why they are valid.
 
 Example: "The subject device (CardioDetect AI-ECG Analyzer) is substantially equivalent to:
 
-**Primary Predicate: K232488 (Anumana ECG-AI, atrial fibrillation detection)**
+**Primary Predicate: [K-number] ([Predicate Device A, AI-based arrhythmia detection])**
 - Cleared by FDA on [DATE]
 - Intended use: Automated detection of atrial fibrillation from 12-lead ECG
 - Technology: Deep learning model for ECG classification
 - Output: Binary classification (AF/non-AF) with probability score
 - Patient population: Adults with known or suspected arrhythmias
 - Validity: Same modality (12-lead ECG), same intended use, same clinical setting.
-  Anumana ECG-AI serves as the primary SE reference.
+  [Predicate Device A] serves as the primary SE reference.
 
-**Secondary Predicate: K233429 (Eko AI-Cardiac, cardiac murmur detection)**
+**Secondary Predicate: [Secondary Predicate K-number] ([Predicate Device B], cardiac murmur detection)**
 - Cleared by FDA on [DATE]
 - Intended use: Automated screening for cardiac abnormalities
 - Technology: CNN for acoustic analysis
@@ -62,7 +62,7 @@ Why is this predicate valid? Address the three SE criteria.
 
 [INSERT: Detailed justification]
 
-Example: "Anumana ECG-AI (K232488) is a valid predicate because:
+Example: "[Predicate Device A] ([Predicate K-number]) is a valid predicate because:
 
 **1. Identical Intended Use:**
 - Subject device: 'Automated detection of atrial fibrillation from standard 12-lead ECG'
@@ -89,7 +89,7 @@ Example: "Anumana ECG-AI (K232488) is a valid predicate because:
 - Both integrated with standard hospital ECG machines and EHR systems
 - Both supervised use (not intended for home self-diagnosis)
 
-Conclusion: K232488 is a valid predicate for this 510(k) submission."
+Conclusion: [Predicate K-number] is a valid predicate for this 510(k) submission."
 
 ---
 
@@ -109,12 +109,12 @@ non-substitutional (i.e., doesn't affect safety/effectiveness).
 - Different thresholding or post-processing
 - Different confidence/uncertainty quantification method
 
-Example: "The subject device and predicate K232488 differ in the following ways:
+Example: "The subject device and predicate [Predicate K-number] differ in the following ways:
 
-| Aspect | Subject (CardioDetect) | Predicate (Anumana) | Justification |
+| Aspect | Subject (CardioDetect) | Predicate ([Predicate Manufacturer]) | Justification |
 |--------|----------------------|-------------------|---------------|
 | Model architecture | 1D CNN (4 blocks) | Proprietary (reported as CNN-LSTM hybrid) | Different architecture, but both use deep learning for temporal ECG analysis. Subject model is simpler but achieves superior performance (AUC 0.94 vs. 0.91). Simplicity reduces computational burden and risk of overfitting. |
-| Training dataset | 200K ECGs, multi-center (Mayo, Cleveland, Johns Hopkins) | Anumana reported 300K+ ECGs from undisclosed sources | Subject dataset is clinically well-characterized (demographics, ground truth methodology documented). Predicate dataset size is larger but documentation is limited. Both exceed statistical thresholds for sufficient training data. |
+| Training dataset | 200K ECGs, multi-center (Sites 1, 2, and 3) | [Predicate Manufacturer] reported 300K+ ECGs from undisclosed sources | Subject dataset is clinically well-characterized (demographics, ground truth methodology documented). Predicate dataset size is larger but documentation is limited. Both exceed statistical thresholds for sufficient training data. |
 | Data preprocessing | Butterworth 0.5-100 Hz filter + z-score normalization | Not disclosed | Both apply standard medical signal processing. Subject preprocessing is explicitly documented (transparency advantage). |
 | Output calibration | Monte Carlo dropout (10 stochastic passes) for uncertainty | Single deterministic output with confidence threshold | Subject provides probabilistic confidence estimate; predicate provides binary output. Subject's probabilistic output provides richer information for physician decision-making (non-substitutional improvement). |
 | AF threshold | P(AF) > 0.5 for positive classification | Not disclosed | Standard Bayes threshold used. Both use probability-based thresholding. |
@@ -185,7 +185,7 @@ Create a side-by-side table comparing your device's performance to the predicate
 
 Example:
 
-| Metric | Subject Device | Predicate (K232488) | Conclusion |
+| Metric | Subject Device | Predicate ([Predicate K-number]) | Conclusion |
 |--------|---|---|---|
 | **Detection of AF (main claim)** | | | |
 | Sensitivity | 92.1% (95% CI: 90.8-93.2%) | 88% (reported range) | Subject equal or superior |
@@ -200,7 +200,7 @@ Example:
 | 45-65 years (n=15,421) | Sensitivity 92.8% | Not disclosed | Comparable to overall |
 | >65 years (n=12,345) | Sensitivity 93.1% | Not disclosed | Superior in elderly (higher prevalence) |
 | **By Race/Ethnicity** | | | |
-| Caucasian (82% of data) | AUC 0.946 | Similar reported in Anumana paper | Good agreement |
+| Caucasian (82% of data) | AUC 0.946 | Similar reported in [Predicate Manufacturer] paper | Good agreement |
 | African-American (12% of data) | AUC 0.924 | Not reported | 2.2% lower; see risk analysis |
 | Asian (3% of data) | AUC 0.897 | Not reported | 4.9% lower; limited data, plan follow-up study |
 | **Processing Characteristics** | | | |
@@ -228,7 +228,7 @@ Example: "Both the subject device and predicate were evaluated on:
 
 **Differences in testing conditions:**
 - Subject tested on 50,000 held-out test ECGs (internal validation set)
-- Predicate performance reported in published literature (Anumana ECG-AI paper, 2023);
+- Predicate performance reported in published literature ([Predicate Device A] paper, 2023);
   testing population ~20,000 ECGs
 - Both populations are large enough for statistical validity (>30,000 test samples)
 - Subject includes prospective evaluation; predicate retrospective only
@@ -335,7 +335,7 @@ Why is a 510(k) (not a PMA or De Novo) the appropriate pathway?
 
 Example: "This submission follows the 510(k) pathway (not PMA or De Novo) because:
 
-1. **A valid predicate exists:** K232488 (Anumana ECG-AI) demonstrates FDA has already
+1. **A valid predicate exists:** [Predicate K-number] ([Predicate Device A]) demonstrates FDA has already
    determined that AI-based ECG analysis for AF detection is safe and effective, and
    that this indication is within the scope of non-invasive cardiovascular diagnosis.
 
@@ -368,17 +368,17 @@ Example: "**Predicate Device Search Methodology:**
    - Searched for predicates using terms: 'atrial fibrillation', 'ECG', 'arrhythmia detection',
      'artificial intelligence', 'machine learning', 'neural network'
    - Timeframe: 1995-2025 (all cleared software-based AF detection devices)
-   - Result: K232488 (Anumana), K233429 (Eko AI), K221234 (AliveCor Kardia), others
+   - Result: [Predicate K-number] ([Predicate Manufacturer]), [Secondary Predicate K-number] ([Predicate Device B]), K221234 (AliveCor Kardia), others
 
 2. **Selection Criteria Applied:**
-   - Must detect AF from ECG (not imaging, not other modalities): Includes K232488, K221234
-   - Must use AI/ML (not rule-based algorithms): Includes K232488, K233429
-   - Must have publicly disclosed predicate comparison: K232488 (published paper)
-   - Must be recent enough for current AI standards (last 10 years): K232488 (2022 clearance)
+   - Must detect AF from ECG (not imaging, not other modalities): Includes [Predicate K-number], K221234
+   - Must use AI/ML (not rule-based algorithms): Includes [Predicate K-number], [Secondary Predicate K-number]
+   - Must have publicly disclosed predicate comparison: [Predicate K-number] (published paper)
+   - Must be recent enough for current AI standards (last 10 years): [Predicate K-number] (2022 clearance)
 
 3. **Final Selection:**
-   - Primary: K232488 (Anumana ECG-AI) - identical modality, identical indication, AI-based
-   - Secondary: K233429 (Eko AI) - different modality but demonstrates FDA's acceptance of
+   - Primary: [Predicate K-number] ([Predicate Device A]) - identical modality, identical indication, AI-based
+   - Secondary: [Secondary Predicate K-number] ([Predicate Device B]) - different modality but demonstrates FDA's acceptance of
      AI in cardiology; cited for clinical methodology only
 
 4. **Alternative Predicates Considered and Rejected:**
@@ -387,7 +387,7 @@ Example: "**Predicate Device Search Methodology:**
    - Philips IntelliSpace (signal processing, not AI): Rejected; lacks AI component
    - Historical predicates (pre-2015): Rejected; pre-date modern deep learning standards
 
-**Conclusion:** Predicate search was thorough; K232488 is the most appropriate predicate."
+**Conclusion:** Predicate search was thorough; [Predicate K-number] is the most appropriate predicate."
 
 ---
 
@@ -410,7 +410,7 @@ not on implementation details that don't affect performance.
 **Q: Your training data is different from the predicate. How do you know your model generalizes to other populations?**
 A: Fair point. This is why we conducted:
 (1) Stratified sub-group analysis by sex, age, race (Section 3)
-(2) External validation on a separate test set from different institution (Cleveland Clinic data)
+(2) External validation on a separate test set from different institution (Academic Medical Center 2 data)
 (3) Prospective evaluation (future; planned for first 500 patients)
 All show acceptable performance. Different training data is not a barrier to SE if performance
 is demonstrated on representative test data.

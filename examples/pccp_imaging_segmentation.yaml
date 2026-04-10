@@ -14,7 +14,7 @@ device_info:
     infection. The device is intended as a diagnostic aid to alert radiologists to the
     possibility of pneumonia and is not intended to replace radiologist interpretation.
   classification: "Class II"
-  predicate_device: "Siemens syngo AI Chest X-Ray Assistant (K191234)"
+  predicate_device: "[Cleared imaging AI device, K-number redacted]"
   device_id: "3001456789"
 
 planned_modifications:

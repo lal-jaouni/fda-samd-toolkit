@@ -19,17 +19,17 @@ study_design:
   multi_site: true
   sites_count: 3
   site_locations:
-    - "Johns Hopkins Medical Center, Baltimore, MD"
-    - "Stanford Health, Palo Alto, CA"
-    - "Mayo Clinic, Rochester, MN"
+    - "Academic Medical Center 1, East Coast"
+    - "Academic Medical Center 2, West Coast"
+    - "Academic Medical Center 3, Midwest"
   study_duration_months: 18
 
 # Data Source
 data_source:
   sites:
-    - "Johns Hopkins Hospital ECG Repository"
-    - "Stanford Health ECG Database"
-    - "Mayo Clinic Cardiovascular Biobank"
+    - "Site 1 ECG Repository"
+    - "Site 2 ECG Database"
+    - "Site 3 Cardiovascular Biobank"
   time_period_start: "2020-01-01"
   time_period_end: "2023-12-31"
   sample_size: 1500
@@ -169,7 +169,7 @@ subgroup_analysis:
 # Generalization Testing
 generalization_testing:
   external_validation_sites:
-    - "Cleveland Clinic, Cleveland, OH"
+    - "Academic Medical Center 2, Midwest"
     - "UCSF Medical Center, San Francisco, CA"
   external_validation_sample_size: 400
   external_validation_timeline: >

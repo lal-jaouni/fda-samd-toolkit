@@ -53,9 +53,9 @@ factors:
     - race_ethnicity (Caucasian, African-American, Asian, Hispanic)
     - af_type (paroxysmal, persistent, permanent)
   datasets_used:
-    - Mayo Clinic Rochester
-    - Cleveland Clinic Ohio
-    - Johns Hopkins Baltimore
+    - Site 1
+    - Site 2
+    - Site 3
 
 metrics:
   overall:
@@ -150,12 +150,12 @@ metrics:
 
 evaluation_data:
   datasets:
-    - Mayo Clinic external validation cohort (n=2500, 2021-2023)
-    - Cleveland Clinic external validation cohort (n=1500, 2022-2023)
-    - Johns Hopkins prospective cohort (n=1000, 2024 ongoing)
+    - Site 1 external validation cohort (n=2500, 2021-2023)
+    - Site 2 external validation cohort (n=1500, 2022-2023)
+    - Site 3 prospective cohort (n=1000, 2024 ongoing)
   motivation: |
     External validation datasets selected to assess real-world generalization beyond
-    training institutions. Prospective cohort (Johns Hopkins) provides evidence of
+    training institutions. Prospective cohort (Site 3) provides evidence of
     prospective performance without retrospective bias.
   preprocessing:
     - Butterworth IIR filter 0.5-100 Hz (zero-phase, order 4)
@@ -172,9 +172,9 @@ evaluation_data:
 
 training_data:
   datasets:
-    - Mayo Clinic Rochester ECG database
-    - Cleveland Clinic Ohio ECG database
-    - Johns Hopkins Baltimore ECG database
+    - Site 1 ECG database
+    - Site 2 ECG database
+    - Site 3 ECG database
   sample_size: 200000
   demographics:
     mean_age_years: 66.8
@@ -288,10 +288,10 @@ fda_specific:
     device output is required before any clinical action.
   classification: Class II; 510(k) premarket submission
   predicate_devices:
-    - K232488 (Anumana ECG-AI, atrial fibrillation detection)
-    - K233429 (Eko AI, cardiac abnormality screening)
+    - "[K-number] ([Predicate Device A, AI-based arrhythmia detection])"
+    - "[K-number] ([Predicate Device B, AI-based cardiac screening])"
   substantial_equivalence_summary: |
-    Subject device demonstrates substantial equivalence to K232488 based on: (1) identical
+    Subject device demonstrates substantial equivalence to [Predicate K-number] based on: (1) identical
     intended use (AF detection from 12-lead ECG); (2) identical input modality (12-lead ECG
     at 500 Hz); (3) similar output (probabilistic classification); (4) non-significant
     technological differences (different neural network architecture but superior performance).

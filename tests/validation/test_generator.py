@@ -316,7 +316,7 @@ class TestGenerationECGExample:
             content = output_path.read_text()
             assert "CardioDetect ECG Arrhythmia Classifier" in content
             assert "Clinical Validation Plan" in content
-            assert "Johns Hopkins Medical Center" in content
+            assert "Academic Medical Center" in content
             assert "signals" in content.lower()
 
     def test_ecg_output_length(self, ecg_config_path):

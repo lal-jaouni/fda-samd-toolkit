@@ -47,9 +47,9 @@ factors:
     - "Race/Ethnicity (White, Black/African American, Hispanic/Latino, Asian American)"
   datasets_used:
     - "CardioGuard Training Cohort 2019-2023 (5 health systems, 250,000 ECGs)"
-    - "Johns Hopkins validation cohort (internal)"
-    - "Stanford Health validation cohort (internal)"
-    - "Mayo Clinic validation cohort (internal)"
+    - "Site 1 validation cohort"
+    - "Site 2 validation cohort"
+    - "Site 3 validation cohort"
 
 metrics:
   overall:
@@ -150,9 +150,9 @@ metrics:
 
 evaluation_data:
   datasets:
-    - "Johns Hopkins validation cohort: 500 ECGs (2023)"
-    - "Stanford Health validation cohort: 500 ECGs (2023)"
-    - "Mayo Clinic validation cohort: 500 ECGs (2023)"
+    - "Site 1 validation cohort: 500 ECGs (2023)"
+    - "Site 2 validation cohort: 500 ECGs (2023)"
+    - "Site 3 validation cohort: 500 ECGs (2023)"
   motivation: "External validation across 3 independent health systems and geographies to assess generalization beyond training data sources"
   preprocessing:
     - "Zero-mean normalization per lead"
@@ -284,9 +284,9 @@ fda_specific:
     review and clinical judgment are required for patient management decisions.
   classification: "Class II - Software as a Medical Device (SaMD)"
   predicate_devices:
-    - "Anumana ECG-AI (K232488)"
+    - "[Predicate Device, K-number redacted]"
   substantial_equivalence_summary: >
-    CardioGuard ECG-AI is substantially equivalent to Anumana ECG-AI in intended use, technological characteristics,
+    CardioGuard ECG-AI is substantially equivalent to [Predicate Device] in intended use, technological characteristics,
     and performance. Both devices are transformer-based deep learning models for ECG-based arrhythmia detection in
     primary care settings. Differences: CardioGuard targets 3 arrhythmia types (AFib, VT, 1st degree AV block) with
     12-lead ECG input. Performance is comparable (AUROC 0.92 vs. predicate 0.91). Clinical validation demonstrates

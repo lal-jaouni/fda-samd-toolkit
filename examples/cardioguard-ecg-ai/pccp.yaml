@@ -19,7 +19,7 @@ device_info:
     and 1st degree AV block from 12-lead ECG in adult patients (18 years and older)
     with signs or symptoms suggestive of arrhythmia.
   classification: "Class II"
-  predicate_device: "Anumana ECG-AI (K232488)"
+  predicate_device: "[Predicate Device, K-number redacted]"
   device_id: "3007625401"
 
 planned_modifications:

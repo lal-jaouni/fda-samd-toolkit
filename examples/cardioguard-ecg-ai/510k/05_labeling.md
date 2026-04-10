@@ -246,7 +246,7 @@ Any modifications are version-controlled and performance re-validated before dep
 ### REFERENCES
 
 - FDA PCCP Guidance (Dec 2024): https://www.fda.gov/regulatory-information/search-fda-guidance-documents/predetermined-change-control-plans-machine-learning-enabled-medical-devices
-- Anumana ECG-AI 510(k) Submission (K232488)
+- [Predicate Device 510(k) Submission, K-number redacted]
 - IEC 62304: Medical Device Software - Software Lifecycle Processes
 - ISO 13485: Medical Devices - Quality Management Systems
 

@@ -12,7 +12,7 @@ These personas represent the three core user segments for the FDA SaMD Toolkit, 
 
 ### Profile
 
-Alex leads technical strategy for a cardiac AI startup that has built an ECG-based arrhythmia detection algorithm and validated it across a 5,000-patient retrospective study. The algorithm achieves 98% sensitivity/specificity on held-out test sets. The company has identified a predicate device (Eko Health's cleared algorithm) and is now mapping the submission package.
+Alex leads technical strategy for a cardiac AI startup that has built an ECG-based arrhythmia detection algorithm and validated it across a 5,000-patient retrospective study. The algorithm achieves 98% sensitivity/specificity on held-out test sets. The company has identified a predicate device (a previously cleared ECG AI algorithm) and is now mapping the submission package.
 
 Regulatory consultant (hired at $250/hr) is requesting structured inputs: model documentation, training data lineage, validation protocol, cybersecurity architecture, bias analysis by demographics, and a PCCP for future algorithm updates. The consultant estimates 8 weeks to submission-ready package.
 
@@ -41,7 +41,7 @@ Regulatory consultant (hired at $250/hr) is requesting structured inputs: model 
 3. No standard open-source way to document AI/ML submissions; every startup reinvents the wheel
 4. Cybersecurity SBOM and bias evaluation seem mandatory but no free templates exist
 5. Version control of regulatory docs is painful; changes to algorithm require manually updating 5+ documents
-6. eSTAR format requirements are opaque; Cruxi charges per-submission to handle formatting
+6. eSTAR format requirements are opaque; commercial vendors charge per-submission to handle formatting
 7. Validation protocols are template-heavy boilerplate; high effort, low value-add
 8. No integration between model card and PCCP; must manually sync changes
 
@@ -55,7 +55,7 @@ Regulatory consultant (hired at $250/hr) is requesting structured inputs: model 
 - Maintenance: post-submission (quarterly for PCCP updates, quarterly for real-world monitoring plans)
 - Expected value unlock: 40-60 hours of consultant time saved, $15-20K cost reduction, 2-4 week acceleration
 
-**Example companies (Tier 1 consulting candidates):** Cardiosense (ECG+PPG wearable AI pipeline), Salomatic (cardiac medication AI), Anumana (multi-indication ECG-AI post-first-clearance)
+**Typical target companies:** Seed to Series B cardiac or biosignal AI startups working toward their first 510(k) clearance.
 
 ---
 
@@ -128,7 +128,7 @@ Each client engagement requires standardizing deliverables (model cards, validat
 - Ongoing: quarterly FDA guidance monitoring, annual template updates
 - Expected value unlock: 100-150 billable hours/year freed for higher-value work, improved client retention, faster engagement cycles
 
-**Example companies (Tier 1-2 consulting candidates):** Eko Health (actively hiring Director Global Regulatory Affairs), Cleerly (hiring Principal RA Specialist), NeoSoft LLC (hiring RA specialist)
+**Typical target clients:** Boutique RA firms serving cardiac, imaging, and diagnostic AI clients across Series A through growth stage.
 
 ---
 

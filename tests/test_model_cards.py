@@ -93,7 +93,7 @@ class TestModelCardSchemas:
         fda = FDASpecific(  # type: ignore
             intended_use_statement="AF detection from ECG",
             classification="Class II; 510(k)",
-            predicate_devices=["K232488"],
+            predicate_devices=["KTEST001"],
             drift_monitoring_plan="Monthly KPI checks",
         )
         assert fda.classification == "Class II; 510(k)"
@@ -305,7 +305,7 @@ training_data:
             "fda_specific": {
                 "intended_use_statement": "AF detection from 12-lead ECG",
                 "classification": "Class II; 510(k)",
-                "predicate_devices": ["K232488"],
+                "predicate_devices": ["KTEST001"],
             },
         }
 
@@ -335,7 +335,7 @@ training_data:
             content = output_path.read_text()
             assert "FDA-Extended Model Card" in content
             assert "Medical Corp" in content
-            assert "K232488" in content
+            assert "KTEST001" in content
             assert "Class II" in content
 
     def test_generate_from_example_yaml(self):
@@ -358,7 +358,7 @@ training_data:
             assert "1.2.1" in content
             assert "Atrial fibrillation" in content
             assert "FDA-Specific" in content
-            assert "K232488" in content
+            assert "Predicate" in content
             assert "Metrics" in content
             assert "Subgroup Analysis" in content
 

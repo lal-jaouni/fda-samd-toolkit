@@ -8,7 +8,7 @@
 
 ## 1. Executive Summary
 
-CardioGuard ECG-AI underwent a prospective, multi-site, double-blinded clinical validation study to establish clinical performance and safety for FDA submission. The study enrolled 1,500 adult patients across three major US health systems (Johns Hopkins Medical Center, Stanford Health, Mayo Clinic) over an 18-month period. All patients underwent 12-lead ECG analysis with CardioGuard ECG-AI, with reference standard established by board-certified cardiologists blinded to device output.
+CardioGuard ECG-AI underwent a prospective, multi-site, double-blinded clinical validation study to establish clinical performance and safety for FDA submission. The study enrolled 1,500 adult patients across three major US health systems (Academic Medical Center 1, Academic Medical Center 2, Site 3) over an 18-month period. All patients underwent 12-lead ECG analysis with CardioGuard ECG-AI, with reference standard established by board-certified cardiologists blinded to device output.
 
 **Primary Endpoint Achievement:** AUROC >= 0.90 with 95% CI lower bound >= 0.87
 - **Result:** ACHIEVED - AUROC 0.92 (95% CI: 0.89-0.94)
@@ -29,7 +29,7 @@ CardioGuard ECG-AI underwent a prospective, multi-site, double-blinded clinical 
 
 **Study Type:** Retrospective, double-blinded, multi-site clinical validation  
 **Study Duration:** 18 months (2025-01-01 to 2026-06-30)  
-**Study Sites:** 3 (Johns Hopkins Medical Center, Stanford Health, Mayo Clinic)  
+**Study Sites:** 3 (Academic Medical Center 1, Academic Medical Center 2, Site 3)  
 **Sample Size:** 1,500 adult patients  
 **Ethics Approval:** IRB approved at all sites (dates 2024-12-15)
 
@@ -74,9 +74,9 @@ CardioGuard ECG-AI underwent a prospective, multi-site, double-blinded clinical 
 | Chronic kidney disease | 150 | 10% |
 
 **Enrollment by Site:**
-- Johns Hopkins: n=600 (40%)
-- Stanford Health: n=450 (30%)
-- Mayo Clinic: n=450 (30%)
+- Site 1: n=600 (40%)
+- Academic Medical Center 2: n=450 (30%)
+- Site 3: n=450 (30%)
 
 ### Rhythm Classification in Study Cohort
 
@@ -116,10 +116,10 @@ Clinical diagnosis of cardiac rhythm confirmed by board-certified cardiologists 
 - Protocol training completion
 
 **Identified Adjudicators:**
-- Dr. James Wilson, MD, FACC (Johns Hopkins) - Cardiology + Electrophysiology board certified
-- Dr. Lisa Anderson, MD, FACC (Stanford) - Cardiology board certified, 13 years experience
-- Dr. Jennifer Lee, MD, FACC (Mayo Clinic) - Cardiology + Electrophysiology board certified
-- Dr. Robert Kumar, MD, PhD (Electrophysiology specialist, Mayo) - Tie-breaker
+- Cardiologist A, MD, FACC (Site 1) - Cardiology + Electrophysiology board certified
+- Cardiologist B, MD, FACC (Site 2) - Cardiology board certified, 13 years experience
+- Cardiologist C, MD, FACC (Site 3) - Cardiology + Electrophysiology board certified
+- Electrophysiologist D, MD, PhD (Electrophysiology specialist, Site 3) - Tie-breaker
 
 ### Inter-Rater Reliability
 
@@ -296,9 +296,9 @@ The following table shows performance characteristics at different probability t
 
 ---
 
-## 8. Comparison to Predicate Device (Anumana ECG-AI, K232488)
+## 8. Comparison to Predicate Device ([Predicate Device, K-number redacted])
 
-| Metric | Anumana (from literature) | CardioGuard (validation study) | Comparison |
+| Metric | Predicate (from literature) | CardioGuard (validation study) | Comparison |
 |---|---|---|---|
 | AUROC | 0.92 | 0.92 | **EQUIVALENT** |
 | Sensitivity (AFib) | ~0.92 | 0.92 | **EQUIVALENT** |
@@ -338,7 +338,7 @@ The following table shows performance characteristics at different probability t
 
 ## 10. Conclusion
 
-CardioGuard ECG-AI meets and exceeds predefined endpoints for clinical validation. The device demonstrates equivalent or superior performance compared to the predicate device (Anumana ECG-AI, K232488) with more rigorous and transparent clinical validation methodology. Identified performance gaps in younger age groups and Black population are known, disclosed, and actively mitigated.
+CardioGuard ECG-AI meets and exceeds predefined endpoints for clinical validation. The device demonstrates equivalent or superior performance compared to the predicate device ([Predicate Device, K-number redacted]) with more rigorous and transparent clinical validation methodology. Identified performance gaps in younger age groups and Black population are known, disclosed, and actively mitigated.
 
 **Clinical Significance:** CardioGuard provides clinically useful decision support for arrhythmia detection in primary care and urgent care settings, with performance suitable for use as a clinical decision support tool as described in the Indications for Use.
 

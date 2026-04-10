@@ -30,9 +30,9 @@ centers acquired between 2015-2020:
 
 | Institution | Records | AF Cases | Percentage |
 |---|---|---|---|
-| Mayo Clinic Rochester, MN | 80,000 | 20,000 | 25% |
-| Cleveland Clinic, OH | 72,000 | 17,280 | 24% |
-| Johns Hopkins, MD | 48,000 | 12,000 | 25% |
+| Academic Medical Center 1 (Site A) | 80,000 | 20,000 | 25% |
+| Academic Medical Center 2 | 72,000 | 17,280 | 24% |
+| Academic Medical Center 3 | 48,000 | 12,000 | 25% |
 | **Total** | **200,000** | **49,280** | **24.6%** |
 
 **Data Collection Period:** 2015-2020 (de-identified retroactively; HIPAA compliant)
@@ -402,7 +402,7 @@ Example: "**Annotation Workflow:**
   - Missing or unclear diagnosis codes
   - Conflicting documentation (e.g., 'rule out AFib' vs. confirmed AF)
   - Tier 2 or Tier 3 ground truth (clinical or longitudinal confirmation)
-- Annotators: 3 board-certified cardiologists (Mayo, Cleveland, Johns Hopkins)
+- Annotators: 3 board-certified cardiologists (Sites 1, 2, and 3)
   - All have minimum 5 years AF experience
   - All completed 2-hour training on labeling protocol (Section 5.1.1)
 - Inter-rater reliability: Random sample of 500 records reviewed by all 3 annotators
@@ -412,7 +412,7 @@ Example: "**Annotation Workflow:**
 **Stage 3: QA Audit (5% of all records)**
 - Method: Independent cardiologist (not involved in labeling) reviewed random sample
 - Sample: Stratified random sample of 10,000 records (5% of 200,000)
-  - Stratified by: institution (balanced across Mayo, Cleveland, Johns Hopkins)
+  - Stratified by: institution (balanced across Sites 1, 2, and 3)
   - Stratified by: outcome (balanced AF:non-AF per original labeling)
 - Results:
   - Agreement with original labels: 99.2% (9,920 of 10,000)
@@ -534,12 +534,12 @@ Example: "**Training Data Distribution by Source:**
 
 | Institution | Records | AF % | Demographics | Potential Bias |
 |---|---|---|---|---|
-| **Mayo Clinic (Rochester, MN)** | 80,000 (40%) | 25.0% | 85% Caucasian, 68% male, mean age 68 | Affluent Midwestern US population |
-| **Cleveland Clinic (Cleveland, OH)** | 72,000 (36%) | 24.0% | 82% Caucasian, 58% male, mean age 67 | Rust Belt, slightly higher African-American representation |
-| **Johns Hopkins (Baltimore, MD)** | 48,000 (24%) | 25.0% | 76% Caucasian, 51% male, mean age 65 | Urban population, greater diversity |
+| **Academic Medical Center 1** | 80,000 (40%) | 25.0% | 85% Caucasian, 68% male, mean age 68 | Affluent Midwestern US population |
+| **Academic Medical Center 2** | 72,000 (36%) | 24.0% | 82% Caucasian, 58% male, mean age 67 | Rust Belt, slightly higher African-American representation |
+| **Academic Medical Center 3** | 48,000 (24%) | 25.0% | 76% Caucasian, 51% male, mean age 65 | Urban population, greater diversity |
 
 **Bias Assessment:**
-- Geographic: 60% Midwest (Mayo + Cleveland); 24% Mid-Atlantic (Johns Hopkins); 16% other
+- Geographic: 60% Midwest (Sites 1 and 2); 24% Mid-Atlantic (Academic Medical Center 3); 16% other
   - Limitation: Limited West Coast, South, or international representation
   - Implication: Model may underperform in non-represented regions
   - Mitigation: Future data collection in underrepresented regions

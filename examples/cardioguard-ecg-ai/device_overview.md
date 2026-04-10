@@ -239,7 +239,7 @@ Interpretation: Slightly lower performance in 18-40 age group (AUROC 0.91 vs. 0.
 
 **Classification:** Class II  
 **Regulatory Pathway:** 510(k) Traditional (not Abbreviated)  
-**Predicate Device:** Anumana ECG-AI (K232488), cleared 2021  
+**Predicate Device:** [Predicate Device, K-number redacted], cleared 2021  
 **Substantial Equivalence Argument:** Same intended use (AFib detection from ECG), different algorithm (transformer vs. CNN), different training data (larger, more diverse), different performance characteristics (comparable or superior)
 
 ### Predetermined Change Control Plan (PCCP)
@@ -268,6 +268,6 @@ See pccp.yaml for detailed configuration.
 ## 6. Key References
 
 - FDA PCCP Guidance: https://www.fda.gov/regulatory-information/search-fda-guidance-documents/predetermined-change-control-plans-machine-learning-enabled-medical-devices
-- Anumana ECG-AI 510(k) Submission (K232488): Available via FDA CDRH database
+- [Predicate Device] 510(k) Submission ([Predicate K-number]): Available via FDA CDRH database
 - IEC 62304 Medical Device Software Lifecycle Processes
 - ISO 13485 Medical Devices Quality Management Systems

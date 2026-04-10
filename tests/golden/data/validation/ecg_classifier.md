@@ -50,9 +50,9 @@ The retrospective design with double-blinded blinding was selected to:
 - [Rationale 3: Enables assessment of algorithm on consecutive patients]
 
 **Participating Sites:**
-- Johns Hopkins Medical Center, Baltimore, MD
-- Stanford Health, Palo Alto, CA
-- Mayo Clinic, Rochester, MN
+- Academic Medical Center 1, East Coast
+- Academic Medical Center 2, West Coast
+- Academic Medical Center 3, Midwest
 
 Multi-site enrollment ensures:
 - Geographic diversity and generalization potential
@@ -74,9 +74,9 @@ FDA guidance documents informing this validation plan:
 ### 4.1 Data Sources
 
 **Primary Data Sources:**
-- Johns Hopkins Hospital ECG Repository
-- Stanford Health ECG Database
-- Mayo Clinic Cardiovascular Biobank
+- Site 1 ECG Repository
+- Site 2 ECG Database
+- Site 3 Cardiovascular Biobank
 
 **Data Collection Period:** 2020-01-01 to 2023-12-31
 
@@ -277,7 +277,7 @@ Chi-square tests will assess whether sensitivity/specificity differs significant
 
 ### 9.1 External Validation Sites
 **Sites:**
-- Cleveland Clinic, Cleveland, OH
+- Academic Medical Center 2, Midwest
 - UCSF Medical Center, San Francisco, CA
 
 **Sample Size:** 400 subjects

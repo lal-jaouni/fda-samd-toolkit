@@ -44,9 +44,9 @@ Describe the overall structure of your validation study.
 Example: "This performance validation study employed a **retrospective, multicenter design**
 evaluating de-identified ECG records and clinical outcomes from three academic medical centers:
 
-1. Mayo Clinic Rochester (MN): 15,000 ECG records (2015-2019)
-2. Cleveland Clinic (OH): 18,000 ECG records (2016-2020)
-3. Johns Hopkins (MD): 17,000 ECG records (2017-2020)
+1. Academic Medical Center 1: 15,000 ECG records (2015-2019)
+2. Academic Medical Center 2 (OH): 18,000 ECG records (2016-2020)
+3. Academic Medical Center 3 (MD): 17,000 ECG records (2017-2020)
 
 **Total Sample:** 50,000 ECG records with corresponding clinical outcomes.
 
@@ -79,7 +79,7 @@ analyses. The protocol specified:
 - Statistical analysis plan (pre-specified before data analysis)
 - Subgroup analyses of interest
 
-**IRB Approval/Exemption:** Study was submitted to the Johns Hopkins Institutional Review Board
+**IRB Approval/Exemption:** Study was submitted to the [Lead Institution] Institutional Review Board
 (IRB00021970) and determined to be **exempt** from full review under 45 CFR 46.101(b)(4)
 because it involved analysis of de-identified, existing data and posed no more than minimal
 risk to subjects. Exemption letter dated [DATE] is included in Appendix A.
@@ -322,7 +322,7 @@ AF-present or AF-absent compared to the reference standard.
   diagnostic modalities (Holter, event monitor) confirm AF in missed cases.
   
 - Specificity 93.8% means device correctly excludes 94 of every 100 non-AF cases. The 6.2%
-  false positive rate is acceptable because: (1) it is lower than the predicate (K232488) at ~8%;
+  false positive rate is acceptable because: (1) it is lower than the predicate ([Predicate K-number]) at ~8%;
   (2) false positives lead to cardiology review but not unnecessary treatment (physicians provide
   override); (3) PPV 87.3% means most positive results are true positives.
 
@@ -330,9 +330,9 @@ AF-present or AF-absent compared to the reference standard.
   it's truly negative.
 
 **Comparison to Predicate:**
-- Subject device sensitivity 92.1% vs. K232488 ~88%: Equivalent or superior
-- Subject device specificity 93.8% vs. K232488 ~92%: Equivalent or superior
-- Subject device AUC 0.9407 vs. K232488 ~0.91: Superior discrimination"
+- Subject device sensitivity 92.1% vs. [Predicate K-number] ~88%: Equivalent or superior
+- Subject device specificity 93.8% vs. [Predicate K-number] ~92%: Equivalent or superior
+- Subject device AUC 0.9407 vs. [Predicate K-number] ~0.91: Superior discrimination"
 
 ---
 
@@ -452,7 +452,7 @@ Example: "**Performance by Race/Ethnicity:**
 
 1. **African-American patients (n=5,895):**
    - Sensitivity 90.4% is adequate but 2.3 percentage points lower than Caucasian population
-   - Performance is still comparable to predicate K232488 (~88%)
+   - Performance is still comparable to predicate [Predicate K-number] (~88%)
    - Larger sample size (1,400 AF cases) provides confidence in estimate
    - Action: Monitor performance in post-market use; no labeling restriction recommended
    - Future: Planned re-training with increased representation (currently 12% African-American
@@ -473,7 +473,7 @@ Example: "**Performance by Race/Ethnicity:**
    - Future: Deliberate enrollment of Hispanic patients in prospective validation
 
 **Comparison to Predicate:**
-Predicate K232488 does not report stratified performance by race/ethnicity, making direct
+Predicate [Predicate K-number] does not report stratified performance by race/ethnicity, making direct
 comparison impossible. Subject device's explicit reporting of racial disparities exceeds
 predicate in transparency and meets FDA guidance on equity in AI (2023 AI Action Plan).
 
@@ -536,20 +536,20 @@ The 50,000 ECG dataset was split into three independent, non-overlapping subsets
    - Used to fit model weights (backpropagation)
    - Stratified by AF case/control and institution
    - AF prevalence: 25.0% (10,000 AF; 30,000 non-AF)
-   - Institutions: Mayo 12,000 / Cleveland 14,400 / Johns Hopkins 13,600
+   - Institutions: Site 1 12,000 / Site 2 14,400 / Site 3 13,600
 
 2. **Validation set (5,000 ECGs; 10%):**
    - Used for hyperparameter tuning and early stopping (not to fit weights)
    - Stratified by AF case/control and institution
    - AF prevalence: 25.0% (1,250 AF; 3,750 non-AF)
-   - Institutions: Mayo 1,500 / Cleveland 1,800 / Johns Hopkins 1,700
+   - Institutions: Site 1 1,500 / Site 2 1,800 / Site 3 1,700
 
 3. **Test set (5,000 ECGs; 10%):**
    - Held out and never used during training or hyperparameter tuning
    - Unlocked only after final model submission (no post-hoc tuning)
    - Stratified by AF case/control and institution
    - AF prevalence: 25.0% (1,250 AF; 3,750 non-AF)
-   - Institutions: Mayo 1,500 / Cleveland 1,800 / Johns Hopkins 1,700
+   - Institutions: Site 1 1,500 / Site 2 1,800 / Site 3 1,700
 
 **Prevention of Data Leakage:**
 - Splitting was done at ECG-level (not patient-level), but analysis verified no patient
@@ -604,7 +604,7 @@ differences <1.1% on all metrics. This demonstrates the model generalizes well t
 from a different institution, suggesting low overfitting risk and good real-world performance.
 
 The slight decrease in sensitivity (92.1% -> 91.0%) is expected with external data and is
-not clinically meaningful. Performance exceeds the predicate K232488 (~88%) in external validation."
+not clinically meaningful. Performance exceeds the predicate [Predicate K-number] (~88%) in external validation."
 
 ---
 

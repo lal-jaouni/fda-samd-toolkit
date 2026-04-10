@@ -79,9 +79,9 @@
 - af_type (paroxysmal, persistent, permanent)
 
 **Datasets Used for Evaluation:**
-- Mayo Clinic Rochester
-- Cleveland Clinic Ohio
-- Johns Hopkins Baltimore
+- Site 1
+- Site 2
+- Site 3
 
 ---
 
@@ -275,13 +275,13 @@ Asian patient enrollment.
 ## 5. Evaluation Data
 
 **Datasets Used:**
-- Mayo Clinic external validation cohort (n=2500, 2021-2023)
-- Cleveland Clinic external validation cohort (n=1500, 2022-2023)
-- Johns Hopkins prospective cohort (n=1000, 2024 ongoing)
+- Site 1 external validation cohort (n=2500, 2021-2023)
+- Site 2 external validation cohort (n=1500, 2022-2023)
+- Site 3 prospective cohort (n=1000, 2024 ongoing)
 
 
 **Motivation:** External validation datasets selected to assess real-world generalization beyond
-training institutions. Prospective cohort (Johns Hopkins) provides evidence of
+training institutions. Prospective cohort (Site 3) provides evidence of
 prospective performance without retrospective bias.
 
 **Preprocessing:**
@@ -301,9 +301,9 @@ prospective performance without retrospective bias.
 ## 6. Training Data
 
 **Datasets:**
-- Mayo Clinic Rochester ECG database
-- Cleveland Clinic Ohio ECG database
-- Johns Hopkins Baltimore ECG database
+- Site 1 ECG database
+- Site 2 ECG database
+- Site 3 ECG database
 
 
 **Sample Size:** 200,000 examples
@@ -438,10 +438,10 @@ device output is required before any clinical action.
 
 **FDA Classification:** Class II; 510(k) premarket submission
 **Predicate Devices (510k):**
-- K232488 (Anumana ECG-AI, atrial fibrillation detection)
-- K233429 (Eko AI, cardiac abnormality screening)
+- [K-number] ([Predicate Device A, AI-based arrhythmia detection])
+- [K-number] ([Predicate Device B, AI-based cardiac screening])
 
-**Substantial Equivalence Summary:** Subject device demonstrates substantial equivalence to K232488 based on: (1) identical
+**Substantial Equivalence Summary:** Subject device demonstrates substantial equivalence to [Predicate K-number] based on: (1) identical
 intended use (AF detection from 12-lead ECG); (2) identical input modality (12-lead ECG
 at 500 Hz); (3) similar output (probabilistic classification); (4) non-significant
 technological differences (different neural network architecture but superior performance).
@@ -492,5 +492,5 @@ minimal cognitive load; probabilistic output with color-coded confidence reduces
 
 ---
 
-**Document Generated:** 2026-04-10T15:45:36.753047Z
+**Document Generated:** 2026-04-10T22:59:42.030768Z
 **Model Card Version:** 1.0

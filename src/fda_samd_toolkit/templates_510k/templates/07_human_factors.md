@@ -386,7 +386,7 @@ Example: "**Usability Testing Study (Formative Evaluation):**
 
 **Study Design:**
 - Participants: 12 cardiologists and 4 cardiac nurses (n=16 total)
-- Setting: Hospital cardiology departments in Cleveland and Baltimore
+- Setting: Hospital cardiology departments at multiple academic medical centers
 - Protocol: Think-aloud protocol; participants verbalize thoughts while using device
 - Test cases: 10 ECG cases with varying results (5 AF, 5 non-AF; mix of clear and ambiguous)
 - Metrics: Time to interpretation, accuracy of interpretation, ease of override, subjective satisfaction

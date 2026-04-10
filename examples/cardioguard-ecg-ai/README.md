@@ -7,7 +7,7 @@ This directory contains a fully worked example of a Class II software-as-a-medic
 **Device Name:** CardioGuard ECG-AI  
 **Classification:** Class II  
 **Regulatory Pathway:** 510(k) Traditional with Predetermined Change Control Plan (PCCP)  
-**Predicate Device:** Anumana ECG-AI (K232488)  
+**Predicate Device:** [Predicate Device, K-number redacted]  
 **Intended Use:** Detection and characterization of atrial fibrillation, ventricular tachycardia, and 1st degree AV block in ambulatory adult patients (18+ years) presenting with signs/symptoms of arrhythmia.  
 
 ## Why This Example
@@ -50,7 +50,7 @@ Expected time to clearance: 6-8 months from submission (assumes no major deficie
 ### Regulatory Documentation
 - **510k/01_indications_for_use.md** - IFU statement
 - **510k/02_device_description.md** - Architecture, algorithm, I/O specifications
-- **510k/03_substantial_equivalence.md** - Comparison to Anumana (K232488) predicate
+- **510k/03_substantial_equivalence.md** - Comparison to [Predicate Manufacturer] ([K-number redacted]) predicate
 - **510k/04_performance_summary.md** - Validation study results
 - **510k/05_labeling.md** - Draft clinician labeling with interpretation guidance
 
@@ -83,7 +83,7 @@ Expected time to clearance: 6-8 months from submission (assumes no major deficie
 ### For startup founders:
 1. Time the submission timeline (Week 1-23) against your product roadmap
 2. Estimate regulatory costs: PCCP development (20 hrs), risk/cybersecurity analysis (30 hrs), clinical validation (200+ hrs)
-3. Use the predicate device selection (Anumana K232488) as a model for your own predicate search
+3. Use the predicate device selection ([Predicate Manufacturer] [K-number redacted]) as a model for your own predicate search
 4. Note that quarterly retraining (PCCP drift threshold of 5% AUROC) is a realistic commitment to FDA
 
 ## FDA References
@@ -123,12 +123,12 @@ This example aligns with:
 
 ## Predicate Device
 
-**Anumana ECG-AI (K232488):** FDA 510(k) clearance 2021. Same intended use: detection of atrial fibrillation and supraventricular arrhythmias from single-lead or 12-lead ECG. CardioGuard is substantially equivalent with documented differences in algorithm architecture (transformer vs. CNN), training data source, and performance characteristics.
+**[Predicate Device, K-number redacted]:** FDA 510(k) clearance 2021. Same intended use: detection of atrial fibrillation and supraventricular arrhythmias from single-lead or 12-lead ECG. CardioGuard is substantially equivalent with documented differences in algorithm architecture (transformer vs. CNN), training data source, and performance characteristics.
 
 ## Clinical Validation Study
 
 **Study Design:** Retrospective, double-blinded, multi-site  
-**Sites:** Johns Hopkins Medical Center, Stanford Health, Mayo Clinic  
+**Sites:** Academic Medical Center 1, Academic Medical Center 2, Site 3  
 **Sample Size:** n=1500 adult patients (18+)  
 **Adjudication:** Board-certified cardiologists (3-reviewer consensus)  
 **Reference Standard:** Clinical ECG diagnosis or implantable device confirmation  

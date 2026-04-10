@@ -8,7 +8,7 @@
 
 ## 1. Executive Summary
 
-CardioGuard ECG-AI is substantially equivalent to the predicate device **Anumana ECG-AI (K232488)**, cleared by the FDA on [DATE]. Both devices are software-as-a-medical-device (SaMD) intended to assist clinicians in detecting cardiac arrhythmias from 12-lead ECG recordings. While CardioGuard uses different algorithm architecture (transformer-based vs. CNN), larger and more diverse training data, and demonstrates comparable or superior clinical performance, the intended use, indications, safety profile, and overall function remain the same.
+CardioGuard ECG-AI is substantially equivalent to the predicate device **[Predicate Device, K-number redacted]**, cleared by the FDA on [DATE]. Both devices are software-as-a-medical-device (SaMD) intended to assist clinicians in detecting cardiac arrhythmias from 12-lead ECG recordings. While CardioGuard uses different algorithm architecture (transformer-based vs. CNN), larger and more diverse training data, and demonstrates comparable or superior clinical performance, the intended use, indications, safety profile, and overall function remain the same.
 
 This document establishes substantial equivalence through:
 1. Identical or similar intended use and indications
@@ -20,24 +20,24 @@ This document establishes substantial equivalence through:
 
 ## 2. Predicate Device Selection
 
-### Predicate Device: Anumana ECG-AI (K232488)
+### Predicate Device: [Predicate Device, K-number redacted]
 
-**Submission Number:** K232488  
+**Submission Number:** [K-number redacted]  
 **Clearance Date:** 2021  
 **Device Classification:** Class II Software-as-a-Medical-Device  
-**Manufacturer:** Anumana, Inc.  
+**Manufacturer:** [Predicate Manufacturer], Inc.  
 
-### Why Anumana is an Appropriate Predicate
+### Why [Predicate Manufacturer] is an Appropriate Predicate
 
 1. **Identical Clinical Indication:** Both devices detect atrial fibrillation and arrhythmias from 12-lead ECG
 2. **Same Target Population:** Adult patients (18+) in ambulatory/primary care settings
 3. **Same Risk Category:** Class II SaMD with similar control mechanisms
 4. **Similar Technical Approach:** Both use deep learning on ECG signals
-5. **Predicate is Legally Marketed:** Anumana has FDA clearance and is currently in use
+5. **Predicate is Legally Marketed:** [Predicate Manufacturer] has FDA clearance and is currently in use
 
-### Anumana Device Characteristics (from 510k Submission K232488)
+### [Predicate Manufacturer] Device Characteristics (from 510k Submission [K-number redacted])
 
-| Characteristic | Anumana | CardioGuard |
+| Characteristic | [Predicate Manufacturer] | CardioGuard |
 |---|---|---|
 | **Intended Use** | Detect AFib from single-lead or 12-lead ECG | Detect AFib, VT, 1st deg AV block from 12-lead ECG |
 | **Target Population** | Adult patients in clinical settings | Ambulatory adult patients in primary care/urgent care |
@@ -56,12 +56,12 @@ This document establishes substantial equivalence through:
 ### CardioGuard Intended Use
 "CardioGuard ECG-AI is a software-as-a-medical-device (SaMD) intended to assist primary care and urgent care clinicians in the detection and characterization of atrial fibrillation, ventricular tachycardia, and 1st degree atrioventricular block from 12-lead electrocardiogram (ECG) recordings in ambulatory adult patients (age 18 years and older) presenting with signs or symptoms of cardiac arrhythmia."
 
-### Anumana Intended Use (from K232488 submission)
-"The Anumana ECG-AI is a software-based device intended to aid clinicians in detecting atrial fibrillation from single-lead and 12-lead electrocardiogram (ECG) recordings in adult patients."
+### [Predicate Manufacturer] Intended Use (from [K-number redacted] submission)
+"The [Predicate Device] is a software-based device intended to aid clinicians in detecting atrial fibrillation from single-lead and 12-lead electrocardiogram (ECG) recordings in adult patients."
 
 ### Comparison and Equivalence Rationale
 
-| Element | Anumana | CardioGuard | Equivalent? |
+| Element | [Predicate Manufacturer] | CardioGuard | Equivalent? |
 |---|---|---|---|
 | **Device Type** | SaMD | SaMD | YES - both are software medical devices |
 | **Clinical Function** | Detect arrhythmias | Detect arrhythmias | YES - both provide decision support |
@@ -71,7 +71,7 @@ This document establishes substantial equivalence through:
 | **User Type** | Clinicians | Clinicians | YES - same intended users |
 | **Role in Care** | Clinical decision support | Clinical decision support | YES - same role in patient management |
 
-**Conclusion:** Intended uses are substantially equivalent. CardioGuard has a slightly expanded indication set (includes VT and AV block detection in addition to AFib) and is specifically positioned for primary care/urgent care use, but the core clinical function (arrhythmia detection from ECG to support clinical decision-making) is identical to Anumana.
+**Conclusion:** Intended uses are substantially equivalent. CardioGuard has a slightly expanded indication set (includes VT and AV block detection in addition to AFib) and is specifically positioned for primary care/urgent care use, but the core clinical function (arrhythmia detection from ECG to support clinical decision-making) is identical to [Predicate Manufacturer].
 
 ---
 
@@ -79,7 +79,7 @@ This document establishes substantial equivalence through:
 
 ### Algorithm Architecture
 
-**Anumana (from K232488):**
+**[Predicate Manufacturer] (from [K-number redacted]):**
 - Type: Convolutional neural network (CNN)
 - Specific architecture not disclosed in public 510k summary
 - Described as "deep learning"
@@ -98,12 +98,12 @@ This document establishes substantial equivalence through:
 | Aspect | Difference | Rationale | Safety/Effectiveness Impact |
 |---|---|---|---|
 | **Neural Network Architecture** | CNN vs. Transformer | Transformer excels at capturing temporal patterns and attention mechanisms; more recent approach (2017 vs. 2012 era CNN) | NONE - both are established deep learning architectures; transformer is not predicted to introduce new hazards |
-| **Training Data Size** | ~250K (estimated Anumana) vs. 250K (CardioGuard) | CardioGuard uses larger, more diverse dataset from 5 health systems | POSITIVE - larger data improves generalization; not a safety concern |
-| **Training Data Diversity** | Anumana source not disclosed vs. CardioGuard from 5 systems with documented demographics | CardioGuard explicitly includes age, sex, race/ethnicity stratification | POSITIVE - improved fairness and sub-population performance |
+| **Training Data Size** | ~250K (estimated [Predicate Manufacturer]) vs. 250K (CardioGuard) | CardioGuard uses larger, more diverse dataset from 5 health systems | POSITIVE - larger data improves generalization; not a safety concern |
+| **Training Data Diversity** | [Predicate Manufacturer] source not disclosed vs. CardioGuard from 5 systems with documented demographics | CardioGuard explicitly includes age, sex, race/ethnicity stratification | POSITIVE - improved fairness and sub-population performance |
 | **Number of Output Classes** | Binary (AFib vs. not AFib) vs. Multiclass (4 classes) | CardioGuard detects additional arrhythmias (VT, AV block) | NONE - expanded functionality, not new safety concern |
 | **Deployment** | Both cloud API | Identical deployment model | NO IMPACT |
-| **Input Preprocessing** | Anumana details not disclosed vs. CardioGuard (normalization, filtering, artifact detection) | CardioGuard explicitly documents signal preprocessing | POSITIVE - transparent process; no new hazards |
-| **Output Format** | Probability scores (Anumana) vs. Probabilities + confidence intervals (CardioGuard) | CardioGuard provides additional quantification of uncertainty | POSITIVE - additional information for clinician |
+| **Input Preprocessing** | [Predicate Manufacturer] details not disclosed vs. CardioGuard (normalization, filtering, artifact detection) | CardioGuard explicitly documents signal preprocessing | POSITIVE - transparent process; no new hazards |
+| **Output Format** | Probability scores ([Predicate Manufacturer]) vs. Probabilities + confidence intervals (CardioGuard) | CardioGuard provides additional quantification of uncertainty | POSITIVE - additional information for clinician |
 
 ### Design Differences Do Not Raise New Safety Concerns
 
@@ -125,7 +125,7 @@ This document establishes substantial equivalence through:
 
 ### Baseline Clinical Performance
 
-**Anumana ECG-AI (from K232488 FDA submission summary):**
+**[Predicate Device] (from [K-number redacted] FDA submission summary):**
 - AUROC: 0.92 for AFib detection
 - Sensitivity: ~92% (estimated from publication)
 - Specificity: ~90% (estimated from publication)
@@ -139,7 +139,7 @@ This document establishes substantial equivalence through:
 
 ### Performance Comparison Summary
 
-| Metric | Anumana | CardioGuard | Comparison |
+| Metric | [Predicate Manufacturer] | CardioGuard | Comparison |
 |---|---|---|---|
 | AUROC | 0.92 | 0.92 | **EQUIVALENT** |
 | Sensitivity (AFib) | ~0.92 | 0.92 | **EQUIVALENT** |
@@ -147,7 +147,7 @@ This document establishes substantial equivalence through:
 | Study Design | Not disclosed | Prospective, multi-site, double-blinded | **SUPERIOR** (CardioGuard) |
 | Sub-population Analysis | Not disclosed | Detailed by age, sex, race/ethnicity | **SUPERIOR** (CardioGuard) |
 
-**Conclusion:** CardioGuard demonstrates equivalent or superior clinical performance compared to Anumana. Same AUROC (0.92), better specificity (0.92 vs. ~0.90), and more transparent clinical validation study design.
+**Conclusion:** CardioGuard demonstrates equivalent or superior clinical performance compared to [Predicate Manufacturer]. Same AUROC (0.92), better specificity (0.92 vs. ~0.90), and more transparent clinical validation study design.
 
 ### Sub-Population Performance (CardioGuard)
 
@@ -174,18 +174,18 @@ Performance is robust across age groups (range 0.91-0.95 AUROC), with minimal se
 
 ### Indications
 
-| CardioGuard | Anumana | Comparison |
+| CardioGuard | [Predicate Manufacturer] | Comparison |
 |---|---|---|
 | Ambulatory adults (18+) with suspected arrhythmia | Adult patients in clinical settings | **EQUIVALENT** (CardioGuard more specific re: primary care) |
 | Primary care, urgent care | Not specified | **CARDIOGUARD BROADER** (explicitly includes urgent care) |
 | Detect AFib, VT, AV block | Detect AFib, arrhythmias | **CARDIOGUARD EXPANDED** (more specific arrhythmias) |
-| 12-lead ECG input | Single-lead or 12-lead ECG input | **ANUMANA BROADER** (accepts single-lead) |
+| 12-lead ECG input | Single-lead or 12-lead ECG input | **PREDICATE BROADER** (accepts single-lead) |
 
-**Analysis:** Indications are substantially equivalent in scope and risk profile. CardioGuard is more specific about arrhythmia types detected (AFib, VT, AV block vs. general "arrhythmias") and clinical setting (primary care/urgent care vs. general "clinical settings"). Anumana's broader input flexibility (single-lead accepted) is not a fundamental difference in intended use.
+**Analysis:** Indications are substantially equivalent in scope and risk profile. CardioGuard is more specific about arrhythmia types detected (AFib, VT, AV block vs. general "arrhythmias") and clinical setting (primary care/urgent care vs. general "clinical settings"). [Predicate Manufacturer]'s broader input flexibility (single-lead accepted) is not a fundamental difference in intended use.
 
 ### Contraindications
 
-| CardioGuard | Anumana | Equivalent? |
+| CardioGuard | [Predicate Manufacturer] | Equivalent? |
 |---|---|---|
 | Pediatric patients (< 18 years) | Adult-only indication implied | **YES** |
 | Paced rhythms | Not specified; presumed not indicated | **YES** |
@@ -200,7 +200,7 @@ Performance is robust across age groups (range 0.91-0.95 AUROC), with minimal se
 
 ### Risks and Controls
 
-**Common Risk Controls (Both Anumana and CardioGuard):**
+**Common Risk Controls (Both [Predicate Manufacturer] and CardioGuard):**
 1. **False Negative Arrhythmia:** Risk that device fails to detect true arrhythmia
    - Control: Clinical validation study demonstrates sensitivity >= 0.85 for target arrhythmias
    - Control: Device output includes confidence intervals to flag low-confidence results
@@ -234,7 +234,7 @@ Performance is robust across age groups (range 0.91-0.95 AUROC), with minimal se
   3. Target: reduce gap to <= 0.02 AUROC in v1.1 (Q4 2026)
 - **Risk Assessment:** Gap is known, disclosed, and mitigated; does not exceed acceptable limits for medical device use
 
-**Assessment:** This gap is identified and transparent. Mitigation is planned. No higher risk than pre-market finding; predicate device (Anumana) similarly expected to have sub-population performance differences (though not transparently disclosed).
+**Assessment:** This gap is identified and transparent. Mitigation is planned. No higher risk than pre-market finding; predicate device ([Predicate Manufacturer]) similarly expected to have sub-population performance differences (though not transparently disclosed).
 
 ### Risk Ownership and Responsibility
 
@@ -244,7 +244,7 @@ Performance is robust across age groups (range 0.91-0.95 AUROC), with minimal se
 - Retraining with diverse data is committed in PCCP framework
 - Post-market surveillance registry participation for 24 months
 
-**Conclusion:** Safety profile is substantially equivalent to Anumana. Identified performance gap in Black population is known and actively mitigated. No new hazards introduced that would raise safety concerns above the predicate device.
+**Conclusion:** Safety profile is substantially equivalent to [Predicate Manufacturer]. Identified performance gap in Black population is known and actively mitigated. No new hazards introduced that would raise safety concerns above the predicate device.
 
 ---
 
@@ -266,7 +266,7 @@ Performance is robust across age groups (range 0.91-0.95 AUROC), with minimal se
 
 CardioGuard ECG-AI is appropriate for **510(k) Traditional submission** because:
 
-1. **Predicate device exists** (Anumana K232488) with same intended use
+1. **Predicate device exists** ([Predicate Manufacturer] [K-number redacted]) with same intended use
 2. **Substantial equivalence demonstrated** in intended use, indications, and technological approach
 3. **Clinical performance equivalent or superior** to predicate device
 4. **No new safety concerns** introduced; existing control mechanisms applicable
@@ -276,7 +276,7 @@ CardioGuard ECG-AI is appropriate for **510(k) Traditional submission** because:
 
 ## 9. References
 
-- FDA 510(k) Submission Summary: Anumana ECG-AI (K232488)
+- FDA 510(k) Submission Summary: [Predicate Device, K-number redacted]
 - Raghunath, S., et al. (2021). "Prediction of myocardial infarction using signals from single lead electrocardiography." Nature Medicine, 27(5), 847-856.
 - FDA Guidance for Industry: Deciding When to Submit a 510(k) for a Change or Modification to a Legally Marketed Device (July 2017)
 - FDA AI/ML Action Plan (2021)
@@ -286,7 +286,7 @@ CardioGuard ECG-AI is appropriate for **510(k) Traditional submission** because:
 
 ## Document Certification
 
-This Substantial Equivalence Assessment is accurate and complete, demonstrating that CardioGuard ECG-AI is substantially equivalent to Anumana ECG-AI (K232488) and appropriate for 510(k) submission.
+This Substantial Equivalence Assessment is accurate and complete, demonstrating that CardioGuard ECG-AI is substantially equivalent to [Predicate Device, K-number redacted] and appropriate for 510(k) submission.
 
 **Prepared by:**  
 Dr. Sarah Chen, MD, PhD  

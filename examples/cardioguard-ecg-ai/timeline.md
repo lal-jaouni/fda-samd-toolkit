@@ -11,7 +11,7 @@
 **Weeks 1-4: Clinical Problem Definition**
 - Problem statement: Manual ECG interpretation variability in primary care
 - Market research: 50+ cardiac devices, arrhythmia detection apps
-- Regulatory pathway research: Class II SaMD, predicate device selection (Anumana K232488)
+- Regulatory pathway research: Class II SaMD, predicate device selection ([Predicate Device, K-number redacted])
 - Clinical advisory board: Recruitment of cardiologists and primary care physicians
 - **Deliverable:** Device concept white paper; regulatory pathway decision memo
 
@@ -52,7 +52,7 @@
 ## Phase 3: Clinical Validation Study Preparation (Months 9-10)
 
 **Month 9: Study Design and Protocol Development**
-- Retrospective multi-site study design (Johns Hopkins, Stanford, Mayo Clinic)
+- Retrospective multi-site study design (Sites 1, 2, and 3)
 - Sample size calculation: n=1500 for primary endpoint AUROC >= 0.90 (power = 80%)
 - Endpoints and statistical analysis plan
 - Case report form design
@@ -60,7 +60,7 @@
 - **Deliverable:** Clinical validation protocol (18-month prospective study)
 
 **Month 10: Ethics and Regulatory Approval**
-- IRB submissions to all 3 sites (Johns Hopkins, Stanford, Mayo Clinic)
+- IRB submissions to all 3 sites (Sites 1, 2, and 3)
 - IRB approval obtained (anticipated 2024-12-15)
 - Data use agreements with each health system
 - Data transfer agreements and HIPAA BAAs
@@ -119,7 +119,7 @@
 - **Deliverable:** IFU statement (01_indications_for_use.md); labeling (05_labeling.md)
 
 **Months 15-16: Predicate Device Comparison and Substantial Equivalence**
-- Detailed comparison to Anumana ECG-AI (K232488)
+- Detailed comparison to [Predicate Device, K-number redacted]
 - Technological differences analysis (transformer vs. CNN)
 - Clinical performance comparison
 - Risk profile analysis
@@ -146,7 +146,7 @@
 **Month 26: Sub-Population Analysis**
 - Stratified performance by age, sex, race/ethnicity
 - Gap analysis and mitigation justification
-- Comparison to Anumana predicate device performance
+- Comparison to the predicate device performance
 - Safety analysis (adverse events, unexpected findings)
 
 **Month 27: Final Report Preparation**
@@ -329,7 +329,7 @@
 **FDA Clearance Criteria:**
 1. Primary endpoint achieved (AUROC >= 0.90, CI lower bound >= 0.87)
 2. Secondary endpoints achieved (sensitivity >= 0.85, specificity >= 0.90)
-3. Substantial equivalence demonstrated to Anumana K232488
+3. Substantial equivalence demonstrated to [Predicate Device, K-number redacted]
 4. Risk analysis shows acceptable residual risk
 5. No safety signals identified
 6. Cybersecurity controls verified

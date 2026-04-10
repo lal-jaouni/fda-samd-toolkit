@@ -183,7 +183,7 @@ Example: "**Identified Biases in Training Data and Clinical Implications:**
    - Mitigation: IFU clearly states age restriction; no pediatric claims made
 
 4. **Site Bias: Academic Medical Center Data Only**
-   - Training data: 100% from large academic hospitals (Mayo, Cleveland, Johns Hopkins)
+   - Training data: 100% from large academic hospitals (Sites 1, 2, and 3)
    - Potential bias: These are high-quality settings with excellent ECG technique
    - Risk: Model may underperform in community hospitals with lower ECG quality
    - Severity: MODERATE (unknown real-world performance in non-academic settings)

@@ -23,16 +23,16 @@ study_design:
   multi_site: true
   sites_count: 3
   site_locations:
-    - "Johns Hopkins Medical Center, Baltimore, MD"
-    - "Stanford Health, Palo Alto, CA"
-    - "Mayo Clinic, Rochester, MN"
+    - "Academic Medical Center 1, East Coast"
+    - "Academic Medical Center 2, West Coast"
+    - "Academic Medical Center 3, Midwest"
   study_duration_months: 18
 
 data_source:
   sites:
-    - "Johns Hopkins Hospital ECG Repository (MUSE ECG Management System)"
-    - "Stanford Health ECG Database (Philips PageWriter and Mortara ELI)"
-    - "Mayo Clinic Cardiovascular Biobank (Multi-platform ECG collection)"
+    - "Site 1 ECG Repository"
+    - "Site 2 ECG Database"
+    - "Site 3 Cardiovascular Biobank"
   time_period_start: "2020-01-01"
   time_period_end: "2023-12-31"
   inclusion_criteria:
@@ -55,7 +55,7 @@ data_source:
     = 0.92 (from internal validation), alpha = 0.05 (two-tailed), beta = 0.10 (80% power),
     required sample size is approximately 1200 patients. Oversampled to 1500 to enable
     stratified subgroup analysis by age, sex, and race/ethnicity. Enrollment targets:
-    Johns Hopkins 600, Stanford 450, Mayo Clinic 450.
+    Site 1 600, Site 2 450, Site 3 450.
   population_diversity: >
     Target population diversity by age (18-40: 25%, 41-65: 35%, 66+: 40%),
     sex (Male: 52%, Female: 48%), and race/ethnicity (White: 60%, Black/African American: 20%,
@@ -106,7 +106,7 @@ endpoints:
 
 statistical_analysis_plan:
   primary_hypothesis: >
-    CardioGuard ECG-AI achieves non-inferiority compared to predicate device (Anumana K232488)
+    CardioGuard ECG-AI achieves non-inferiority compared to predicate device ([Predicate Device, K-number redacted])
     with AUROC >= 0.90 (95% CI lower bound >= 0.87), demonstrating adequate discrimination
     ability for clinical detection of atrial fibrillation, ventricular tachycardia, and
     1st degree atrioventricular block from 12-lead ECG.
@@ -165,7 +165,7 @@ subgroup_analysis:
 
 generalization_testing:
   external_validation_sites:
-    - "Three independent US health systems (Johns Hopkins, Stanford, Mayo Clinic)"
+    - "Three independent US health systems (Sites 1, 2, and 3)"
   external_validation_sample_size: 1500
   external_validation_timeline: >
     External validation conducted retrospectively on existing data from 2020-2023.
@@ -184,8 +184,8 @@ generalization_testing:
     baseline (warning), >0.05 (action). Drift detected via statistical testing (DeLong test)
     and documented in FDA post-market surveillance reports.
   geographic_generalization_plan: >
-    Three-site multi-region validation (East Coast: Johns Hopkins; West Coast: Stanford;
-    Midwest: Mayo Clinic) provides assessment of geographic generalization. Sites represent
+    Three-site multi-region validation (East Coast: Site 1; West Coast: Site 2;
+    Midwest: Site 3) provides assessment of geographic generalization. Sites represent
     different patient demographics, comorbidity profiles, and ECG equipment platforms.
     Performance analyzed separately by site to identify any region-specific performance gaps.
 

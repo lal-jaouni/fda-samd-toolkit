@@ -190,7 +190,7 @@ were selected via random search over 200 configurations evaluated on a held-out 
 Provide a brief summary here; delegate detailed treatment to Section 5 (Training Data).
 
 Example: "The model was trained on 200,000 ECG recordings from three academic medical centers
-(Mayo Clinic, Cleveland Clinic, Johns Hopkins) collected between 2015-2020. Records were
+(Academic Medical Centers 1, 2, and 3) collected between 2015-2020. Records were
 selected to represent the full spectrum of clinical AF presentations: paroxysmal (35%),
 persistent (50%), permanent (15%). Demographic breakdown: mean age 67 years (SD=14), 58% male,
 82% Caucasian, 12% African-American, 3% Asian, 3% other. AF ground truth was established by
@@ -431,8 +431,8 @@ Example: "The device adheres to:
 Example: "This device is classified by the FDA as a Class II Medical Device (moderate risk).
 The predicate devices are:
 
-- K232488 (Anumana ECG-AI, atrial fibrillation detection) - same intended use, same modality
-- K233429 (Eko AI-Cardiac Murmur Detection) - same use of AI for cardiovascular screening
+- [K-number] ([Predicate Device A, AI-based arrhythmia detection]) - same intended use, same modality
+- [K-number] ([Predicate Device B, AI-based cardiac screening]) - same use of AI for cardiovascular screening
 
 The subject device (CardioDetect) demonstrates substantial equivalence to these predicates
 based on: (1) identical intended use (AF detection from ECG); (2) identical input modality
