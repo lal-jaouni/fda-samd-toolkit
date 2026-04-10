@@ -39,8 +39,8 @@ class TestModelCardGoldenFiles:
 
             # Compare line counts and key sections rather than exact bytes
             # (timestamps and metadata may vary)
-            actual_lines = actual_output.strip().split('\n')
-            expected_lines = expected_output.strip().split('\n')
+            actual_lines = actual_output.strip().split("\n")
+            expected_lines = expected_output.strip().split("\n")
 
             # Allow some variance in line count due to timestamp differences
             assert abs(len(actual_lines) - len(expected_lines)) < 5, (

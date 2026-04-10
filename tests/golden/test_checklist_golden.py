@@ -32,8 +32,8 @@ class TestChecklistGoldenFiles:
             expected_output = f.read()
 
         # Compare outputs - allow some variance due to timestamps
-        actual_lines = actual_output.strip().split('\n')
-        expected_lines = expected_output.strip().split('\n')
+        actual_lines = actual_output.strip().split("\n")
+        expected_lines = expected_output.strip().split("\n")
 
         assert abs(len(actual_lines) - len(expected_lines)) < 5, (
             f"Checklist output structure differs significantly from golden file. "
