@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 class StudyDesign(BaseModel):
     """Study design and methodology."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     type: str = Field(
         ...,
@@ -55,7 +55,7 @@ class StudyDesign(BaseModel):
 class DataSource(BaseModel):
     """Data source and eligibility criteria."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     sites: list[str] = Field(
         ...,
@@ -94,7 +94,7 @@ class DataSource(BaseModel):
 class ReferenceStandard(BaseModel):
     """Gold standard and adjudication process."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     gold_standard: str = Field(
         ...,
@@ -129,7 +129,7 @@ class ReferenceStandard(BaseModel):
 class Endpoints(BaseModel):
     """Primary and secondary endpoints."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     primary_endpoint: str = Field(
         ...,
@@ -172,7 +172,7 @@ class Endpoints(BaseModel):
 class StatisticalAnalysisPlan(BaseModel):
     """Statistical analysis approach."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     primary_hypothesis: str = Field(
         ...,
@@ -184,11 +184,15 @@ class StatisticalAnalysisPlan(BaseModel):
     )
     significance_level: float = Field(
         default=0.05,
-        description="Significance level (alpha) for hypothesis tests",
+        gt=0.0,
+        lt=1.0,
+        description="Significance level (alpha) for hypothesis tests (0 < alpha < 1)",
     )
     power_target: float = Field(
         default=0.90,
-        description="Target statistical power for primary endpoint",
+        gt=0.0,
+        lt=1.0,
+        description="Target statistical power for primary endpoint (0 < power < 1)",
     )
     power_calculation_description: str = Field(
         ...,
@@ -211,7 +215,7 @@ class StatisticalAnalysisPlan(BaseModel):
 class SubgroupAnalysis(BaseModel):
     """Sub-population analysis plan."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     subgroups: list[str] = Field(
         ...,
@@ -238,7 +242,7 @@ class SubgroupAnalysis(BaseModel):
 class GeneralizationTesting(BaseModel):
     """External validation and temporal generalization."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     external_validation_sites: list[str] | None = Field(
         None,
@@ -269,7 +273,7 @@ class GeneralizationTesting(BaseModel):
 class SafetyMonitoring(BaseModel):
     """Safety and adverse event monitoring."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     adverse_event_definition: str = Field(
         ...,
@@ -300,7 +304,7 @@ class SafetyMonitoring(BaseModel):
 class ValidationPlan(BaseModel):
     """Top-level clinical validation plan."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     device_name: str = Field(
         ...,
@@ -367,3 +371,15 @@ class ValidationPlan(BaseModel):
         if v.lower() not in valid_modalities:
             raise ValueError(f"modality must be one of {valid_modalities}, got '{v}'")
         return v.lower()
+
+    @field_validator("document_date")
+    @classmethod
+    def validate_document_date(cls, v: str) -> str:
+        """Validate that document_date is a well-formed ISO 8601 date."""
+        from datetime import datetime
+
+        try:
+            datetime.strptime(v, "%Y-%m-%d")
+        except ValueError as e:
+            raise ValueError(f"document_date must be ISO 8601 format YYYY-MM-DD, got {v!r}") from e
+        return v
