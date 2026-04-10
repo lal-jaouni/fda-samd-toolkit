@@ -57,7 +57,7 @@ jobs:
           pytest --json-report --json-report-file=test-report.json --cov=src --cov-report=xml
 
       - name: Upload coverage reports
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v6
         if: matrix.python-version == '3.11'
         with:
           files: ./coverage.xml
