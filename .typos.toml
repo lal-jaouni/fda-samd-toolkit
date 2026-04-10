@@ -1,41 +1,49 @@
-[default]
-extend-identifiers = []
-extend-words = [
-    "samd",
-    "pccp",
-    "estar",
-    "nda",
-    "510k",
-    "openfda",
-    "pydantic",
-    "jinja",
-    "mkdocs",
-    "dicom",
-    "fhir",
-    "hl7",
-    "snomed",
-    "loinc",
-    "icd",
-    "maude",
-    "anumana",
-    "nference",
-    "ecg",
-    "ppg",
-    "abp",
-    "imdrf",
-    "iec",
-    "aami",
-    "gmlp",
-    "ntia",
-    "sbom",
-    "spdx",
-    "cyclonedx",
-    "pma",
-    "raps",
-    "auroc",
-    "fmea",
-    "stride",
-]
+# Typos spell-checker config for the FDA SaMD Toolkit.
+# https://github.com/crate-ci/typos
+#
+# Format note: in typos >= 1.x, extend-words must be a TOML table
+# (map of "typo" -> "correction"), not an array. We use it here to
+# declare domain terms as their own correction, which effectively
+# allowlists them.
+
+[default.extend-words]
+samd = "samd"
+pccp = "pccp"
+estar = "estar"
+nda = "nda"
+openfda = "openfda"
+pydantic = "pydantic"
+jinja = "jinja"
+mkdocs = "mkdocs"
+dicom = "dicom"
+fhir = "fhir"
+hl7 = "hl7"
+snomed = "snomed"
+loinc = "loinc"
+icd = "icd"
+maude = "maude"
+anumana = "anumana"
+nference = "nference"
+ecg = "ecg"
+ppg = "ppg"
+abp = "abp"
+imdrf = "imdrf"
+iec = "iec"
+aami = "aami"
+gmlp = "gmlp"
+ntia = "ntia"
+sbom = "sbom"
+spdx = "spdx"
+cyclonedx = "cyclonedx"
+pma = "pma"
+raps = "raps"
+auroc = "auroc"
+fmea = "fmea"
+stride = "stride"
+ehr = "ehr"
+rto = "rto"
+rpo = "rpo"
+stard = "stard"
 
 [files]
 extend-exclude = [

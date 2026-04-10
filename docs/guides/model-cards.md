@@ -202,7 +202,7 @@ FDA wants you to be honest about limitations.
 - ECG morphology differs significantly in pediatric population
 
 **Pacemaker Patients**:
-- Model shows high false positive rate in paced rhythms (pacing artifacts mimick arrhythmias)
+- Model shows high false positive rate in paced rhythms (pacing artifacts mimic arrhythmias)
 - Not recommended for pacemaker patients without operator verification
 
 **Special Populations**:
