@@ -1,0 +1,367 @@
+# FDA-Extended Model Card: {{ model_details.name }}
+
+**Version:** {{ model_details.version }}
+**Date:** {% if model_details.release_date %}{{ model_details.release_date }}{% else %}[DATE]{% endif %}
+**Owner:** {{ model_details.owner }}
+{% if model_details.contact %}**Contact:** {{ model_details.contact }}{% endif %}
+
+---
+
+## 1. Model Details
+
+**Model Name:** {{ model_details.name }}
+
+**Version:** {{ model_details.version }}
+
+**License:** {{ model_details.license }}
+
+**Owner/Developer:** {{ model_details.owner }}
+
+{% if model_details.citation -%}
+**Citation:**
+```
+{{ model_details.citation }}
+```
+{% endif -%}
+
+---
+
+## 2. Intended Use
+
+**Primary Purpose:** {{ intended_use.primary_use }}
+
+**Intended Users:**
+{% for user in intended_use.intended_users -%}
+- {{ user }}
+{% endfor %}
+
+**Clinical Settings:**
+{% for setting in intended_use.clinical_setting -%}
+- {{ setting }}
+{% endfor %}
+
+{% if intended_use.contraindications -%}
+**Contraindications:**
+{% for contra in intended_use.contraindications -%}
+- {{ contra }}
+{% endfor %}
+{% endif -%}
+
+{% if intended_use.out_of_scope_uses -%}
+**Out of Scope Uses (Explicitly Prohibited):**
+{% for ooscope in intended_use.out_of_scope_uses -%}
+- {{ ooscope }}
+{% endfor %}
+{% endif -%}
+
+---
+
+## 3. Factors Affecting Model Performance
+
+{% if factors.instrumentation -%}
+**Instrumentation:**
+{% for instr in factors.instrumentation -%}
+- {{ instr }}
+{% endfor %}
+{% endif -%}
+
+{% if factors.environment -%}
+**Environmental Factors:**
+{% for key, value in factors.environment.items() -%}
+- {{ key }}: {{ value }}
+{% endfor %}
+{% endif -%}
+
+{% if factors.demographic_groups_evaluated -%}
+**Demographic Groups Evaluated:**
+{% for demo in factors.demographic_groups_evaluated -%}
+- {{ demo }}
+{% endfor %}
+{% endif -%}
+
+{% if factors.datasets_used -%}
+**Datasets Used for Evaluation:**
+{% for dataset in factors.datasets_used -%}
+- {{ dataset }}
+{% endfor %}
+{% endif -%}
+
+---
+
+## 4. Metrics
+
+### 4.1 Overall Performance
+
+| Metric | Value |
+|--------|-------|
+{% for metric_name, metric_value in metrics.overall.items() -%}
+| {{ metric_name }} | {{ "%.4f" % metric_value if metric_value is number else metric_value }} |
+{% endfor %}
+
+{% if metrics.overall_confidence_intervals -%}
+**95% Confidence Intervals:**
+
+| Metric | Lower | Upper |
+|--------|-------|-------|
+{% for metric_name, (lower, upper) in metrics.overall_confidence_intervals.items() -%}
+| {{ metric_name }} | {{ "%.4f" % lower }} | {{ "%.4f" % upper }} |
+{% endfor %}
+{% endif -%}
+
+{% if metrics.threshold_used -%}
+**Decision Threshold:** {{ metrics.threshold_used }}
+{% endif -%}
+
+{% if metrics.notes -%}
+**Notes:** {{ metrics.notes }}
+{% endif -%}
+
+### 4.2 Subgroup Analysis
+
+{% if metrics.subgroups -%}
+{% for subgroup in metrics.subgroups -%}
+#### {{ subgroup.subgroup_name }}
+
+**Definition:** {{ subgroup.subgroup_definition }}
+
+**Sample Size:** {{ subgroup.n_cases }}
+
+**Metrics:**
+
+| Metric | Value |
+|--------|-------|
+{% for metric_name, metric_value in subgroup.metrics.items() -%}
+| {{ metric_name }} | {{ "%.4f" % metric_value if metric_value is number else metric_value }} |
+{% endfor %}
+
+{% if subgroup.confidence_intervals -%}
+**95% Confidence Intervals:**
+
+| Metric | Lower | Upper |
+|--------|-------|-------|
+{% for metric_name, (lower, upper) in subgroup.confidence_intervals.items() -%}
+| {{ metric_name }} | {{ "%.4f" % lower }} | {{ "%.4f" % upper }} |
+{% endfor %}
+{% endif -%}
+
+{% endfor -%}
+{% else -%}
+No subgroup analyses provided.
+{% endif -%}
+
+---
+
+## 5. Evaluation Data
+
+**Datasets Used:**
+{% for dataset in evaluation_data.datasets -%}
+- {{ dataset }}
+{% endfor %}
+
+{% if evaluation_data.motivation -%}
+**Motivation:** {{ evaluation_data.motivation }}
+{% endif -%}
+
+{% if evaluation_data.preprocessing -%}
+**Preprocessing:**
+{% for step in evaluation_data.preprocessing -%}
+- {{ step }}
+{% endfor %}
+{% endif -%}
+
+{% if evaluation_data.test_train_split -%}
+**Data Split:**
+{% for split_name, split_fraction in evaluation_data.test_train_split.items() -%}
+- {{ split_name }}: {{ "%.1f" % (split_fraction * 100) }}%
+{% endfor %}
+{% endif -%}
+
+{% if evaluation_data.stratification -%}
+**Stratification:** {{ evaluation_data.stratification | join("; ") }}
+{% endif -%}
+
+---
+
+## 6. Training Data
+
+**Datasets:**
+{% for dataset in training_data.datasets -%}
+- {{ dataset }}
+{% endfor %}
+
+{% if training_data.sample_size -%}
+**Sample Size:** {{ "{:,}".format(training_data.sample_size) }} examples
+{% endif -%}
+
+{% if training_data.demographics -%}
+**Demographics:**
+{% for key, value in training_data.demographics.items() -%}
+- {{ key }}: {{ value }}
+{% endfor %}
+{% endif -%}
+
+{% if training_data.data_sources -%}
+**Data Sources:**
+{% for source in training_data.data_sources -%}
+- {{ source }}
+{% endfor %}
+{% endif -%}
+
+{% if training_data.inclusion_criteria -%}
+**Inclusion Criteria:**
+{% for criterion in training_data.inclusion_criteria -%}
+- {{ criterion }}
+{% endfor %}
+{% endif -%}
+
+{% if training_data.exclusion_criteria -%}
+**Exclusion Criteria:**
+{% for criterion in training_data.exclusion_criteria -%}
+- {{ criterion }}
+{% endfor %}
+{% endif -%}
+
+{% if training_data.quality_control -%}
+**Quality Control:**
+{% for qc_step in training_data.quality_control -%}
+- {{ qc_step }}
+{% endfor %}
+{% endif -%}
+
+{% if training_data.data_shifts_addressed -%}
+**Data Shifts Addressed:**
+{% for shift in training_data.data_shifts_addressed -%}
+- {{ shift }}
+{% endfor %}
+{% endif -%}
+
+---
+
+## 7. Ethical Considerations
+
+{% if ethical_considerations -%}
+{% if ethical_considerations.impact_summary -%}
+**Impact Summary:** {{ ethical_considerations.impact_summary }}
+{% endif -%}
+
+{% if ethical_considerations.potential_harms -%}
+**Potential Harms:**
+{% for harm in ethical_considerations.potential_harms -%}
+- {{ harm }}
+{% endfor %}
+{% endif -%}
+
+{% if ethical_considerations.demographic_disparities -%}
+**Demographic Disparities:** {{ ethical_considerations.demographic_disparities }}
+{% endif -%}
+
+{% if ethical_considerations.bias_mitigation_strategies -%}
+**Bias Mitigation Strategies:**
+{% for strategy in ethical_considerations.bias_mitigation_strategies -%}
+- {{ strategy }}
+{% endfor %}
+{% endif -%}
+
+{% if ethical_considerations.fairness_considerations -%}
+**Fairness Considerations:** {{ ethical_considerations.fairness_considerations }}
+{% endif -%}
+{% else -%}
+No ethical considerations documented.
+{% endif -%}
+
+---
+
+## 8. Caveats and Recommendations
+
+{% if caveats_recommendations -%}
+{% if caveats_recommendations.caveats -%}
+**Caveats:**
+{% for caveat in caveats_recommendations.caveats -%}
+- {{ caveat }}
+{% endfor %}
+{% endif -%}
+
+{% if caveats_recommendations.known_limitations -%}
+**Known Limitations and Failure Modes:**
+{% for limitation in caveats_recommendations.known_limitations -%}
+- {{ limitation }}
+{% endfor %}
+{% endif -%}
+
+{% if caveats_recommendations.recommendations -%}
+**Recommendations for Use:**
+{% for rec in caveats_recommendations.recommendations -%}
+- {{ rec }}
+{% endfor %}
+{% endif -%}
+
+{% if caveats_recommendations.future_improvements -%}
+**Future Improvements:** {{ caveats_recommendations.future_improvements }}
+{% endif -%}
+{% else -%}
+No caveats or recommendations documented.
+{% endif -%}
+
+---
+
+## 9. FDA-Specific Information
+
+{% if fda_specific -%}
+**Intended Use Statement (IFU):**
+{{ fda_specific.intended_use_statement }}
+
+{% if fda_specific.classification -%}
+**FDA Classification:** {{ fda_specific.classification }}
+{% endif -%}
+
+{% if fda_specific.predicate_devices -%}
+**Predicate Devices (510k):**
+{% for predicate in fda_specific.predicate_devices -%}
+- {{ predicate }}
+{% endfor %}
+{% endif -%}
+
+{% if fda_specific.substantial_equivalence_summary -%}
+**Substantial Equivalence Summary:** {{ fda_specific.substantial_equivalence_summary }}
+{% endif -%}
+
+{% if fda_specific.failure_modes -%}
+**Failure Modes and Mitigations:**
+{% for fm in fda_specific.failure_modes -%}
+- {{ fm }}
+{% endfor %}
+{% endif -%}
+
+{% if fda_specific.drift_monitoring_plan -%}
+**Drift Monitoring Plan:** {{ fda_specific.drift_monitoring_plan }}
+{% endif -%}
+
+{% if fda_specific.update_cadence -%}
+**Model Update Cadence:** {{ fda_specific.update_cadence }}
+{% endif -%}
+
+{% if fda_specific.post_market_surveillance -%}
+**Post-Market Surveillance Plan:** {{ fda_specific.post_market_surveillance }}
+{% endif -%}
+
+{% if fda_specific.human_factors_summary -%}
+**Human Factors Summary:** {{ fda_specific.human_factors_summary }}
+{% endif -%}
+{% else -%}
+No FDA-specific information documented.
+{% endif -%}
+
+---
+
+## 10. References and Appendices
+
+[Add references, citations, and links to supporting documentation here]
+
+- Mitchell et al. (2019): Model Cards for Model Reporting (https://arxiv.org/abs/1810.03993)
+- FDA AI/ML Action Plan (2021)
+- FDA PCCP Guidance (2024)
+
+---
+
+**Document Generated:** {{ now() }}
+**Model Card Version:** 1.0
