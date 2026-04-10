@@ -38,6 +38,55 @@ def check_module_available(module_name: str, display_name: str) -> bool:
         return False
 
 
+def _print_error_and_exit(exc: Exception, context: str) -> None:
+    """
+    Print a context-aware error panel for a subcommand failure and exit 1.
+
+    Distinguishes between common error classes so the user sees actionable
+    feedback instead of a generic "something failed" message.
+
+    Args:
+        exc: The caught exception.
+        context: Short description of what was being attempted
+            (e.g., "PCCP generation", "model card validation").
+    """
+    if isinstance(exc, FileNotFoundError):
+        console.print(
+            Panel(
+                f"{context} failed. File not found: {exc}",
+                title="File Not Found",
+                style="red",
+            )
+        )
+    elif isinstance(exc, PermissionError):
+        console.print(
+            Panel(
+                f"{context} failed. Permission denied: {exc}\n\n"
+                "Check that the output directory is writable and that you have\n"
+                "permission to read the config file.",
+                title="Permission Denied",
+                style="red",
+            )
+        )
+    elif isinstance(exc, ValueError):
+        console.print(
+            Panel(
+                f"{context} failed. Invalid configuration:\n\n{exc}",
+                title="Validation Error",
+                style="red",
+            )
+        )
+    else:
+        console.print(
+            Panel(
+                f"{context} failed unexpectedly: {exc}\n\nException type: {type(exc).__name__}",
+                title="Unexpected Error",
+                style="red",
+            )
+        )
+    sys.exit(1)
+
+
 @click.group()
 @click.version_option(get_toolkit_version(), prog_name="fda-samd")
 def cli() -> None:
@@ -106,14 +155,7 @@ def generate(config: str, output: str, template: str) -> None:
         )
         sys.exit(1)
     except Exception as e:
-        console.print(
-            Panel(
-                f"PCCP generation failed: {e}",
-                title="Error",
-                style="red",
-            )
-        )
-        sys.exit(1)
+        _print_error_and_exit(e, "PCCP generation")
 
 
 @pccp.command()
@@ -170,14 +212,7 @@ def validate(file: str) -> None:
         )
         sys.exit(1)
     except Exception as e:
-        console.print(
-            Panel(
-                f"PCCP validation failed: {e}",
-                title="Error",
-                style="red",
-            )
-        )
-        sys.exit(1)
+        _print_error_and_exit(e, "PCCP validation")
 
 
 @pccp.command()
@@ -443,14 +478,7 @@ def generate_card(config: str, output: str) -> None:
         )
         sys.exit(1)
     except Exception as e:
-        console.print(
-            Panel(
-                f"Model card generation failed: {e}",
-                title="Error",
-                style="red",
-            )
-        )
-        sys.exit(1)
+        _print_error_and_exit(e, "Model card generation")
 
 
 @model_card.command(name="init")
@@ -572,14 +600,7 @@ def checklist(config: str | None, device_name: str | None, output: str | None) -
         )
         sys.exit(1)
     except Exception as e:
-        console.print(
-            Panel(
-                f"Checklist failed: {e}",
-                title="Error",
-                style="red",
-            )
-        )
-        sys.exit(1)
+        _print_error_and_exit(e, "Checklist")
 
 
 @cli.group()
@@ -641,14 +662,7 @@ def generate_validation(config: str, output: str, modality: str | None) -> None:
         )
         sys.exit(1)
     except Exception as e:
-        console.print(
-            Panel(
-                f"Validation plan generation failed: {e}",
-                title="Error",
-                style="red",
-            )
-        )
-        sys.exit(1)
+        _print_error_and_exit(e, "Validation plan generation")
 
 
 @validation.command(name="init")

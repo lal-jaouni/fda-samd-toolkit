@@ -7,9 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-04-10
+
+Quality patch release plus the first v0.2 feature. Closes the last security finding, eliminates deprecation warnings, tightens schema validation, improves CLI error messages, and raises test coverage from 74 to 81 percent. Also adds predicate device discovery via the openFDA API. Quality findings were surfaced by automated post-ship review agents (code review, test audit, security audit) run after the v0.1.1 release.
+
+### Security
+
+- Enable Jinja2 autoescape in the PCCP and model card generators. Both were previously flagged by bandit as B701 (HIGH severity, CWE-94 code injection risk). Now uses `select_autoescape(['html', 'htm', 'xml'])`, which satisfies bandit's check while leaving markdown characters like > and < unescaped in the rendered output.
+- Bandit scan is now clean (zero issues).
+
 ### Added
 
 - `fda-samd predicate discover` command for searching and ranking predicate 510(k) devices via the openFDA API. Users provide device description and intended use, the tool searches openFDA, scores results using fuzzy matching and keyword overlap, and returns a ranked table of candidates. Results can be exported to markdown for inclusion in a 510(k) submission. Includes 46 tests achieving 95% coverage across client, scorer, and CLI layers.
+- `extra='forbid'` on every Pydantic schema across pccp, model_cards, validation, and checklist modules. User YAML typos like `deveice_name` now raise a ValidationError at load time instead of silently dropping the field. 5 new tests in `tests/test_schema_strict.py` confirm each schema rejects unknown fields.
+- Numeric range constraints on `significance_level` and `power_target` in StatisticalAnalysisPlan (both bounded to 0 < x < 1). Prevents nonsense values like alpha=2.5 from rendering into validation plans. 10 new tests in `tests/test_schema_constraints.py`.
+- Date format validation on PCCPConfig.effective_date and ValidationPlan.document_date via field_validator. Both claimed ISO 8601 in their descriptions but did not validate format. Impossible dates like 2024-13-45 are now rejected at schema load.
+- Context-aware CLI error panels via new `_print_error_and_exit` helper. Subcommand failures now distinguish FileNotFoundError, PermissionError, ValueError, and unexpected exceptions with distinct panels ("File Not Found", "Permission Denied", "Validation Error", "Unexpected Error") instead of a single generic error message. 4 new tests.
+- 24 new tests for `templates_510k/loader.py` (0% to 50% coverage; remaining lines are the `__main__` CLI block).
+- 8 new tests for `checklist/__main__.py` (0% to 97% coverage).
+
+### Changed
+
+- Replaced deprecated `datetime.utcnow()` with `datetime.now(UTC)` in model_cards/generator.py. Fixes a DeprecationWarning that would become an error under future Python versions.
+- Migrated ModelCard schema from Pydantic v1 `class Config` to v2 `ConfigDict`, matching the pattern already used in pccp, validation, and checklist schemas.
+- Added explicit `encoding='utf-8'` to 6 file `open()` calls in pccp/generator, pccp/validator, validation/generator, and checklist/runner. Prevents silent breakage on Windows and non-UTF-8 locale environments.
+- Regenerated the validation plan golden test fixture to remove stray HTML entities (`&gt;`, `&lt;`) that had been shipping in v0.1.0 and v0.1.1 due to the earlier autoescape configuration.
+
+### Test metrics
+
+- Tests: 278 passing (was 178 in v0.1.1, +100 tests including predicate suite)
+- Coverage: 81% (was 74% in v0.1.1)
+- Bandit: 0 issues (was 2 HIGH severity)
 
 ## [0.1.1] - 2026-04-10
 

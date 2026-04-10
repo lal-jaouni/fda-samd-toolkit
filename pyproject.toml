@@ -1,6 +1,6 @@
 [project]
 name = "fda-samd-toolkit"
-version = "0.1.0"
+version = "0.1.2"
 description = "Open-source toolkit for FDA Software-as-a-Medical-Device (SaMD) AI/ML submissions: PCCP generators, 510(k) templates, model cards, and clinical validation frameworks."
 requires-python = ">=3.11"
 authors = [{name = "Laith Al-Jaouni"}]

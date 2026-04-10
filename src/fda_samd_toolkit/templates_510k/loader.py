@@ -89,13 +89,13 @@ def get_template_description(template_name: str) -> str:
     return TEMPLATE_DESCRIPTIONS[template_name]
 
 
-def copy_template(template_name: str, destination_dir: Path) -> Path:
+def copy_template(template_name: str, destination_dir: Path | str) -> Path:
     """
     Copy a single template to a destination directory.
 
     Args:
         template_name: Name of the template file (e.g., '01_indications_for_use.md')
-        destination_dir: Target directory where template will be copied
+        destination_dir: Target directory where template will be copied (Path or str)
 
     Returns:
         Path to the copied template file.
@@ -127,12 +127,12 @@ def copy_template(template_name: str, destination_dir: Path) -> Path:
     return destination_path
 
 
-def copy_all_templates(destination_dir: Path) -> list[Path]:
+def copy_all_templates(destination_dir: Path | str) -> list[Path]:
     """
     Copy all 510(k) templates to a destination directory.
 
     Args:
-        destination_dir: Target directory where templates will be copied
+        destination_dir: Target directory where templates will be copied (Path or str)
 
     Returns:
         List of paths to copied template files in order.
