@@ -1,0 +1,212 @@
+# Predetermined Change Control Plan (PCCP)
+## Machine Learning-Enabled Medical Device
+
+**Document Version:** {{ config.version }}
+{% if config.effective_date %}**Effective Date:** {{ config.effective_date }}{% endif %}
+
+---
+
+## Executive Summary
+
+This Predetermined Change Control Plan (PCCP) describes the modifications that may be made to {{ config.device_info.name }} without requiring a new 510(k) submission to the U.S. Food and Drug Administration (FDA). The plan is established under the FDA's PCCP guidance for Machine Learning (ML)-enabled Medical Devices[^1] and specifies pre-approved modification types, implementation protocols, and performance monitoring requirements.
+
+This PCCP enables faster iteration and improvement of {{ config.device_info.name }} while maintaining regulatory compliance and patient safety. All modifications implemented under this plan must strictly adhere to the protocols, thresholds, and monitoring requirements outlined herein.
+
+---
+
+## Section 1: Description of Modifications
+
+### 1.1 Device Identification
+
+**Device Name:** {{ config.device_info.name }}
+**Manufacturer:** {{ config.device_info.manufacturer }}
+**Intended Use:** {{ config.device_info.intended_use }}
+**Indications for Use:** {{ config.device_info.indications_for_use }}
+**FDA Classification:** {{ config.device_info.classification }}
+{% if config.device_info.predicate_device %}**Predicate Device(s):** {{ config.device_info.predicate_device }}{% endif %}
+{% if config.device_info.device_id %}**FDA Device ID:** {{ config.device_info.device_id }}{% endif %}
+
+### 1.2 Overview of Planned Modifications
+
+The following types of modifications are pre-approved under this PCCP. All modifications must be implemented in accordance with the protocols specified in Section 2.
+
+| Modification Type | Frequency | Affected Metrics | Rationale |
+|---|---|---|---|
+{% for mod in config.planned_modifications -%}
+| {{ mod.type }} | {{ mod.frequency_cadence }} | {{ mod.affected_performance_metrics|join(', ') }} | {{ mod.rationale|truncate(100) }} |
+{% endfor %}
+
+### 1.3 Detailed Modification Descriptions
+
+{% for mod in config.planned_modifications %}
+#### 1.3.{{ loop.index }} {{ mod.type }}
+
+**Description:** {{ mod.description }}
+
+**Rationale:** {{ mod.rationale }}
+
+**Affected Performance Metrics:**
+{% for metric in mod.affected_performance_metrics %}
+- {{ metric }}
+{% endfor %}
+
+**Frequency:** {{ mod.frequency_cadence }}
+
+{% endfor %}
+
+---
+
+## Section 2: Modification Protocol
+
+This section details the procedural requirements for implementing any modification covered by this PCCP. Adherence to these protocols is mandatory for regulatory compliance.
+
+### 2.1 Data Management
+
+{{ config.modification_protocol.data_management }}
+
+### 2.2 Data Quality Assurance
+
+The following data quality checks must be performed before any retraining:
+
+{{ config.modification_protocol.data_quality_checks }}
+
+### 2.3 Retraining Methodology
+
+The model retraining process follows these specifications:
+
+{{ config.modification_protocol.retraining_methodology }}
+
+### 2.4 Model Validation Strategy
+
+Retrained models must be validated using the following approach:
+
+{{ config.modification_protocol.validation_strategy }}
+
+### 2.5 Validation Acceptance Criteria
+
+The retrained model must satisfy ALL of the following criteria before deployment:
+
+{% for criterion in config.modification_protocol.validation_criteria %}
+- {{ criterion }}
+{% endfor %}
+
+### 2.6 Performance Thresholds and Monitoring
+
+Performance is monitored against the following metrics. Models must maintain or exceed baseline performance as specified in the warning and action thresholds below.
+
+| Metric | Baseline | Warning Threshold | Action Threshold | Direction |
+|---|---|---|---|---|
+{% for metric in config.modification_protocol.performance_thresholds -%}
+| {{ metric.name }} | {{ metric.baseline_value }} | {{ metric.threshold_warning }} | {{ metric.threshold_action }} | {{ metric.direction|capitalize }} |
+{% endfor %}
+
+#### 2.6.1 Metric Descriptions and Justifications
+
+{% for metric in config.modification_protocol.performance_thresholds %}
+**{{ metric.name }}:** {{ metric.description }}
+- **Baseline Value (from development):** {{ metric.baseline_value }}
+- **Warning Threshold:** {{ metric.threshold_warning }} (triggers investigation)
+- **Action Threshold:** {{ metric.threshold_action }} (triggers retraining cycle)
+- **Direction of Improvement:** {{ metric.direction|capitalize }}
+
+{% endfor %}
+
+### 2.7 Data Drift Monitoring
+
+The following protocol is used to detect and respond to data drift:
+
+**Drift Detection Method:** {{ config.modification_protocol.drift_monitoring.method }}
+
+**Monitoring Frequency:** {{ config.modification_protocol.drift_monitoring.monitoring_frequency }}
+
+**Drift Threshold Definition:** {{ config.modification_protocol.drift_monitoring.threshold_description }}
+
+**Response Protocol When Drift Detected:** {{ config.modification_protocol.drift_monitoring.response_protocol }}
+
+### 2.8 Deployment Process
+
+Once a model passes all validation criteria, deployment proceeds as follows:
+
+{{ config.modification_protocol.deployment_process }}
+
+---
+
+## Section 3: Impact Assessment
+
+### 3.1 Benefits of Planned Modifications
+
+{{ config.impact_assessment.benefits }}
+
+### 3.2 Potential Risks and Mitigations
+
+{{ config.impact_assessment.risks }}
+
+The following mitigations are in place to manage identified risks:
+
+| Risk | Mitigation |
+|---|---|
+{% for mitigation in config.impact_assessment.risk_mitigations -%}
+| {{ mitigation.risk }} | {{ mitigation.mitigation }} |
+{% endfor %}
+
+#### 3.2.1 Detailed Risk Mitigation Strategies
+
+{% for mitigation in config.impact_assessment.risk_mitigations %}
+**Risk:** {{ mitigation.risk }}
+
+**Mitigation:** {{ mitigation.mitigation }}
+
+{% endfor %}
+
+### 3.3 Sub-Population Analysis
+
+Performance of the ML model must be maintained across the following clinically relevant sub-populations:
+
+{% for subpop in config.impact_assessment.sub_population_analysis %}
+#### 3.3.{{ loop.index }} {{ subpop.name }}
+
+**Sub-Population Definition:** {{ subpop.description }}
+
+**Performance Expectations:** {{ subpop.performance_expectations }}
+
+**Monitoring Plan:** {{ subpop.monitoring_plan }}
+
+{% endfor %}
+
+### 3.4 Post-Market Surveillance and Reporting
+
+{{ config.impact_assessment.monitoring_and_reporting }}
+
+---
+
+{% if config.regulatory_compliance %}
+## Section 4: Regulatory Compliance
+
+{{ config.regulatory_compliance }}
+
+---
+
+{% endif %}
+## Approval and Implementation
+
+This PCCP is valid upon completion of the validation and approval process specified herein. Modifications to this PCCP or implementation of modifications not explicitly described herein require prior FDA notification or approval.
+
+**Prepared By:** [Signature/Name - Regulatory/Quality Function]
+
+**Approved By:** [Signature/Name - Quality Assurance]
+
+**Date of Approval:** [Date]
+
+---
+
+## References and Footnotes
+
+[^1]: FDA Guidance Document: "Predetermined Change Control Plans for Machine Learning-Enabled Medical Devices." FDA Center for Devices and Radiological Health (CDRH), December 2024. Available at: https://www.fda.gov/regulatory-information/search-fda-guidance-documents/predetermined-change-control-plans-machine-learning-enabled-medical-devices
+
+[^2]: 21 Code of Federal Regulations Part 860 - Medical Device Regulations
+
+[^3]: FDA Guidance for Industry: "Proposed Regulatory Framework for Modifications to Artificial Intelligence/Machine Learning (AI/ML)-Based Software as a Medical Device (SaMD)" - Precertification Program, January 2021.
+
+---
+
+*This document is automatically generated from a configuration specification. While it provides regulatory scaffolding, every PCCP must be customized to the specific device, clinical context, and intended modifications. Review by qualified regulatory professionals is mandatory before submission to FDA. The generator and its users assume no liability for submissions made using generated documents.*

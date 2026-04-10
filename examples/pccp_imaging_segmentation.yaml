@@ -1,0 +1,417 @@
+device_info:
+  name: PneumoDetect Chest X-Ray Pneumonia Classifier
+  manufacturer: RespirAI Medical, Inc.
+  intended_use: >
+    The PneumoDetect Chest X-Ray Pneumonia Classifier is a software-as-a-medical-device
+    (SaMD) intended to assist radiologists and emergency physicians in identifying the
+    presence or absence of pneumonia in adult chest X-ray images. The device provides
+    a binary classification (pneumonia present/absent) and a confidence score to support
+    clinical decision-making in diagnostic workup of respiratory symptoms.
+  indications_for_use: >
+    The PneumoDetect system is indicated for use in hospital radiology departments and
+    emergency departments to analyze frontal-view chest X-ray images (PA or AP
+    projection) from adult patients (age 18+) with suspected pneumonia or respiratory
+    infection. The device is intended as a diagnostic aid to alert radiologists to the
+    possibility of pneumonia and is not intended to replace radiologist interpretation.
+  classification: "Class II"
+  predicate_device: "Siemens syngo AI Chest X-Ray Assistant (K191234)"
+  device_id: "3001456789"
+
+planned_modifications:
+  - type: Model Retraining with Expanded Data
+    description: >
+      Quarterly retraining of the convolutional neural network classifier on newly
+      acquired chest X-ray images to maintain sensitivity and specificity for pneumonia
+      detection. The base model architecture (DenseNet-121 with attention mechanism)
+      remains fixed. Training incorporates newly acquired radiograph data from partner
+      hospital networks, expanding demographic and pathology representation.
+    rationale: >
+      Quarterly retraining allows the model to adapt to seasonal pneumonia patterns,
+      new pathogenic strains, and evolving patient presentations. Expanded data from
+      diverse hospital networks improves generalization and reduces algorithmic bias.
+    affected_performance_metrics:
+      - AUC-ROC (Pneumonia Detection)
+      - Sensitivity (Pneumonia)
+      - Specificity (Pneumonia)
+      - PPV (Positive Predictive Value)
+      - NPV (Negative Predictive Value)
+    frequency_cadence: "Quarterly (every 3 months)"
+
+  - type: Demographic Fairness Optimization
+    description: >
+      Targeted retraining to minimize performance disparities across demographic
+      sub-populations (age groups, sex, race as documented in DICOM headers).
+      Training data balancing and loss function weighting to equalize PPV and
+      sensitivity across groups.
+    rationale: >
+      Published literature documents racial and sex-based disparities in pneumonia
+      diagnosis and imaging interpretation. Targeted fairness optimization ensures
+      equitable model performance and reduces potential for algorithmic bias in
+      clinical deployment.
+    affected_performance_metrics:
+      - PPV variance across demographic groups
+      - Sensitivity variance across demographic groups
+      - Equalized odds difference
+    frequency_cadence: "Every 6 months or when fairness audit detects >5% disparity"
+
+  - type: Architecture Fine-Tuning
+    description: >
+      Adjustment of attention mechanism weights, batch normalization parameters,
+      and dropout rates within pre-defined ranges. No change to the core DenseNet-121
+      backbone architecture. Fine-tuning performed on validation set performance.
+    rationale: >
+      Quarterly updates to training data may require calibration of regularization
+      to prevent overfitting or underfitting. Fine-tuning improves model robustness
+      to new data distributions.
+    affected_performance_metrics:
+      - AUC-ROC (Pneumonia Detection)
+      - Calibration error
+    frequency_cadence: "Quarterly during retraining cycles"
+
+modification_protocol:
+  data_management: >
+    Chest X-ray images and associated metadata are received from partner hospitals
+    via DICOM files transferred over encrypted FTP or HL7-FHIR API. Patient identifiers
+    are stripped at source by hospital DICOM anonymizers; data is further re-identified
+    using hashing algorithms to prevent re-linkage. All imaging data is stored in a
+    HIPAA-compliant, access-controlled PACS (Picture Archiving and Communication
+    System) with audit logging. Each dataset is versioned with unique identifiers
+    including acquisition date and source institution. Imaging data is retained for
+    7 years per FDA guidance; de-identified radiologist annotations (pneumonia present/
+    absent, confidence) are retained indefinitely as training data provenance.
+
+  data_quality_checks: >
+    Before retraining, mandatory data quality checks include: (1) Image integrity:
+    verify DICOM format compliance, no corrupted pixel data, valid DICOM headers;
+    (2) Imaging modality: confirm all images are chest radiographs (frontal view PA/AP
+    projection), exclude lateral/decubitus/prone views; (3) Image quality: exclude
+    images with motion artifact, severe under/over-exposure, or equipment malfunction
+    flags; (4) Anatomical completeness: verify lung fields, mediastinum, and
+    hemidiaphragms visible; (5) Label validity: confirm annotations from board-certified
+    radiologists with minimum 5 years experience; (6) Class balance: training set must
+    contain 40-60% pneumonia-positive cases; (7) Demographic diversity: training set
+    must include representation across age ranges (18-40, 41-64, 65+), documented sex
+    (M/F/other), and documented race when available; (8) Temporal diversity: imaging
+    data collected across minimum 12 months to capture seasonal pneumonia variation.
+
+  retraining_methodology: >
+    Model architecture: DenseNet-121 (pre-trained on ImageNet weights) with spatial
+    attention modules (CBAM: Convolutional Block Attention Module) at dense block
+    transitions, followed by global average pooling and binary classification head
+    (sigmoid output). Input: chest X-ray images normalized to 256x256 pixels, pixel
+    intensity normalized to [-1, 1] using ImageNet statistics. Loss function: weighted
+    binary cross-entropy, weighted 2:1 (pneumonia positive) to account for class imbalance
+    in population. Optimizer: AdamW with learning rate 1e-4, weight decay 1e-4. Batch
+    size: 64. Training for maximum 100 epochs with early stopping (patience=10 on
+    validation AUC). Data augmentation: random rotations (±15 degrees), horizontal
+    flips, gaussian blur (sigma 0.5-1.5), and elastic deformations (alpha 30-70).
+    Hardware: NVIDIA A100 GPU or equivalent. Training time: ~8 hours per cycle.
+    Reproducibility: fixed random seeds (numpy, torch).
+
+  validation_strategy: >
+    Retrained models are validated using stratified 5-fold cross-validation on a
+    held-out test set comprising 20% of total data. Test data is temporally separated
+    (collected after training data) and sourced from minimum 3 distinct hospital
+    systems not in training data. Test set must include minimum 500 images (300 with
+    pneumonia, 200 without). Performance evaluated per imaging modality, institution,
+    and demographic sub-population (age: 18-40, 41-64, 65+; sex: M/F/other; race:
+    White, Black, Hispanic, Asian, other where documented). Validation performed by
+    Quality team blinded to model development team. CAM (Class Activation Mapping)
+    visualization reviewed by radiologist to ensure model attention aligns with
+    clinically relevant features (infiltrates, consolidation, other pneumonia signs).
+
+  validation_criteria:
+    - "AUC-ROC for pneumonia detection must be >= 0.92 (baseline 0.945)"
+    - "Sensitivity (pneumonia detection) must be >= 0.90 (baseline 0.93)"
+    - "Specificity must be >= 0.91 (baseline 0.96)"
+    - "PPV must not decline >2% from baseline"
+    - "NPV must be >= 0.95 (baseline 0.98)"
+    - "Performance maintained within 1.5% for all age groups (18-40, 41-64, 65+)"
+    - "PPV variance across documented demographic groups must be <= 3%"
+    - "Sensitivity variance across demographic groups must be <= 2%"
+    - "Agreement with expert radiologist interpretations >= 92% on holdout test set"
+    - "CAM visualizations confirmed as clinically plausible by radiologist review"
+
+  performance_thresholds:
+    - name: "AUC-ROC (Pneumonia Detection)"
+      description: >
+        Area under receiver operating characteristic curve for binary pneumonia
+        classification. Measures overall diagnostic discriminative ability.
+      baseline_value: 0.945
+      threshold_warning: 0.930
+      threshold_action: 0.915
+      direction: "higher"
+
+    - name: "Sensitivity (Pneumonia)"
+      description: >
+        True positive rate (recall) for pneumonia detection. Clinically critical:
+        missing pneumonia cases risks delayed treatment and worse patient outcomes.
+      baseline_value: 0.93
+      threshold_warning: 0.915
+      threshold_action: 0.90
+      direction: "higher"
+
+    - name: "Specificity (No Pneumonia)"
+      description: >
+        True negative rate for correctly identifying non-pneumonia cases. Prevents
+        unnecessary antibiotics and further workup.
+      baseline_value: 0.96
+      threshold_warning: 0.945
+      threshold_action: 0.93
+      direction: "higher"
+
+    - name: "PPV (Positive Predictive Value)"
+      description: >
+        Precision: proportion of positive predictions that are truly pneumonia cases.
+        Reduces false alarms and unnecessary clinical interventions.
+      baseline_value: 0.91
+      threshold_warning: 0.89
+      threshold_action: 0.87
+      direction: "higher"
+
+    - name: "NPV (Negative Predictive Value)"
+      description: >
+        Negative predictive value: probability that a negative prediction correctly
+        identifies absence of pneumonia. High NPV is clinically important for
+        ruling out pneumonia.
+      baseline_value: 0.98
+      threshold_warning: 0.97
+      threshold_action: 0.95
+      direction: "higher"
+
+  drift_monitoring:
+    method: >
+      Multimodal data drift detection: (1) Statistical distribution shift using
+      Frechet Inception Distance (FID) on image feature representations from
+      intermediate DenseNet layers; (2) Label distribution monitoring via chi-square
+      test comparing monthly pneumonia prevalence to baseline; (3) Prediction entropy
+      and confidence distribution drift; (4) Automated radiologist review of 50
+      random inference samples monthly for label discordance. All metrics computed
+      on monthly batches of 500+ images from clinical deployment.
+    monitoring_frequency: "Monthly on all chest X-rays processed in production"
+    threshold_description: >
+      Drift is flagged when: (1) FID > 3 standard deviations above baseline mean,
+      (2) monthly pneumonia prevalence differs from baseline by >5 percentage points,
+      (3) mean model confidence drops >7% from baseline, or (4) radiologist review
+      shows >3% discordance rate (model prediction differs from radiologist
+      interpretation).
+    response_protocol: >
+      Upon drift detection: (1) Alert Quality and Radiology leadership within 24
+      hours; (2) Sample 50 drift-flagged cases and request urgent radiologist review
+      to assess clinical impact; (3) If radiologist review shows >3% discordance,
+      declare critical alert and initiate emergency retraining cycle; (4) Escalate to
+      Chief Medical Officer and hospital leadership if discordance suggests systematic
+      bias. (5) Document all drift events, root causes, and resolutions. (6) Perform
+      root cause analysis: check for equipment changes, new hospital department
+      contributions, seasonal changes, pandemic impacts.
+
+  deployment_process: >
+    Validated models deploy via controlled process: (1) Quality team reviews all
+    validation results and compares to acceptance criteria. Clinical consultation
+    from Chief Radiologist before deployment. Electronic sign-off required from both
+    Quality and Clinical leadership. (2) Model is containerized with Docker, versioned,
+    and checksummed. Packaging includes training metadata, validation reports, and
+    performance metrics. (3) Staged deployment on scheduled maintenance window
+    (Sunday 3 AM UTC, low-traffic clinical hours). (4) Canary phase: model serves
+    5% of inference requests (approximately 50-100 daily studies) for 72 hours with
+    all predictions logged and CAM visualizations captured. (5) During canary,
+    radiologists review 10 random CAM visualizations daily to assess clinical
+    plausibility. (6) If canary metrics stable and radiologist feedback positive,
+    expand to 50% over 4 hours, then to 100% over additional 4 hours. (7) Previous
+    model retained for 90 days for rapid rollback if needed. (8) Real-time monitoring
+    dashboard shows inference latency, throughput, confidence distribution, and
+    flagged cases for radiologist review. (9) First week: daily performance audit by
+    Quality team. (10) Subsequent weeks: weekly audits of inference logs and
+    discordance events.
+
+impact_assessment:
+  benefits: >
+    Quarterly model retraining enables continuous improvement in pneumonia detection
+    sensitivity and specificity, ensuring diagnostic performance remains current with
+    evolving patient presentations and clinical needs. Fairness-focused retraining
+    minimizes algorithmic bias, promoting equitable care across demographic groups.
+    Documented modification protocols enable faster iteration compared to traditional
+    510(k) amendments, reducing regulatory timelines from 6-12 months to quarterly
+    cycles. This accelerates patient access to improved diagnostics while maintaining
+    regulatory compliance. Data expansion to diverse institutions strengthens model
+    generalization and clinical reliability. Transparent post-market surveillance
+    provides confidence in model safety to clinicians and healthcare systems.
+
+  risks: >
+    Model retraining on quarterly data could inadvertently optimize for seasonal
+    patterns or hospital-specific practices that don't generalize. New training data
+    may introduce labeling inconsistencies if radiologist annotators vary in criteria.
+    Rapid deployment cycles could reduce time for thorough testing before clinical
+    release. Attention mechanisms may focus on spurious correlations (e.g., hospital
+    watermark) rather than true pneumonia features. Data drift from new equipment
+    (e.g., transition to AI-enabled X-ray systems) could degrade performance. Fairness
+    optimization could reduce overall sensitivity if not carefully balanced. Seasonal
+    influenza or pandemic respiratory pathogens could shift pneumonia prevalence
+    unexpectedly.
+
+  risk_mitigations:
+    - risk: "Quarterly retraining optimizes for short-term seasonal patterns"
+      mitigation: >
+        Training data explicitly incorporates minimum 12-month temporal span to capture
+        seasonal variation. Model is not retrained more frequently than quarterly to
+        prevent overfitting to noise. Validation always includes data from multiple
+        seasons.
+
+    - risk: "Radiologist annotation inconsistency introduces label noise"
+      mitigation: >
+        All training annotations must be from board-certified radiologists with minimum
+        5 years experience. 10% of training data is dual-annotated by independent
+        radiologists; cases with disagreement are excluded from training or flagged
+        for consensus review. Automated label quality checks flag borderline cases for
+        manual adjudication.
+
+    - risk: "Rapid deployment introduces untested model behavior"
+      mitigation: >
+        Mandatory 72-hour canary deployment with radiologist-in-the-loop CAM review
+        before clinical release. Automated performance monitoring with alerts on key
+        metrics. 90-day rollback capability with validated previous model version.
+
+    - risk: "Model attention focuses on spurious features rather than pathology"
+      mitigation: >
+        CAM visualizations reviewed by radiologists before deployment approval.
+        Attention map must highlight lungs and plausible pneumonia features (infiltrates,
+        consolidation, atelectasis); maps highlighting unrelated regions trigger model
+        rejection. Interpretability requirements written into validation criteria.
+
+    - risk: "Equipment migration causes data distribution shift"
+      mitigation: >
+        All X-ray equipment information (manufacturer, model, software version) is
+        captured in DICOM headers and tracked in training data metadata. Model
+        performance validated separately by equipment type. When new equipment is
+        installed, baseline validation performed on 100+ images before equipment
+        contributes to training data.
+
+    - risk: "Fairness optimization reduces overall sensitivity"
+      mitigation: >
+        Fairness metrics (PPV, sensitivity parity) and overall sensitivity are
+        tracked simultaneously. If fairness optimization reduces overall sensitivity
+        below acceptance criteria, modification is rejected. Separate models for
+        different demographic strata are considered if parity cannot be achieved
+        with single model.
+
+    - risk: "Pandemic respiratory pathogen causes unexpected prevalence shift"
+      mitigation: >
+        Monthly prevalence monitoring with >5 percentage point change triggering
+        investigation. Rapid radiologist manual review (50 images) to assess if new
+        patterns are being learned. If novel pathology is identified, expert consultation
+        before retraining to ensure model appropriately captures new condition.
+
+  sub_population_analysis:
+    - name: "Age Group: 18-40 years"
+      description: >
+        Younger adult population. Generally lower baseline pneumonia prevalence;
+        when pneumonia occurs, often community-acquired from typical pathogens
+        (S. pneumoniae, H. influenzae).
+      performance_expectations: >
+        AUC-ROC 0.94, Sensitivity >= 0.91, Specificity >= 0.95. Higher specificity
+        expected due to lower disease prevalence.
+      monitoring_plan: >
+        Monthly stratified analysis. If AUC drops below 0.92, investigate for
+        underrepresentation in training data.
+
+    - name: "Age Group: 41-64 years"
+      description: >
+        Middle-aged population. Moderate pneumonia prevalence with more comorbidities
+        (diabetes, hypertension) that complicate radiographic findings.
+      performance_expectations: >
+        AUC-ROC 0.95, Sensitivity >= 0.93, Specificity >= 0.96. Primary validation
+        cohort; tightest performance targets.
+      monitoring_plan: >
+        Primary performance tracking. Continuous monitoring in post-market surveillance.
+        Trigger retraining if AUC drops below 0.93.
+
+    - name: "Age Group: 65+ years"
+      description: >
+        Elderly population. High pneumonia prevalence and mortality; often complicated
+        by immunosuppression, polypharmacy, and atypical presentations.
+      performance_expectations: >
+        AUC-ROC 0.94, Sensitivity >= 0.94 (high sensitivity critical for this
+        high-risk group). Specificity >= 0.93.
+      monitoring_plan: >
+        Monthly stratified analysis. Alert if sensitivity drops below 0.93 (patient
+        safety risk). This cohort requires highest vigilance.
+
+    - name: "Sex: Male"
+      description: >
+        Patients identified as male. Published data suggests sex differences in
+        pneumonia epidemiology and radiographic presentation.
+      performance_expectations: >
+        Performance parity with overall model: AUC within 1.5%, sensitivity within
+        1.5%, PPV within 2%.
+      monitoring_plan: >
+        Monthly sex-stratified analysis. Significant divergence triggers fairness
+        audit and potential retraining adjustment.
+
+    - name: "Sex: Female"
+      description: >
+        Patients identified as female. May have different comorbidity profiles and
+        immunological responses affecting pneumonia presentation.
+      performance_expectations: >
+        Performance parity with overall model: AUC within 1.5%, sensitivity within
+        1.5%, PPV within 2%.
+      monitoring_plan: >
+        Monthly sex-stratified analysis. Significant divergence triggers fairness
+        audit and potential retraining adjustment.
+
+    - name: "Documented Race/Ethnicity: Black/African American"
+      description: >
+        Healthcare disparities literature documents different pneumonia outcomes
+        and imaging interpretation patterns for Black patients.
+      performance_expectations: >
+        PPV parity with overall model (within 2%). Sensitivity >= 0.92 to ensure
+        equitable case detection.
+      monitoring_plan: >
+        Quarterly analysis. If PPV diverges >2% or sensitivity drops >1.5%, trigger
+        fairness audit and retraining adjustment.
+
+    - name: "Documented Race/Ethnicity: Hispanic/Latino"
+      description: >
+        Race/ethnicity documented in DICOM metadata. Healthcare equity requires
+        equal performance across Hispanic populations.
+      performance_expectations: >
+        PPV parity with overall model (within 2%). Sensitivity >= 0.92.
+      monitoring_plan: >
+        Quarterly analysis. If metrics diverge, trigger fairness audit.
+
+  monitoring_and_reporting: >
+    Post-market surveillance for PCCP modifications includes: (1) Continuous logging
+    of all chest X-ray inferences with imaging file paths, model output probability,
+    model version, and timestamp. (2) Monthly performance reports stratified by age
+    group (18-40, 41-64, 65+), sex, documented race/ethnicity, and hospital system,
+    compared to baseline thresholds. Reports highlight any metrics trending toward
+    warning thresholds. (3) Monthly radiologist review of 50 randomly selected
+    inferences to assess concordance with model; discordant cases trigger investigation.
+    (4) Quarterly fairness audit assessing PPV, sensitivity, and equalized odds across
+    demographic groups. (5) Quarterly data drift analysis using FID and label
+    distribution tests; drift events documented with root cause analysis. (6) Immediate
+    notification to hospital system leadership if any metric falls below action
+    threshold or drift is detected; includes recommendation for model rollback or
+    urgent retraining. (7) Annual comprehensive report to FDA summarizing all
+    modifications, performance data, clinical events, and fairness analysis. (8) FDA
+    MedWatch reporting for any adverse events potentially related to model error.
+    (9) Retention of all chest X-ray data, DICOM headers, model versions, validation
+    reports, deployment logs, and radiologist reviews for FDA inspection (7-year
+    retention per medical records requirements). (10) Annual review meeting with
+    hospital radiology leadership and FDA to assess PCCP effectiveness and discuss
+    any needed modifications to the plan.
+
+regulatory_compliance: >
+  This PCCP is executed in compliance with: (1) FDA Predetermined Change Control
+  Plans guidance for ML-enabled medical devices (December 2024); (2) 21 CFR 860
+  Medical Device Regulations; (3) IEC 62304 medical device software lifecycle
+  standards; (4) HIPAA Privacy Rule (45 CFR 164) and Security Rule (45 CFR 164
+  Subpart C) for protected health information; (5) DICOM standard (ISO/IEC 12052)
+  for imaging data exchange and anonymization; (6) 21 CFR 11 electronic records and
+  signatures; (7) FDA guidance on AI/ML-based SaMD (January 2021); (8) NIST AI
+  Risk Management Framework for fairness and bias assessment. All modifications are
+  implemented within the context of RespirAI's ISO 13485:2016-certified quality
+  management system. No modifications falling outside Section 1-2 scope may be
+  implemented without a new 510(k) submission or FDA clearance.
+
+version: "1.0"
+effective_date: "2025-04-01"
