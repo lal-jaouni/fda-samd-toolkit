@@ -10,7 +10,7 @@ All schemas use Pydantic v2 with strict validation.
 from datetime import date
 from typing import Any
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class ModelDetails(BaseModel):
@@ -264,13 +264,12 @@ class ModelCard(BaseModel):
     )
     fda_specific: FDASpecific | None = Field(None, description="FDA-specific fields for regulatory submissions")
 
-    class Config:
-        """Pydantic configuration."""
-
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "title": "FDA-Extended Model Card",
             "description": "Model card extending Mitchell et al. 2019 with FDA medical device fields",
         }
+    )
 
 
 if __name__ == "__main__":

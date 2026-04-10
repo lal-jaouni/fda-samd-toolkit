@@ -83,7 +83,7 @@ class PCCPValidator:
         if not file_path.exists():
             raise FileNotFoundError(f"PCCP file not found: {path}")
 
-        with open(file_path) as f:
+        with open(file_path, encoding="utf-8") as f:
             self.content = f.read()
 
         self.lines = self.content.split("\n")

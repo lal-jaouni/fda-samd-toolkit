@@ -3,7 +3,7 @@
 from pathlib import Path
 
 import yaml
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 from pydantic import ValidationError
 
 from .schemas import PCCPConfig
@@ -31,7 +31,7 @@ def generate_pccp(config_path: str, output_path: str) -> None:
     if not config_file.exists():
         raise FileNotFoundError(f"Configuration file not found: {config_file}")
 
-    with open(config_file) as f:
+    with open(config_file, encoding="utf-8") as f:
         config_data = yaml.safe_load(f)
 
     if not config_data:
@@ -45,8 +45,12 @@ def generate_pccp(config_path: str, output_path: str) -> None:
         raise ValueError(f"Configuration validation failed:\n{e}") from e
 
     template_dir = Path(__file__).parent / "templates"
+    # Markdown output does not need HTML escaping. select_autoescape with an
+    # HTML-only extension list satisfies bandit's B701 check while leaving
+    # markdown characters like > and < unescaped in the rendered document.
     env = Environment(
         loader=FileSystemLoader(str(template_dir)),
+        autoescape=select_autoescape(["html", "htm", "xml"]),
         trim_blocks=True,
         lstrip_blocks=True,
     )
@@ -55,7 +59,7 @@ def generate_pccp(config_path: str, output_path: str) -> None:
     rendered = template.render(config=config)
 
     output_file.parent.mkdir(parents=True, exist_ok=True)
-    with open(output_file, "w") as f:
+    with open(output_file, "w", encoding="utf-8") as f:
         f.write(rendered)
 
 
@@ -78,7 +82,7 @@ def load_config(config_path: str) -> PCCPConfig:
     if not config_file.exists():
         raise FileNotFoundError(f"Configuration file not found: {config_file}")
 
-    with open(config_file) as f:
+    with open(config_file, encoding="utf-8") as f:
         config_data = yaml.safe_load(f)
 
     if not config_data:
