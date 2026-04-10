@@ -46,14 +46,14 @@ class TestFullPipeline:
         example_path = Path(__file__).parent.parent.parent / "examples" / "model_card_ecg_classifier.yaml"
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False) as f:
-            output_path = f.name
+            output_path = Path(f.name)
 
         try:
             # Run generator
-            generate_model_card(str(example_path), str(output_path))
+            generate_model_card(example_path, output_path)
 
             # Verify output exists and is valid
-            output_file = Path(output_path)
+            output_file = output_path
             assert output_file.exists(), "Model card output file was not created"
 
             content = output_file.read_text()
