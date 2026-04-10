@@ -5,7 +5,47 @@ import tempfile
 import pytest
 from click.testing import CliRunner
 
-from fda_samd_toolkit.cli import cli
+from fda_samd_toolkit.cli import _print_error_and_exit, cli
+
+
+class TestErrorPanelHelper:
+    """Tests for the _print_error_and_exit helper used by every subcommand.
+
+    Ensures each error class renders a context-aware panel and exits with
+    a non-zero code, so the user sees actionable feedback.
+    """
+
+    def test_file_not_found_panel(self, capsys):
+        with pytest.raises(SystemExit) as excinfo:
+            _print_error_and_exit(FileNotFoundError("config.yaml"), "PCCP generation")
+        assert excinfo.value.code == 1
+        captured = capsys.readouterr()
+        assert "File Not Found" in captured.out
+        assert "PCCP generation" in captured.out
+
+    def test_permission_denied_panel(self, capsys):
+        with pytest.raises(SystemExit) as excinfo:
+            _print_error_and_exit(PermissionError("/etc/passwd"), "Model card generation")
+        assert excinfo.value.code == 1
+        captured = capsys.readouterr()
+        assert "Permission Denied" in captured.out
+        assert "Model card generation" in captured.out
+
+    def test_value_error_panel(self, capsys):
+        with pytest.raises(SystemExit) as excinfo:
+            _print_error_and_exit(ValueError("bad config"), "Validation plan generation")
+        assert excinfo.value.code == 1
+        captured = capsys.readouterr()
+        assert "Validation Error" in captured.out
+        assert "bad config" in captured.out
+
+    def test_unexpected_error_panel(self, capsys):
+        with pytest.raises(SystemExit) as excinfo:
+            _print_error_and_exit(RuntimeError("boom"), "Checklist")
+        assert excinfo.value.code == 1
+        captured = capsys.readouterr()
+        assert "Unexpected Error" in captured.out
+        assert "RuntimeError" in captured.out
 
 
 @pytest.fixture

@@ -15,7 +15,7 @@ The validation study will establish clinical performance, safety, and generaliza
 **Key Study Parameters:**
 - Study Design: Retrospective
 - Planned Sample Size: 1500 subjects
-- Primary Endpoint: Sensitivity &gt;= 90% (95% CI lower bound &gt;= 85%) AND Specificity &gt;= 95% (95% CI lower bound &gt;= 90%)
+- Primary Endpoint: Sensitivity >= 90% (95% CI lower bound >= 85%) AND Specificity >= 95% (95% CI lower bound >= 90%)
 - Data Modality: Signals
 
 ---
@@ -95,7 +95,7 @@ Subjects will be eligible for the study if they meet all of the following criter
 Subjects will be excluded from the study if they meet any of the following criteria:
 
 - Incomplete or corrupted ECG signal
-- ECG signal quality score &lt;80% (excessive noise, artifact, baseline wander)
+- ECG signal quality score <80% (excessive noise, artifact, baseline wander)
 - Paced rhythms (due to complexity in rhythm classification)
 - Subjects with no clinical follow-up data for reference standard establishment
 - Insufficient documentation for adjudicator reference standard determination
@@ -105,14 +105,14 @@ Subjects will be excluded from the study if they meet any of the following crite
 **Planned Sample Size:** 1500 subjects
 
 **Statistical Justification:**
-Sample size calculation assumes atrial fibrillation (AF) prevalence of 15% (225 AF subjects, 1275 non-AF). Using binomial test with alpha=0.05, power=0.90, and target sensitivity=90% with null hypothesis of 80%, n=225 AF subjects provides adequate power. For specificity with target 95% (null=90%), n=1275 non-AF subjects provides power&gt;0.99. Additional 20% buffer accounts for protocol deviations. Formula: n = [z_alpha + z_beta]^2 * p0 * (1-p0) / (p1 - p0)^2.
+Sample size calculation assumes atrial fibrillation (AF) prevalence of 15% (225 AF subjects, 1275 non-AF). Using binomial test with alpha=0.05, power=0.90, and target sensitivity=90% with null hypothesis of 80%, n=225 AF subjects provides adequate power. For specificity with target 95% (null=90%), n=1275 non-AF subjects provides power>0.99. Additional 20% buffer accounts for protocol deviations. Formula: n = [z_alpha + z_beta]^2 * p0 * (1-p0) / (p1 - p0)^2.
 
 **Sample Size Calculation Details:**
 [Provide alpha level, power target (typically 80-90%), effect size, assumed performance rates, and dropout rate assumptions used in calculation]
 
 ### 4.5 Population Diversity and Representation
 **Diversity Goals:**
-The study aims to enroll a demographically diverse population including: Age: 18-40 (25%), 41-60 (35%), 61-75 (25%), &gt;75 (15%); Sex: 48% Female, 52% Male; Race/Ethnicity: 60% White, 20% Black/African American, 12% Hispanic/Latino, 8% Asian. Comorbidity distribution should reflect typical cardiology clinic prevalence (hypertension 50%, diabetes 25%, structural heart disease 15%).
+The study aims to enroll a demographically diverse population including: Age: 18-40 (25%), 41-60 (35%), 61-75 (25%), >75 (15%); Sex: 48% Female, 52% Male; Race/Ethnicity: 60% White, 20% Black/African American, 12% Hispanic/Latino, 8% Asian. Comorbidity distribution should reflect typical cardiology clinic prevalence (hypertension 50%, diabetes 25%, structural heart disease 15%).
 
 **Rationale:** FDA guidance and clinical standards emphasize evaluation of AI algorithms across demographic subgroups to identify and mitigate performance disparities. Underrepresentation of any demographic group limits evidence of safety and effectiveness in that population.
 
@@ -159,15 +159,15 @@ Board certification in Cardiology from American Board of Internal Medicine with 
 ### 6.1 Primary Endpoint
 **Endpoint:** Sensitivity and specificity for detection of atrial fibrillation (AF) on 12-lead ECG compared to clinical reference standard diagnosis.
 
-**Primary Success Criterion:** Sensitivity &gt;= 90% (95% CI lower bound &gt;= 85%) AND Specificity &gt;= 95% (95% CI lower bound &gt;= 90%)
+**Primary Success Criterion:** Sensitivity >= 90% (95% CI lower bound >= 85%) AND Specificity >= 95% (95% CI lower bound >= 90%)
 
 **Definition of Success:** [Specify what performance is considered clinically and statistically significant]
 
 ### 6.2 Secondary Endpoints
 - Classification accuracy for 5-class arrhythmia categories (Normal, AF, Atrial Flutter, SVT, VT)
-- Area Under Receiver Operating Characteristic Curve (AUROC) for AF detection: &gt;= 0.92
-- Positive Predictive Value &gt;= 85% at typical AF prevalence of 5%
-- Negative Predictive Value &gt;= 98%
+- Area Under Receiver Operating Characteristic Curve (AUROC) for AF detection: >= 0.92
+- Positive Predictive Value >= 85% at typical AF prevalence of 5%
+- Negative Predictive Value >= 98%
 - Performance consistency across device brands (GE, Philips, Nihon Kohden, Schiller)
 
 ### 6.3 Performance Targets
@@ -187,7 +187,7 @@ Board certification in Cardiology from American Board of Internal Medicine with 
 ## 7. Statistical Analysis Plan
 
 ### 7.1 Primary Hypothesis
-**Hypothesis:** The CardioDetect algorithm will achieve sensitivity &gt;= 90% and specificity &gt;= 95% for atrial fibrillation detection compared to clinical reference standard in a diverse population of 1500 subjects.
+**Hypothesis:** The CardioDetect algorithm will achieve sensitivity >= 90% and specificity >= 95% for atrial fibrillation detection compared to clinical reference standard in a diverse population of 1500 subjects.
 
 ### 7.2 Statistical Test and Analysis
 **Test:** Binomial test for sensitivity and specificity, with DeLong test for comparing AUROC between algorithm and clinical cardiologist performance.
@@ -198,7 +198,7 @@ Board certification in Cardiology from American Board of Internal Medicine with 
 
 ### 7.3 Power Calculation
 **Sample Size Justification:**
-Sample size calculation assumes AF prevalence of 15% (225 AF subjects, 1275 non-AF). Using binomial test with alpha=0.05, power=0.90, and target sensitivity=90% with null hypothesis of 80%, n=225 AF subjects provides adequate power. For specificity with target 95% (null=90%), n=1275 non-AF subjects provides power&gt;0.99. Additional 20% buffer (n=1800 total enrollment, 1500 analyzable) accounts for potential protocol deviations and missing reference standards. Formula: n = [z_alpha + z_beta]^2 * p0 * (1-p0) / (p1 - p0)^2.
+Sample size calculation assumes AF prevalence of 15% (225 AF subjects, 1275 non-AF). Using binomial test with alpha=0.05, power=0.90, and target sensitivity=90% with null hypothesis of 80%, n=225 AF subjects provides adequate power. For specificity with target 95% (null=90%), n=1275 non-AF subjects provides power>0.99. Additional 20% buffer (n=1800 total enrollment, 1500 analyzable) accounts for potential protocol deviations and missing reference standards. Formula: n = [z_alpha + z_beta]^2 * p0 * (1-p0) / (p1 - p0)^2.
 
 [Include detailed calculation showing:
 - Formula used
@@ -227,7 +227,7 @@ Sample size calculation assumes AF prevalence of 15% (225 AF subjects, 1275 non-
 ### 7.6 Sensitivity Analyses
 Sensitivity analyses will be conducted to assess robustness of primary findings:
 - Stratified analysis by AF paroxysmal vs. persistent/permanent
-- Performance on high-quality ECGs (SNR &gt;40dB) vs. routine clinical recordings
+- Performance on high-quality ECGs (SNR >40dB) vs. routine clinical recordings
 - Sensitivity analysis excluding subjects with structural heart disease
 - Sub-group analysis by device manufacturer (GE vs. Philips vs. others)
 - Analysis removing outlier subjects with extreme signal characteristics
@@ -242,7 +242,7 @@ The following subgroups will be analyzed to assess whether algorithm performance
 
 **Subgroups:**
 - Sex: Male vs. Female
-- Age: &lt;50, 50-65, &gt;65 years
+- Age: <50, 50-65, >65 years
 - Race/Ethnicity: White, Black/African American, Hispanic/Latino, Asian, Other
 - Comorbidity: None vs. Hypertension vs. Diabetes vs. Structural Heart Disease
 - Arrhythmia Type: Paroxysmal AF vs. Persistent AF
@@ -255,11 +255,11 @@ The following subgroups will be analyzed to assess whether algorithm performance
 - comorbidity_status
 
 ### 8.2 Performance Targets by Subgroup
-- **Female:** Sensitivity &gt;= 88%, Specificity &gt;= 94%
-- **Male:** Sensitivity &gt;= 90%, Specificity &gt;= 95%
-- **&lt;50 years:** Sensitivity &gt;= 92%, Specificity &gt;= 96%
-- **50-65 years:** Sensitivity &gt;= 90%, Specificity &gt;= 95%
-- **&gt;65 years:** Sensitivity &gt;= 88%, Specificity &gt;= 94%
+- **Female:** Sensitivity >= 88%, Specificity >= 94%
+- **Male:** Sensitivity >= 90%, Specificity >= 95%
+- **<50 years:** Sensitivity >= 92%, Specificity >= 96%
+- **50-65 years:** Sensitivity >= 90%, Specificity >= 95%
+- **>65 years:** Sensitivity >= 88%, Specificity >= 94%
 
 ### 8.3 Minority Representation
 **Strategy:**
@@ -267,7 +267,7 @@ The study will actively recruit from diverse healthcare systems serving African 
 
 ### 8.4 Differential Performance Analysis
 **Plan:**
-Chi-square tests will assess whether sensitivity/specificity differs significantly across demographic subgroups. If disparity detected (&gt;5% difference), we will investigate potential drivers (signal quality, arrhythmia phenotype, comorbidities) and plan mitigation (retraining data weighting, confidence adjustments).
+Chi-square tests will assess whether sensitivity/specificity differs significantly across demographic subgroups. If disparity detected (>5% difference), we will investigate potential drivers (signal quality, arrhythmia phenotype, comorbidities) and plan mitigation (retraining data weighting, confidence adjustments).
 
 
 ---
@@ -294,11 +294,11 @@ External validation sites should be geographically and organizationally distinct
 
 ### 9.2 Temporal Validation
 **Plan:**
-Temporal validation will assess algorithm performance on ECGs collected in 2024 (&gt;12 months after primary study data). Comparison metrics: sensitivity/specificity should not degrade &gt;3%. Investigation of any drift with updated prevalence estimates or signal distribution shifts.
+Temporal validation will assess algorithm performance on ECGs collected in 2024 (>12 months after primary study data). Comparison metrics: sensitivity/specificity should not degrade >3%. Investigation of any drift with updated prevalence estimates or signal distribution shifts.
 
 ### 9.3 Data Drift Monitoring
 **Plan:**
-Post-market surveillance: Monthly analysis of algorithm predictions and confidence distributions. Drift detection using Kolmogorov-Smirnov test (p&lt;0.05 triggers investigation). Performance metrics tracked monthly; if monthly sensitivity drops &gt;5% or specificity drops &gt;3%, trigger retraining protocol.
+Post-market surveillance: Monthly analysis of algorithm predictions and confidence distributions. Drift detection using Kolmogorov-Smirnov test (p<0.05 triggers investigation). Performance metrics tracked monthly; if monthly sensitivity drops >5% or specificity drops >3%, trigger retraining protocol.
 
 ### 9.4 Geographic Generalization
 **Plan:**
@@ -326,7 +326,7 @@ During retrospective study: structured chart review of false predictions and cli
 
 ### 10.3 Safety Stopping Rules
 **Rules:**
-Study will be paused if: (1) False negative rate in AF detection &gt;15%, (2) &gt;3 subjects identified with serious adverse outcome attributable to false negative, or (3) Sensitivity &lt;85% with lower 95% CI &lt;80%.
+Study will be paused if: (1) False negative rate in AF detection >15%, (2) >3 subjects identified with serious adverse outcome attributable to false negative, or (3) Sensitivity <85% with lower 95% CI <80%.
 
 [Pre-specified stopping criteria:
 - If serious adverse event rate exceeds X%
@@ -366,22 +366,22 @@ This validation plan incorporates modality-specific best practices for signals A
 Data should be obtained from clinical monitoring systems (Holter, ICU monitors, wearables) with documented equipment type, firmware version, and sampling specifications. Include multiple device manufacturers to assess hardware independence. Capture full signal metadata: lead configuration, sampling rate, filter settings, gain. Document time-of-day and patient state during recording (resting, exercise, sleep, etc.).
 
 **Reference Standard Requirements:**
-Reference standard established by board-certified cardiologists/neurologists with subspecialty training. For ECG: use serial tracings, clinical correlation, and when needed, EP study or imaging confirmation. For EEG: use structured scoring systems (e.g., IFSECN classification). Use 3-reader consensus for equivocal arrhythmias/abnormalities. Target inter-rater reliability (Cohen&#39;s kappa or ICC2,k) &gt;= 0.80.
+Reference standard established by board-certified cardiologists/neurologists with subspecialty training. For ECG: use serial tracings, clinical correlation, and when needed, EP study or imaging confirmation. For EEG: use structured scoring systems (e.g., IFSECN classification). Use 3-reader consensus for equivocal arrhythmias/abnormalities. Target inter-rater reliability (Cohen's kappa or ICC2,k) >= 0.80.
 
 **Endpoint Specifications:**
-Primary endpoint: sensitivity &gt;= 0.90 and specificity &gt;= 0.95 for target arrhythmia/abnormality. Report both on per-beat and per-episode level (for continuous monitoring). Include positive/negative predictive value for typical patient prevalence. For multi-class arrhythmias: report macro and weighted averages.
+Primary endpoint: sensitivity >= 0.90 and specificity >= 0.95 for target arrhythmia/abnormality. Report both on per-beat and per-episode level (for continuous monitoring). Include positive/negative predictive value for typical patient prevalence. For multi-class arrhythmias: report macro and weighted averages.
 
 **Statistical Analysis:**
 Account for within-subject correlation (multiple signals per patient). Use mixed-effects models or GEE for clustered analysis if applicable. Sample size: n = [z_alpha + z_beta]^2 * (Se * (1-Se) + Sp * (1-Sp)) / (Se + Sp - 1)^2. Stratify by device type, lead configuration, and signal quality metrics. Assess performance across different sampling rates if device-agnostic.
 
 **Subgroup Analysis Recommendations:**
-Stratify by sex, age (&lt;40, 40-65, &gt;65), and heart rate/baseline rhythm. Analyze performance by signal quality (noise level, artifact percentage). Report metrics separately for different device manufacturers if multi-device study. Include stratification by comorbidities (structural heart disease, electrolyte abnormalities, medications).
+Stratify by sex, age (<40, 40-65, >65), and heart rate/baseline rhythm. Analyze performance by signal quality (noise level, artifact percentage). Report metrics separately for different device manufacturers if multi-device study. Include stratification by comorbidities (structural heart disease, electrolyte abnormalities, medications).
 
 **Safety Considerations:**
 False positive: unnecessary interventions (medication changes, device implant), patient anxiety. False negative: missed life-threatening arrhythmia (syncope, sudden cardiac death risk). Plan for human review of borderline predictions; define confidence thresholds for alert escalation. Include panic value thresholds for immediately actionable findings.
 
 **External Validation Strategy:**
-External validation with different device manufacturer (different signal conditioning). Test on different lead configurations if applicable (12-lead trained, evaluate on 3-lead). Temporal validation: assess performance drift over &gt;1 year post-market. Include subjects with known arrhythmias and asymptomatic individuals.
+External validation with different device manufacturer (different signal conditioning). Test on different lead configurations if applicable (12-lead trained, evaluate on 3-lead). Temporal validation: assess performance drift over >1 year post-market. Include subjects with known arrhythmias and asymptomatic individuals.
 
 ---
 
@@ -411,14 +411,14 @@ External validation with different device manufacturer (different signal conditi
 
 ### 13.1 Primary Success Criterion
 The study will be considered successful if:
-- Sensitivity &gt;= 90% (95% CI lower bound &gt;= 85%) AND Specificity &gt;= 95% (95% CI lower bound &gt;= 90%)
+- Sensitivity >= 90% (95% CI lower bound >= 85%) AND Specificity >= 95% (95% CI lower bound >= 90%)
 
 ### 13.2 Secondary Success Criteria
 Secondary success will be demonstrated if:
 - Classification accuracy for 5-class arrhythmia categories (Normal, AF, Atrial Flutter, SVT, VT)
-- Area Under Receiver Operating Characteristic Curve (AUROC) for AF detection: &gt;= 0.92
-- Positive Predictive Value &gt;= 85% at typical AF prevalence of 5%
-- Negative Predictive Value &gt;= 98%
+- Area Under Receiver Operating Characteristic Curve (AUROC) for AF detection: >= 0.92
+- Positive Predictive Value >= 85% at typical AF prevalence of 5%
+- Negative Predictive Value >= 98%
 - Performance consistency across device brands (GE, Philips, Nihon Kohden, Schiller)
 
 ### 13.3 Analysis Population
@@ -455,8 +455,8 @@ Secondary success will be demonstrated if:
 - Audit trail maintained for all algorithm predictions and reference standard assignments
 
 ### 15.3 Regulatory References
-- FDA &#39;Clinical Performance Assessment: Considerations for Computer-Assisted Detection Devices&#39; (2020)
-- FDA &#39;Predetermined Change Control Plans for Machine Learning-Enabled Medical Devices&#39; (December 2024)
+- FDA 'Clinical Performance Assessment: Considerations for Computer-Assisted Detection Devices' (2020)
+- FDA 'Predetermined Change Control Plans for Machine Learning-Enabled Medical Devices' (December 2024)
 - STARD 2015 (Standards for Reporting Diagnostic Accuracy Studies)
 - TRIPOD-AI (Transparent Reporting of Evaluations with Nonlinear Machine Learning Models in Diagnostic and Prognostic Applications)
 - ACC/AHA Guidelines for Atrial Fibrillation (2019)

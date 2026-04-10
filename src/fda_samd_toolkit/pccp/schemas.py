@@ -6,7 +6,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 class DeviceInfo(BaseModel):
     """Device identification and regulatory classification."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     name: str = Field(..., description="Device name or brand name")
     manufacturer: str = Field(..., description="Manufacturer name")
@@ -20,7 +20,7 @@ class DeviceInfo(BaseModel):
 class PerformanceMetric(BaseModel):
     """A single performance metric to be monitored."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     name: str = Field(..., description="Metric name (e.g., 'AUROC', 'Sensitivity')")
     description: str = Field(..., description="What this metric measures and why it matters")
@@ -41,7 +41,7 @@ class PerformanceMetric(BaseModel):
 class DataDriftMonitoring(BaseModel):
     """Data drift detection and response protocol."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     method: str = Field(..., description="Drift detection method (e.g., 'Statistical test', 'Distribution shift')")
     monitoring_frequency: str = Field(..., description="How often drift is checked (e.g., 'weekly', 'monthly')")
@@ -52,7 +52,7 @@ class DataDriftMonitoring(BaseModel):
 class PlannedModification(BaseModel):
     """A single type of modification pre-approved under the PCCP."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     type: str = Field(
         ...,
@@ -69,7 +69,7 @@ class PlannedModification(BaseModel):
 class ModificationProtocol(BaseModel):
     """Protocol for implementing modifications under the PCCP."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     data_management: str = Field(
         ...,
@@ -94,7 +94,7 @@ class ModificationProtocol(BaseModel):
 class RiskMitigation(BaseModel):
     """Mitigation strategy for a specific risk."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     risk: str = Field(..., description="Description of the risk")
     mitigation: str = Field(..., description="How this risk is mitigated")
@@ -103,7 +103,7 @@ class RiskMitigation(BaseModel):
 class SubPopulationAnalysis(BaseModel):
     """Performance analysis for a specific sub-population."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     name: str = Field(..., description="Sub-population identifier (e.g., 'Age 65+')")
     description: str = Field(..., description="Characteristics defining this sub-population")
@@ -114,7 +114,7 @@ class SubPopulationAnalysis(BaseModel):
 class ImpactAssessment(BaseModel):
     """Assessment of planned modifications' impact on safety and efficacy."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     benefits: str = Field(
         ...,
@@ -134,7 +134,7 @@ class ImpactAssessment(BaseModel):
 class PCCPConfig(BaseModel):
     """Top-level PCCP configuration model."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     device_info: DeviceInfo = Field(..., description="Device identification and classification")
     planned_modifications: list[PlannedModification] = Field(..., description="List of pre-approved modifications")
@@ -147,4 +147,18 @@ class PCCPConfig(BaseModel):
         description="Statements about compliance with applicable regulations (21 CFR 11, etc.)",
     )
     version: str = Field(default="1.0", description="PCCP document version")
-    effective_date: str | None = Field(None, description="Date PCCP becomes effective (ISO 8601 format)")
+    effective_date: str | None = Field(None, description="Date PCCP becomes effective (ISO 8601 format: YYYY-MM-DD)")
+
+    @field_validator("effective_date")
+    @classmethod
+    def validate_effective_date(cls, v: str | None) -> str | None:
+        """Validate that effective_date is a well-formed ISO 8601 date."""
+        if v is None:
+            return v
+        from datetime import datetime
+
+        try:
+            datetime.strptime(v, "%Y-%m-%d")
+        except ValueError as e:
+            raise ValueError(f"effective_date must be ISO 8601 format YYYY-MM-DD, got {v!r}") from e
+        return v

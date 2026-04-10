@@ -24,7 +24,7 @@ class ItemSeverity(StrEnum):
 class ChecklistItem(BaseModel):
     """A single requirement in the FDA submission readiness checklist."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     id: str = Field(..., description="Unique identifier (e.g., 'dc-001')")
     category: str = Field(..., description="Category (Design Controls, Risk Management, etc.)")
@@ -39,7 +39,7 @@ class ChecklistItem(BaseModel):
 class CategoryResult(BaseModel):
     """Summary results for a single checklist category."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     category: str = Field(..., description="Category name")
     items: list[ChecklistItem] = Field(..., description="All items in this category")
@@ -66,7 +66,7 @@ class CategoryResult(BaseModel):
 class ReadinessReport(BaseModel):
     """Complete FDA submission readiness assessment report."""
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
     categories: list[CategoryResult] = Field(..., description="Results for each category")
     overall_pct: float = Field(..., description="Overall completion percentage")
