@@ -27,10 +27,10 @@ class TestModelCardGoldenFiles:
             pytest.skip("Golden file not found, run with --update-golden to create it")
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False) as f:
-            output_path = f.name
+            output_path = Path(f.name)
 
         try:
-            generate_model_card(str(example_path), str(output_path))
+            generate_model_card(example_path, output_path)
 
             with open(output_path) as f:
                 actual_output = f.read()
@@ -59,10 +59,10 @@ class TestModelCardGoldenFiles:
         example_path = Path(__file__).parent.parent.parent / "examples" / "model_card_ecg_classifier.yaml"
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".md", delete=False) as f:
-            output_path = f.name
+            output_path = Path(f.name)
 
         try:
-            generate_model_card(str(example_path), str(output_path))
+            generate_model_card(example_path, output_path)
             content = Path(output_path).read_text()
 
             # Verify required sections are present
