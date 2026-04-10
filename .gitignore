@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.pyright/
+*.egg-info/
+dist/
+build/
+.env
+.env.*
+*.secret
+*.key
+test-report.json
+.claude/worktrees/
+.claude/settings.local.json
+mlflow/
+*.db
