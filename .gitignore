@@ -72,3 +72,7 @@ research/
 # Claude
 .claude/worktrees/
 .claude/settings.local.json
+
+# Project config
+CLAUDE.md
+.claude/
